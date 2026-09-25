@@ -16,20 +16,21 @@ Si Chromium ou ffmpeg sont déjà installés ailleurs : `CHROMIUM=/chemin FFMPEG
 
 ## Découpage
 
-Le texte de la voix off et son minutage sont dans `VOICEOVER.md`, généré par `npm run vo`. La durée totale se calcule toute seule à partir des scènes (36 s aujourd'hui, environ 43 s une fois les avis ajoutés).
+Fil rouge : **le risque**. Risquer sa vie en mission pour une cause, ok. Se faire arnaquer sur un gilet à 400 balles, non.
+
+Le texte de la voix off et son minutage sont dans `VOICEOVER.md`, généré par `npm run vo`. La durée totale se calcule à partir des scènes (environ 47 s ; plus si on ajoute des avis).
 
 | Scène | Contenu |
 |---|---|
-| intro | « Salut, moi c'est Nico. » : Second Armor, le Vinted militaire |
-| hunt | 5 groupes Facebook, 3 serveurs Discord (ses mots dans Actu17) → tampon « COMPTE BANNI » |
-| money | 400 € virés à un inconnu, *croise les doigts* → tampon « ET MON COLIS ? » |
-| build | L'app : vendeurs vérifiés, annonces validées, argent bloqué ; au début pour une unité |
+| intro | « Salut, moi c'est Nico. J'ai créé Second Armor. » |
+| riskOk | Risquer ma vie en mission, pour un truc auquel je crois ? Tampon vert « OK » |
+| riskNo | Me faire arnaquer sur un gilet à 400 balles ? Tampon rouge « NON » |
+| channels | Facebook, Telegram… 15 onglets qui s'empilent → « 15 CANAUX » |
+| ban | Annonce signalée (photo suspecte, mot interdit) → « COMPTE BANNI » |
+| turn | « Alors j'ai fait un truc. » : l'unité de départ (en orange) |
+| app | Vendeurs vérifiés, argent bloqué jusqu'à réception, entre nous |
 | growth | Compteur 1 → 10 000 membres actifs (l'unité de départ reste en orange) |
 | reviews | Avis d'utilisateurs : `COPY.reviews.items`, scène sautée tant que la liste est vide |
-| press | Carte de l'article Actu17 avec la citation surlignée ; `COPY.press.screenshot` pour une vraie capture |
-| community | On redonne à la communauté : polaroid hockey (blessés de guerre) |
-| end | Fin aux couleurs de la marque : logo, « Par des pros, pour des pros. », lien en bio |
+| end | « Des risques, on en prend déjà assez en mission. » : logo, le Vinted militaire, lien en bio |
 
 Couleurs : bleu marine `#192230` et bleu-gris `#5b8990`, repris du site secondarmor.eu. Logo vectorisé d'après l'icône officielle de l'app.
-
-Photos et captures : les déposer dans `assets/` et renseigner leur chemin dans `COPY` (`community.photo`, `press.screenshot`).

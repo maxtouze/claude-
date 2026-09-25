@@ -1,57 +1,82 @@
-// Second Armor — founder story (TikTok 9:16, 30 s)
+// Second Armor — founder story (TikTok 9:16, ~45 s)
 // Tout est piloté par le temps : seek(t) dessine l'image exacte à t secondes.
 // Ça permet de prévisualiser dans le navigateur ET d'exporter image par image (render.mjs).
 
 // ---------------------------------------------------------------------------
 // Textes et médias : c'est ici qu'on modifie la vidéo.
 // *mot* = surligné en orange.
-// `vo` = ce que Nico dit en voix off pendant la scène (repris dans VOICEOVER.md).
+// `vo` = ce que Nico dit en voix off pendant la scène (repris dans VOICEOVER.md via `npm run vo`).
+// Fil rouge : le risque. Risquer sa vie en mission : ok. Se faire arnaquer sur un gilet : non.
 // Règle : un seul texte principal à l'écran à la fois, et il colle à la voix off.
 // ---------------------------------------------------------------------------
 const COPY = {
   intro: {
-    vo: "Salut, moi c'est Nico. J'ai créé Second Armor, le Vinted militaire.",
+    vo: "Salut, moi c'est Nico. J'ai créé Second Armor.",
     caption: "Salut, moi c'est Nico.",
     brand: "SECOND ARMOR",
-    aside: "le Vinted militaire.",
   },
-  // Chiffres et formules tirés de l'interview de Nico dans Actu17.
-  hunt: {
-    vo: "Avant, je jonglais entre cinq groupes Facebook, trois serveurs Discord… et les bans.",
-    caption: "Avant : *5* groupes Facebook, *3* serveurs Discord…",
-    stamp: "COMPTE BANNI",
+  riskOk: {
+    vo: "Risquer ma vie en mission, pour un truc auquel je crois ? Ok.",
+    caption: "Risquer ma vie en mission, pour un truc auquel je crois ?",
+    stamp: "OK",
+  },
+  riskNo: {
+    vo: "Risquer de me faire arnaquer sur un gilet à 400 balles ? Non.",
+    caption: "Me faire arnaquer sur un gilet à *400 balles ?*",
+    price: "400 €",
+    stamp: "NON",
+  },
+  channels: {
+    vo: "Sauf que pour s'équiper, c'était ça : Facebook, Telegram, quinze canaux différents…",
+    caption: "Sauf que pour s'équiper, c'était ça :",
+    stamp: "15 CANAUX",
     tabs: [
-      ["Groupe FB · Matos tactique occaz", "annonce supprimée"],
-      ["Groupe FB · Surplus entre militaires", "VENDU"],
-      ["Groupe FB · Équipement OPEX", "« dispo ? » (vu)"],
-      ["Groupe FB · Airsoft & tactique", "hors-sujet"],
-      ["Groupe FB · Bons plans treillis", "RUPTURE"],
-      ["Discord · #vente-matos", "paiement ami ?"],
-      ["Discord · #annonces", "…"],
-      ["Discord · #troc", "T.39 only"],
-      ["site de vêtements d'occasion", "annonce refusée"],
-      ["site d'annonces généraliste", "compte suspendu"],
+      ["Facebook · Groupe matos tactique", "annonce supprimée"],
+      ["Telegram · Canal occaz", "« dispo ? » (vu)"],
+      ["Facebook · Surplus entre militaires", "VENDU"],
+      ["Telegram · Vente OPEX", "paiement ami ?"],
+      ["Facebook · Équipement occasion", "RUPTURE"],
+      ["Discord · #vente-matos", "…"],
+      ["Telegram · Bons plans gear", "lien mort"],
+      ["Facebook · Airsoft & tactique", "hors-sujet"],
+      ["Telegram · Canal #2", "T.39 only"],
+      ["Facebook · Groupe privé", "demande envoyée"],
+      ["Discord · #annonces", "VENDU"],
+      ["Telegram · Canal #3", "photo floue"],
+      ["Facebook · Treillis & co", "RUPTURE"],
+      ["Telegram · Canal #4", "?"],
+      ["Facebook · Encore un groupe", "déjà vendu"],
     ],
   },
-  money: {
-    vo: "Quand je trouvais, je virais quatre cents euros à un inconnu… en croisant les doigts.",
-    caption: "…et je virais *400\u00a0€* à un inconnu.",
-    aside: "*croise les doigts*",
-    stamp: "ET MON COLIS ?",
+  ban: {
+    vo: "…et au moindre mot de travers, à la moindre photo jugée suspecte : compte banni.",
+    caption: "Au moindre mot de travers, à la moindre photo *suspecte*…",
+    listingTitle: "Gilet porte-plaques",
+    listingPrice: "400 €",
+    listingText: ["Gilet", "porte-plaques", "tactique", "taille", "M,", "très", "bon", "état."],
+    flaggedWord: "tactique",
+    flagPhoto: "Photo jugée suspecte",
+    flagWord: "Mot non autorisé",
+    stamp: "COMPTE BANNI",
   },
-  build: {
-    vo: "Alors j'ai créé un endroit sécurisé. Au début, juste pour mon unité.",
-    caption: "Alors j'ai créé un endroit *sécurisé*.",
+  turn: {
+    vo: "Alors j'ai fait un truc. Juste pour mon unité.",
+    caption: "Alors j'ai fait un truc.",
+    aside: "…juste pour mon unité.",
+  },
+  app: {
+    vo: "Vendeurs vérifiés. Ton argent bloqué tant que t'as pas reçu ton colis. Entre nous.",
+    caption: "Un endroit *entre nous*.",
     appName: "SECOND ARMOR",
-    listing: ["Gilet porte-plaques", "85 €"],
-    checks: ["Vendeurs vérifiés", "Annonces validées à la main", "Argent bloqué jusqu'à réception"],
-    aside: "…au début, juste pour mon unité.",
+    listing: ["Gilet porte-plaques", "400 €"],
+    // [texte, instant d'apparition en s dans la scène], calés sur la voix off
+    checks: [["Vendeurs vérifiés", 0.9], ["Argent bloqué jusqu'à réception", 2.6], ["Entre militaires, flics, sécu", 5.0]],
   },
   growth: {
-    vo: "Aujourd'hui, on est dix mille.",
-    caption: "Aujourd'hui ?",
+    vo: "Aujourd'hui, on est 10 000.",
+    caption: "Aujourd'hui, on est…",
     target: 10000,
-    aside: "membres actifs. (et ça grandit)",
+    aside: "membres actifs.",
   },
   // Vrais avis d'utilisateurs, à coller ici (la scène est sautée tant que la liste est vide).
   // Format : { text: "…", author: "Julien", role: "Gendarme", stars: 5 }
@@ -60,25 +85,11 @@ const COPY = {
     caption: "Ce qu'ils en disent :",
     items: [],
   },
-  press: {
-    vo: "J'ai raconté tout ça à Actu17.",
-    caption: "Mon histoire, dans *Actu17*.",
-    source: "actu17.fr",
-    headline: "Second Armor : Une plateforme d'achat et de revente d'équipement tactique pour les militaires et les policiers",
-    quote: "« …virer 400 euros à un inconnu sur internet, sans garantie de quoi que ce soit, et croiser les doigts pour que son colis arrive. »",
-    screenshot: null, // ex. "assets/actu17.png" : capture de l'article, remplace la carte dessinée
-  },
-  community: {
-    vo: "Et ce qu'on construit, on le redonne à la communauté.",
-    caption: "Et on redonne à la *communauté*.",
-    photoCaption: "Match de hockey des blessés\nde guerre : on sponsorise.",
-    photo: null, // ex. "assets/hockey.jpg" pour remplacer le dessin par une vraie photo
-  },
   end: {
-    vo: "Second Armor. Par des pros, pour des pros.",
+    vo: "Second Armor. Parce que des risques, on en prend déjà assez en mission.",
     brand: "SECOND ARMOR",
-    tagline: "Par des pros, pour des pros.",
-    sub: "Militaires, forces de l'ordre, sécurité :\nl'équipement tactique de seconde main, en confiance.",
+    tagline: "Des risques, on en prend déjà\nassez en mission.",
+    sub: "Le Vinted militaire.",
     cta: "Lien en bio",
   },
 };
@@ -145,6 +156,7 @@ function caption(parent, text, cx, cy, cls = "caption") {
     if (!seg) return;
     const hl = seg.startsWith("*");
     const raw = hl ? seg.slice(1, -1) : seg;
+    if (hl) { words.push(el("span", "w hl", box, esc(raw))); return; }
     raw.split(/[ \t\n]+/).forEach((w, i) => {
       if (!w) return;
       const glued = i === 0 && !/^\s/.test(raw) && words.length && !hl;
@@ -220,6 +232,18 @@ function logoMark(parent, w, color = WHITE) {
 
 // Zones sûres TikTok : rien d'important sous y ≈ 1500 (légende, pseudo) ni collé au bord droit (boutons).
 
+// Gilet porte-plaques dessiné — viewBox 300x320
+function vest(parent, w) {
+  return svg(parent, w, (w * 320) / 300, "0 0 300 320", `
+    <path d="M70 40 L110 40 Q150 72 190 40 L230 40 L240 110 L262 122 L262 290 Q150 312 38 290 L38 122 L60 110 Z" ${stroke(8)} fill="#b9ad86" style="fill-opacity:0" data-fill="1"/>
+    <path d="M60 110 L240 110" ${stroke(6)}/>
+    <path d="M52 150 L248 150 M52 172 L248 172" ${stroke(4)} opacity=".6"/>
+    <path d="M66 196 h48 v64 h-48 Z" ${stroke(6)} fill="#a39570" style="fill-opacity:0" data-fill="1"/>
+    <path d="M126 196 h48 v64 h-48 Z" ${stroke(6)} fill="#a39570" style="fill-opacity:0" data-fill="1"/>
+    <path d="M186 196 h48 v64 h-48 Z" ${stroke(6)} fill="#a39570" style="fill-opacity:0" data-fill="1"/>
+  `);
+}
+
 // ---------------------------------------------------------------------------
 // Scènes
 // ---------------------------------------------------------------------------
@@ -232,111 +256,182 @@ function scene(key, dur, build) {
 }
 
 // 1. Intro
-scene("intro", 4, (root) => {
-  const cap = caption(root, COPY.intro.caption, 540, 380);
-  const nico = place(stickman(root, 380), 540, 860);
-  const brand = place(el("div", "a brandword", root, COPY.intro.brand), 540, 1250);
-  const aside = place(el("div", "a marker", root, COPY.intro.aside), 540, 1380);
+scene("intro", 3.5, (root) => {
+  const cap = caption(root, COPY.intro.caption, 540, 400);
+  const nico = place(stickman(root, 380), 540, 880);
+  const brand = place(el("div", "a brandword", root, COPY.intro.brand), 540, 1290);
   return (t) => {
-    cap.update(t, 0.15);
-    drawOn(nico, prog(t, 0, 1.0));
-    nico.querySelector(".arm").style.transform = `rotate(${t > 1 ? Math.sin((t - 1) * 11) * 22 : 0}deg)`;
+    cap.update(t, 0.1);
+    drawOn(nico, prog(t, 0, 0.9));
+    nico.querySelector(".arm").style.transform = `rotate(${t > 0.9 ? Math.sin((t - 0.9) * 11) * 22 : 0}deg)`;
     set(nico, { r: boil(t, 1) * 0.8 });
-    set(brand, slam(t, 1.6));
-    set(aside, { ...pop(t, 2.4), r: -3 + boil(t, 2) });
-    const sh = shake(t, 1.88, 0.3, 14);
+    set(brand, slam(t, 1.5));
+    const sh = shake(t, 1.78, 0.3, 14);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 2. La chasse au matos
-scene("hunt", 5.5, (root) => {
-  const cap = caption(root, COPY.hunt.caption, 540, 330);
+// 2. Risquer sa vie en mission : ok
+scene("riskOk", 5, (root) => {
+  const cap = caption(root, COPY.riskOk.caption, 540, 380);
+  const land = place(svg(root, 1080, 500, "0 0 1080 500", `
+    <path d="M-20 330 Q200 250 420 310 T800 290 T1100 300" ${stroke(8)}/>
+    <path d="M820 300 L820 150" ${stroke(8)}/>
+    <path d="M820 150 L910 176 L820 202" ${stroke(7, ORANGE)}/>
+    <path d="M150 300 l20 -40 l20 40 M600 305 l14 -30 l14 30" ${stroke(6)} opacity=".6"/>
+  `), 540, 1080);
+  set(land);
+  const nico = place(stickman(root, 330), 360, 940);
+  const stamp = place(el("div", "a stamp ok", root, COPY.riskOk.stamp), 700, 860);
+  stamp.style.fontSize = "170px";
+  return (t) => {
+    cap.update(t, 0, 0.08);
+    drawOn(land, prog(t, 0.2, 1.2));
+    drawOn(nico, prog(t, 0.3, 0.9));
+    set(nico, { r: boil(t, 2) * 0.8 });
+    set(stamp, { ...slam(t, 3.2), r: -10 });
+    const sh = shake(t, 3.48, 0.3, 18);
+    root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
+  };
+});
+
+// 3. Se faire arnaquer sur un gilet : non
+scene("riskNo", 5, (root) => {
+  const cap = caption(root, COPY.riskNo.caption, 540, 380);
+  const v = place(vest(root, 400), 390, 920);
+  const tag = place(el("div", "a pricetag", root, esc(COPY.riskNo.price)), 690, 740);
+  const stamp = place(el("div", "a stamp", root, COPY.riskNo.stamp), 710, 1080);
+  stamp.style.fontSize = "170px";
+  return (t) => {
+    cap.update(t, 0, 0.08);
+    drawOn(v, prog(t, 0.2, 1.1));
+    set(v, { r: boil(t, 3) * 0.6 });
+    const tp = pop(t, 1.2, 0.35, 0.3);
+    set(tag, { ...tp, r: 8 + Math.sin(t * 3) * 5 });
+    set(stamp, { ...slam(t, 3.3), r: -10 });
+    const sh = shake(t, 3.58, 0.3, 24);
+    root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
+  };
+});
+
+// 4. Quinze canaux
+scene("channels", 6, (root) => {
+  const cap = caption(root, COPY.channels.caption, 540, 330);
+  const tabsData = COPY.channels.tabs;
+  const counter = place(el("div", "a marker", root, ""), 540, 490);
+  counter.style.fontSize = "54px";
   const r = rng(42);
-  const tabs = COPY.hunt.tabs.map(([url, tag], i) => {
+  const tabs = tabsData.map(([url, tag], i) => {
     const e = el("div", "a tab", root, `
       <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">${esc(url)}</span></div>
       <div class="body"><div class="img"></div><div class="lines"><div class="line" style="width:90%"></div><div class="line" style="width:70%"></div><div class="line" style="width:50%"></div><div class="tag">${esc(tag)}</div></div></div>`);
-    const x = lerp(330, 720, r()), y = lerp(700, 1220, i / (COPY.hunt.tabs.length - 1)) + lerp(-30, 30, r());
+    const x = lerp(330, 720, r()), y = lerp(720, 1230, i / (tabsData.length - 1)) + lerp(-30, 30, r());
     place(e, x, y);
     return { e, rot: lerp(-9, 9, r()) };
   });
-  const stamp = place(el("div", "a stamp", root, COPY.hunt.stamp), 540, 1000);
-  stamp.style.fontSize = "118px";
+  const stamp = place(el("div", "a stamp", root, COPY.channels.stamp), 540, 1000);
+  stamp.style.fontSize = "130px";
+  const t0 = 0.5, step = 0.26;
   return (t) => {
     cap.update(t, 0);
-    tabs.forEach(({ e, rot }, i) => set(e, { ...pop(t, 0.5 + i * 0.3, 0.3, 0.3), r: rot }));
-    set(stamp, { ...slam(t, 4.0), r: -8 });
-    const sh = shake(t, 4.28, 0.35, 26);
+    tabs.forEach(({ e, rot }, i) => set(e, { ...pop(t, t0 + i * step, 0.28, 0.3), r: rot }));
+    const n = clamp(Math.floor((t - t0) / step) + 1, 0, tabs.length);
+    counter.textContent = n ? `onglet ${n}/${tabs.length}` : "";
+    set(counter, { r: -3 + boil(t, 9), o: n ? 1 : 0 });
+    set(stamp, { ...slam(t, 4.5), r: -8 });
+    const sh = shake(t, 4.78, 0.35, 26);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 3. Payer dans le vide
-scene("money", 5.5, (root) => {
-  const cap = caption(root, COPY.money.caption, 540, 360);
-  const q = place(el("div", "a marker", root, "?"), 770, 900);
-  q.style.fontSize = "360px"; q.style.color = "#8a8a90";
-  const guy = place(stickman(root, 260), 250, 960);
-  const bills = Array.from({ length: 9 }, () => {
-    const b = el("div", "a", root, `<svg width="190" height="100" viewBox="0 0 190 100"><rect x="4" y="4" width="182" height="92" rx="10" fill="#9dbb84" stroke="${INK}" stroke-width="6"/><circle cx="95" cy="50" r="28" fill="none" stroke="${INK}" stroke-width="5"/><text x="95" y="63" text-anchor="middle" font-family="Inter" font-weight="800" font-size="38" fill="${INK}">€</text></svg>`);
-    return place(b, 320, 900);
-  });
-  const aside = place(el("div", "a marker", root, COPY.money.aside), 300, 1260);
-  const stamp = place(el("div", "a stamp", root, COPY.money.stamp), 540, 1000);
-  stamp.style.fontSize = "112px";
+// 5. Le ban
+scene("ban", 6, (root) => {
+  const B = COPY.ban;
+  const cap = caption(root, B.caption, 540, 340);
+  const card = place(el("div", "a listing", root, `
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">grande-plateforme.com</span></div>
+    <div class="lbody">
+      <div class="lpic"><div class="flag">⚠ ${esc(B.flagPhoto)}</div></div>
+      <div class="linfo">
+        <div class="ltitle">${esc(B.listingTitle)}</div>
+        <div class="lprice">${esc(B.listingPrice)}</div>
+        <div class="ltext">${B.listingText.map((w) => `<span class="${w === B.flaggedWord ? "bad" : ""}">${esc(w)}</span>`).join(" ")}</div>
+      </div>
+    </div>`), 540, 920);
+  vest(card.querySelector(".lpic"), 190).setAttribute("class", "");
+  drawOn(card.querySelector(".lpic svg"), 1);
+  const flag = card.querySelector(".flag");
+  const bad = card.querySelector(".bad");
+  const note = place(el("div", "a marker", root, B.flagWord), 700, 1260);
+  note.style.color = "#c8252c"; note.style.fontSize = "52px";
+  const stamp = place(el("div", "a stamp", root, B.stamp), 540, 960);
+  stamp.style.fontSize = "124px";
   return (t) => {
-    cap.update(t, 0, 0.08);
-    drawOn(guy, 1);
-    set(guy, { ...pop(t, 0.1, 0.3), r: boil(t, 5) });
-    set(q, { ...pop(t, 0.4, 0.4), r: boil(t, 6) * 4 });
-    bills.forEach((b, i) => {
-      const f = prog(t, 0.6 + i * 0.17, 0.75);
-      const e = ease.out(f);
-      set(b, { x: lerp(0, 440, e), y: -Math.sin(Math.PI * f) * 300, s: lerp(1, 0.35, e), r: f * 540, o: f > 0 && f < 1 ? 1 : 0 });
-    });
-    set(aside, { ...pop(t, 1.5), r: -5 + boil(t, 7) });
-    set(stamp, { ...slam(t, 3.5), r: -10 });
-    const sh = shake(t, 3.78, 0.35, 28);
+    cap.update(t, 0, 0.07);
+    set(card, { ...pop(t, 0.2, 0.4, 0.8), r: -1.5 });
+    const f = pop(t, 1.9, 0.3, 0.5);
+    flag.style.opacity = f.o; flag.style.transform = `scale(${f.s})`;
+    bad.classList.toggle("on", t > 3.0);
+    set(note, { ...pop(t, 3.0), r: -4 + boil(t, 11) });
+    const s = slam(t, 4.7);
+    set(stamp, { ...s, r: -12 });
+    card.style.filter = t > 4.95 ? "grayscale(1)" : "";
+    const sh = shake(t, 4.98, 0.35, 28);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 4. La création
-scene("build", 5, (root) => {
-  const cap = caption(root, COPY.build.caption, 540, 260);
-  const [lt, lp] = COPY.build.listing;
+// 6. Le déclic
+scene("turn", 4, (root) => {
+  const cap = caption(root, COPY.turn.caption, 540, 400);
+  const nico = place(stickman(root, 300), 540, 830);
+  const squad = Array.from({ length: 8 }, (_, i) => {
+    const a = Math.PI * (0.1 + (0.8 * i) / 7);
+    return place(stickman(root, 96, ORANGE), 540 - Math.cos(a) * 400, 1010 + Math.sin(a) * 170);
+  });
+  const aside = place(el("div", "a marker", root, COPY.turn.aside), 540, 1390);
+  return (t) => {
+    cap.update(t, 0);
+    drawOn(nico, prog(t, 0.1, 0.8));
+    set(nico, { r: boil(t, 12) * 0.8 });
+    squad.forEach((m, i) => {
+      drawOn(m, prog(t, 1.7 + i * 0.07, 0.4));
+      set(m, { r: boil(t, 20 + i) * 2, y: t > 2.4 ? -Math.abs(Math.sin((t - 2.4) * 8 + i)) * 10 : 0 });
+    });
+    set(aside, { ...pop(t, 2.0), r: -2 + boil(t, 30) });
+  };
+});
+
+// 7. L'app
+scene("app", 7, (root) => {
+  const A = COPY.app;
+  const cap = caption(root, A.caption, 540, 300);
+  const [lt, lp] = A.listing;
   const phone = place(el("div", "a phone", root, `
     <div class="screen">
-      <div class="app-head"><span class="mark"></span>${esc(COPY.build.appName)}</div>
+      <div class="app-head"><span class="mark"></span>${esc(A.appName)}</div>
       <div class="card"><div class="thumb"></div><div><div class="t">${esc(lt)}</div><div class="price">${esc(lp)}</div></div></div>
       <div class="checks"></div>
-    </div>`), 540, 840);
+    </div>`), 540, 900);
   logoMark(phone.querySelector(".mark"), 60, WHITE).setAttribute("class", "");
-  const checks = COPY.build.checks.map((c) => el("div", "check", phone.querySelector(".checks"), `<span class="tick">✓</span>${esc(c)}`));
-  const squad = Array.from({ length: 8 }, (_, i) => place(stickman(root, 84, i === 3 ? ORANGE : TEAL), 225 + i * 90, 1290));
-  const aside = place(el("div", "a marker", root, COPY.build.aside), 540, 1440);
-  aside.style.fontSize = "56px";
+  vest(phone.querySelector(".thumb"), 104).setAttribute("class", "");
+  drawOn(phone.querySelector(".thumb svg"), 1);
+  const checks = A.checks.map(([c, at]) => ({ at, e: el("div", "check", phone.querySelector(".checks"), `<span class="tick">✓</span>${esc(c)}`) }));
   return (t) => {
-    cap.update(t, 0);
-    const up = ease.out(prog(t, 0.3, 0.7));
-    set(phone, { y: lerp(1400, 0, up), s: 0.78, r: lerp(8, -2, up) });
-    checks.forEach((c, i) => {
-      const a = pop(t, 1.1 + i * 0.35, 0.3, 0.7);
-      c.style.opacity = a.o; c.style.transform = `scale(${a.s})`;
+    cap.update(t, 5.6);
+    const up = ease.out(prog(t, 0, 0.6));
+    set(phone, { y: lerp(1400, 0, up), s: 0.85, r: lerp(8, -2, up) });
+    checks.forEach(({ e, at }) => {
+      const a = pop(t, at, 0.3, 0.7);
+      e.style.opacity = a.o; e.style.transform = `scale(${a.s})`;
     });
-    squad.forEach((m, i) => {
-      drawOn(m, prog(t, 2.6 + i * 0.07, 0.45));
-      set(m, { r: boil(t, 20 + i) * 2, y: t > 3.3 ? -Math.abs(Math.sin((t - 3.3) * 8 + i)) * 10 : 0 });
-    });
-    set(aside, { ...pop(t, 3.0), r: -2 + boil(t, 30) });
   };
 });
 
-// 5. La croissance
-scene("growth", 4, (root) => {
+// 8. La croissance
+scene("growth", 5, (root) => {
   const cap = caption(root, COPY.growth.caption, 540, 360);
-  cap.box.style.fontSize = "110px";
+  cap.box.style.fontSize = "96px";
   const num = place(el("div", "a counter", root, "1"), 540, 620);
   const aside = place(el("div", "a marker", root, COPY.growth.aside), 540, 800);
   const cv = el("canvas", "a", root);
@@ -380,7 +475,7 @@ scene("growth", 4, (root) => {
   };
 });
 
-// 6. Avis d'utilisateurs (sautée tant que COPY.reviews.items est vide)
+// 9. Avis d'utilisateurs (sautée tant que COPY.reviews.items est vide)
 if (COPY.reviews.items.length) {
   const items = COPY.reviews.items.slice(0, 3);
   scene("reviews", 1.8 + items.length * 2.2, (root) => {
@@ -402,79 +497,27 @@ if (COPY.reviews.items.length) {
   });
 }
 
-// 7. La presse
-scene("press", 4.5, (root) => {
-  const cap = caption(root, COPY.press.caption, 540, 300);
-  const P = COPY.press;
-  const card = place(el("div", "a article", root, P.screenshot
-    ? `<img src="${esc(P.screenshot)}" alt="">`
-    : `<div class="url">${esc(P.source)}</div>
-       <div class="kicker">${esc(P.source.toUpperCase())}</div>
-       <div class="headline">${esc(P.headline)}</div>
-       <div class="line" style="width:92%"></div><div class="line" style="width:80%"></div>
-       <div class="quote"><span class="hl-sweep">${esc(P.quote)}</span></div>
-       <div class="line" style="width:86%"></div><div class="line" style="width:60%"></div>`), 540, 900);
-  const sweep = card.querySelector(".hl-sweep");
-  return (t) => {
-    cap.update(t, 0);
-    const d = ease.out(prog(t, 0.3, 0.6));
-    set(card, { y: lerp(900, 0, d), r: lerp(6, -1.5, d), o: clamp(d * 2) });
-    if (sweep) sweep.style.backgroundSize = `${ease.inOut(prog(t, 1.3, 1.6)) * 100}% 100%`;
-  };
-});
-
-// 8. La communauté
-scene("community", 4.5, (root) => {
-  const cap = caption(root, COPY.community.caption, 540, 320);
-  const pol = place(el("div", "a polaroid", root, `<div class="pic"></div><div class="cap">${esc(COPY.community.photoCaption).replace(/\n/g, "<br>")}</div>`), 540, 930);
-  const pic = pol.querySelector(".pic");
-  if (COPY.community.photo) {
-    el("img", "", pic).src = COPY.community.photo;
-  } else {
-    svg(pic, 584, 520, "0 0 584 520", `
-      <rect width="584" height="520" fill="#dcebf2"/>
-      <path d="M0 330 L584 330" stroke="#c8252c" stroke-width="10" opacity=".7"/>
-      <path d="M0 150 L584 150" stroke="#2c5aa0" stroke-width="10" opacity=".6"/>
-      <ellipse cx="292" cy="240" rx="80" ry="80" fill="none" stroke="#2c5aa0" stroke-width="6" opacity=".5"/>
-      <path d="M130 90 L330 400 L400 400" ${stroke(18)}/>
-      <path d="M454 90 L254 400 L184 400" ${stroke(18, TEAL)}/>
-      <ellipse cx="292" cy="455" rx="44" ry="16" fill="${INK}"/>
-      <path d="M60 470 l0 -30 M50 455 l20 0" ${stroke(8, ORANGE)}/>
-      <path d="M520 60 l14 -26 l14 26 l-28 -16 l28 0 Z" ${stroke(6, ORANGE)}/>
-    `, "");
-  }
-  const tape = place(el("div", "a tape", root), 540, 570);
-  return (t) => {
-    cap.update(t, 0);
-    const d = ease.back(prog(t, 0.4, 0.55));
-    set(pol, { y: lerp(-1400, 0, d), r: lerp(-20, 3, d) + boil(t, 50) * 0.3 });
-    const svgEl = pic.querySelector("svg");
-    if (svgEl) drawOn(svgEl, prog(t, 0.9, 1.0));
-    set(tape, { ...pop(t, 0.95, 0.2, 1.4), r: -6 });
-  };
-});
-
-// 9. Fin (couleurs de la marque)
-scene("end", 3.5, (root) => {
+// Fin (couleurs de la marque)
+scene("end", 5.5, (root) => {
+  const E = COPY.end;
   root.style.background = NAVY;
-  const mark = place(logoMark(root, 360), 540, 600);
-  const brand = place(el("div", "a brandword", root, COPY.end.brand), 540, 850);
+  const mark = place(logoMark(root, 330), 540, 560);
+  const brand = place(el("div", "a brandword", root, E.brand), 540, 800);
   brand.style.color = WHITE;
-  const tag = place(el("div", "a marker", root, COPY.end.tagline), 540, 980);
-  tag.style.color = TEAL; tag.style.fontSize = "64px";
-  const sub = place(el("div", "a", root, esc(COPY.end.sub).replace(/\n/g, "<br>")), 540, 1140);
-  Object.assign(sub.style, { font: '600 40px "Inter"', color: WHITE, textAlign: "center", width: "900px", lineHeight: 1.35 });
-  const cta = place(el("div", "a pill", root, COPY.end.cta), 540, 1340);
+  const tag = place(el("div", "a marker", root, esc(E.tagline).replace(/\n/g, "<br>")), 540, 1000);
+  Object.assign(tag.style, { color: TEAL, fontSize: "62px", textAlign: "center", lineHeight: 1.25, whiteSpace: "normal", width: "960px" });
+  const sub = place(el("div", "a", root, esc(E.sub)), 540, 1180);
+  Object.assign(sub.style, { font: '800 50px "Inter"', color: WHITE, whiteSpace: "nowrap" });
+  const cta = place(el("div", "a pill", root, E.cta), 540, 1340);
   return (t) => {
     const w = ease.out(prog(t, 0, 0.45));
     root.style.clipPath = `circle(${w * 130}% at 50% 50%)`;
     set(mark, pop(t, 0.3, 0.4, 0.2));
-    set(brand, slam(t, 0.7, 0.25, 2.2));
-    set(tag, { ...pop(t, 1.1), r: -2 + boil(t, 61) });
-    const sb = pop(t, 1.4, 0.35, 0.9);
-    set(sub, { s: sb.s, o: sb.o * 0.85 });
-    const pulse = t > 2.0 ? 1 + Math.sin((t - 2.0) * 7) * 0.04 : 1;
-    const c = pop(t, 1.8);
+    set(brand, slam(t, 0.6, 0.25, 2.2));
+    set(tag, { ...pop(t, 1.4, 0.4, 0.8), r: -2 + boil(t, 61) * 0.5 });
+    set(sub, pop(t, 3.4, 0.35, 0.9));
+    const pulse = t > 4.2 ? 1 + Math.sin((t - 4.2) * 7) * 0.04 : 1;
+    const c = pop(t, 3.8);
     set(cta, { o: c.o, s: c.s * pulse });
   };
 });

@@ -39,7 +39,7 @@ body.render #controls { display: none; }
 /* Textes */
 .caption { font-family: "Inter"; font-weight: 800; font-size: 86px; line-height: 1.12; color: var(--ink); text-align: center; width: 940px; letter-spacing: -1.5px; }
 .caption .w { display: inline-block; margin: 0 .12em; }
-.caption .hl { background: var(--orange); color: var(--white); padding: 0 .16em; border-radius: 10px; transform: rotate(-1.5deg); }
+.caption .hl { white-space: nowrap; background: var(--orange); color: var(--white); padding: 0 .16em; border-radius: 10px; transform: rotate(-1.5deg); }
 .marker { font-family: "Marker"; color: var(--ink); font-size: 64px; white-space: nowrap; }
 .brandword { font: 800 108px "Inter"; color: var(--navy); letter-spacing: 8px; white-space: nowrap; }
 .counter { font: 800 230px "Inter"; color: var(--navy); letter-spacing: -6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -71,12 +71,6 @@ body.render #controls { display: none; }
 .card .t { font: 800 30px "Inter"; color: var(--ink); line-height: 1.15; }
 .card .price { font: 800 32px "Inter"; color: var(--teal); margin-top: 6px; }
 
-/* Polaroid */
-.polaroid { width: 640px; background: #fff; padding: 28px 28px 30px; box-shadow: 14px 14px 0 rgba(28,28,24,.25); border: 3px solid #e2dccd; }
-.polaroid .pic { width: 100%; height: 520px; background: #cfe0ea; overflow: hidden; position: relative; }
-.polaroid .pic img { width: 100%; height: 100%; object-fit: cover; }
-.polaroid .cap { font-family: "Marker"; font-size: 40px; color: var(--ink); text-align: center; margin-top: 22px; line-height: 1.2; }
-.tape { width: 220px; height: 60px; background: rgba(232, 214, 160, .8); }
 
 /* Fin */
 .pill { font: 800 56px "Inter"; background: var(--orange); color: var(--white); padding: 24px 56px; border-radius: 80px; white-space: nowrap; }
@@ -88,12 +82,18 @@ body.render #controls { display: none; }
 .review .rtext { font: 600 42px "Inter"; color: var(--navy); line-height: 1.25; margin-top: 8px; }
 .review .rauthor { font-family: "Marker"; font-size: 36px; color: var(--teal); margin-top: 14px; }
 
-/* Article de presse */
-.article { width: 900px; background: #fff; border-radius: 22px; padding: 0 44px 44px; box-shadow: 14px 14px 0 rgba(25,34,48,.2); border: 3px solid #ddd6c6; overflow: hidden; }
-.article img { display: block; width: calc(100% + 88px); margin: 0 -44px -44px; }
-.article .url { margin: 0 -44px 34px; background: #eeeae0; padding: 16px 44px; font: 600 28px "Inter"; color: #666; }
-.article .kicker { font: 800 26px "Inter"; color: var(--red); letter-spacing: 4px; }
-.article .headline { font: 800 52px "Inter"; color: #111; line-height: 1.15; margin: 14px 0 30px; letter-spacing: -1px; }
-.article .line { height: 18px; background: #e3ded2; border-radius: 9px; margin-bottom: 16px; }
-.article .quote { font: 600 40px "Inter"; font-style: italic; color: #222; line-height: 1.35; margin: 26px 0 28px; }
-.hl-sweep { background-image: linear-gradient(transparent 58%, rgba(232,98,44,.5) 58%); background-repeat: no-repeat; background-size: 0% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* v4 : tampon vert, étiquette prix, annonce bannie */
+.stamp.ok { color: #2e7d4f; border-color: #2e7d4f; }
+.pricetag { font: 800 54px "Inter"; color: var(--navy); background: #fff; border: 5px solid var(--navy); border-radius: 14px 40px 40px 14px; padding: 8px 34px 8px 26px; white-space: nowrap; box-shadow: 6px 6px 0 rgba(25,34,48,.25); }
+.listing { width: 880px; background: var(--white); border: 5px solid var(--ink); border-radius: 18px; box-shadow: 10px 10px 0 rgba(25,34,48,.8); overflow: hidden; }
+.listing .bar { height: 58px; background: #ddd5c2; border-bottom: 5px solid var(--ink); display: flex; align-items: center; gap: 10px; padding: 0 18px; }
+.listing .dot { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--ink); }
+.listing .url { margin-left: 10px; font: 600 26px "Inter"; color: #555; background: var(--white); border-radius: 20px; padding: 3px 16px; }
+.listing .lbody { display: flex; gap: 30px; padding: 30px; }
+.listing .lpic { position: relative; width: 300px; height: 300px; flex: none; background: #e9e2cf; border: 4px solid var(--ink); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.listing .flag { position: absolute; left: -10px; right: -10px; bottom: 18px; background: #c8252c; color: #fff; font: 800 26px "Inter"; text-align: center; padding: 10px 6px; border-radius: 8px; transform-origin: center; }
+.listing .ltitle { font: 800 44px "Inter"; color: var(--navy); line-height: 1.1; }
+.listing .lprice { font: 800 44px "Inter"; color: var(--teal); margin: 10px 0 18px; }
+.listing .ltext { font: 600 34px "Inter"; color: #333; line-height: 1.35; }
+.listing .bad.on { color: #c8252c; text-decoration: underline wavy #c8252c; text-decoration-thickness: 4px; text-underline-offset: 8px; background: rgba(200,37,44,.12); border-radius: 6px; }
