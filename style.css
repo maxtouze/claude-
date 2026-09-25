@@ -80,3 +80,20 @@ body.render #controls { display: none; }
 
 /* Fin */
 .pill { font: 800 56px "Inter"; background: var(--orange); color: var(--white); padding: 24px 56px; border-radius: 80px; white-space: nowrap; }
+
+/* Avis */
+.reviews { width: 900px; display: flex; flex-direction: column; gap: 40px; }
+.review { width: 900px; background: #fff; border: 5px solid var(--navy); border-radius: 28px; padding: 30px 38px; box-shadow: 10px 10px 0 rgba(91,137,144,.5); }
+.review .stars { color: var(--orange); font-size: 44px; letter-spacing: 6px; }
+.review .rtext { font: 600 42px "Inter"; color: var(--navy); line-height: 1.25; margin-top: 8px; }
+.review .rauthor { font-family: "Marker"; font-size: 36px; color: var(--teal); margin-top: 14px; }
+
+/* Article de presse */
+.article { width: 900px; background: #fff; border-radius: 22px; padding: 0 44px 44px; box-shadow: 14px 14px 0 rgba(25,34,48,.2); border: 3px solid #ddd6c6; overflow: hidden; }
+.article img { display: block; width: calc(100% + 88px); margin: 0 -44px -44px; }
+.article .url { margin: 0 -44px 34px; background: #eeeae0; padding: 16px 44px; font: 600 28px "Inter"; color: #666; }
+.article .kicker { font: 800 26px "Inter"; color: var(--red); letter-spacing: 4px; }
+.article .headline { font: 800 52px "Inter"; color: #111; line-height: 1.15; margin: 14px 0 30px; letter-spacing: -1px; }
+.article .line { height: 18px; background: #e3ded2; border-radius: 9px; margin-bottom: 16px; }
+.article .quote { font: 600 40px "Inter"; font-style: italic; color: #222; line-height: 1.35; margin: 26px 0 28px; }
+.hl-sweep { background-image: linear-gradient(transparent 58%, rgba(232,98,44,.5) 58%); background-repeat: no-repeat; background-size: 0% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; }

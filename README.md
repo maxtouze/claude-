@@ -16,16 +16,20 @@ Si Chromium ou ffmpeg sont déjà installés ailleurs : `CHROMIUM=/chemin FFMPEG
 
 ## Découpage
 
-Le texte de la voix off et son minutage sont dans `VOICEOVER.md`.
+Le texte de la voix off et son minutage sont dans `VOICEOVER.md`, généré par `npm run vo`. La durée totale se calcule toute seule à partir des scènes (36 s aujourd'hui, environ 43 s une fois les avis ajoutés).
 
-| Temps | Scène |
+| Scène | Contenu |
 |---|---|
-| 0 – 4 s | « Salut, moi c'est Nico. » : Second Armor, le Vinted militaire |
-| 4 – 9 s | 15 onglets qui s'empilent → tampon « 15 SITES » |
-| 9 – 13,5 s | Billets envoyés dans le vide → tampon « ET MON COLIS ? » |
-| 13,5 – 18,5 s | L'app : vendeurs vérifiés, annonces validées, argent bloqué ; au début pour une unité |
-| 18,5 – 22,5 s | Compteur 1 → 10 000 membres (l'unité de départ reste en orange) |
-| 22,5 – 26,5 s | On redonne à la communauté : polaroid hockey (blessés de guerre) |
-| 26,5 – 30 s | Fin aux couleurs de la marque : logo, « Par des pros, pour des pros. », lien en bio |
+| intro | « Salut, moi c'est Nico. » : Second Armor, le Vinted militaire |
+| hunt | 5 groupes Facebook, 3 serveurs Discord (ses mots dans Actu17) → tampon « COMPTE BANNI » |
+| money | 400 € virés à un inconnu, *croise les doigts* → tampon « ET MON COLIS ? » |
+| build | L'app : vendeurs vérifiés, annonces validées, argent bloqué ; au début pour une unité |
+| growth | Compteur 1 → 10 000 membres actifs (l'unité de départ reste en orange) |
+| reviews | Avis d'utilisateurs : `COPY.reviews.items`, scène sautée tant que la liste est vide |
+| press | Carte de l'article Actu17 avec la citation surlignée ; `COPY.press.screenshot` pour une vraie capture |
+| community | On redonne à la communauté : polaroid hockey (blessés de guerre) |
+| end | Fin aux couleurs de la marque : logo, « Par des pros, pour des pros. », lien en bio |
 
-Couleurs : bleu marine `#192230` et bleu-gris `#5b8990`, repris du site secondarmor.eu. Le logo est redessiné d'après le visuel du site ; à remplacer par le SVG officiel.
+Couleurs : bleu marine `#192230` et bleu-gris `#5b8990`, repris du site secondarmor.eu. Logo vectorisé d'après l'icône officielle de l'app.
+
+Photos et captures : les déposer dans `assets/` et renseigner leur chemin dans `COPY` (`community.photo`, `press.screenshot`).

@@ -15,32 +15,28 @@ const COPY = {
     brand: "SECOND ARMOR",
     aside: "le Vinted militaire.",
   },
+  // Chiffres et formules tirés de l'interview de Nico dans Actu17.
   hunt: {
-    vo: "Avant, pour trouver du matos, je checkais quinze sites différents…",
-    caption: "Avant, pour trouver du matos…",
-    stamp: "15 SITES",
+    vo: "Avant, je jonglais entre cinq groupes Facebook, trois serveurs Discord… et les bans.",
+    caption: "Avant : *5* groupes Facebook, *3* serveurs Discord…",
+    stamp: "COMPTE BANNI",
     tabs: [
-      ["surplus-du-cousin.fr", "RUPTURE"],
-      ["forum-airsoft-2009.net", "topic fermé"],
-      ["vends-gilet-URGENT", "VENDU"],
-      ["tacti-kool.shop", "livraison 6 sem."],
-      ["groupe FB matos (privé)", "demande envoyée"],
-      ["occaz-rangers.biz", "T.39 only"],
-      ["lebonplan-kaki.fr", "« dispo ? » (vu)"],
-      ["serveur Discord #3", "paiement ami ?"],
-      ["topic page 47/112", "…"],
-      ["vente-flash-ops.com", "RUPTURE"],
-      ["annonce-sans-photo", "?"],
-      ["marketplace-generaliste", "COMPTE BANNI"],
-      ["surplus-du-cousin.fr/2", "RUPTURE"],
-      ["groupe FB matos #5", "annonce supprimée"],
-      ["déjà-vendu-désolé", "VENDU"],
+      ["Groupe FB · Matos tactique occaz", "annonce supprimée"],
+      ["Groupe FB · Surplus entre militaires", "VENDU"],
+      ["Groupe FB · Équipement OPEX", "« dispo ? » (vu)"],
+      ["Groupe FB · Airsoft & tactique", "hors-sujet"],
+      ["Groupe FB · Bons plans treillis", "RUPTURE"],
+      ["Discord · #vente-matos", "paiement ami ?"],
+      ["Discord · #annonces", "…"],
+      ["Discord · #troc", "T.39 only"],
+      ["site de vêtements d'occasion", "annonce refusée"],
+      ["site d'annonces généraliste", "compte suspendu"],
     ],
   },
   money: {
-    vo: "…et j'envoyais de l'argent sans aucune garantie.",
-    caption: "…et je payais sans *aucune* garantie.",
-    aside: "*prie très fort*",
+    vo: "Quand je trouvais, je virais quatre cents euros à un inconnu… en croisant les doigts.",
+    caption: "…et je virais *400\u00a0€* à un inconnu.",
+    aside: "*croise les doigts*",
     stamp: "ET MON COLIS ?",
   },
   build: {
@@ -55,13 +51,28 @@ const COPY = {
     vo: "Aujourd'hui, on est dix mille.",
     caption: "Aujourd'hui ?",
     target: 10000,
-    aside: "membres. (et ça grandit)",
+    aside: "membres actifs. (et ça grandit)",
+  },
+  // Vrais avis d'utilisateurs, à coller ici (la scène est sautée tant que la liste est vide).
+  // Format : { text: "…", author: "Julien", role: "Gendarme", stars: 5 }
+  reviews: {
+    vo: "Et ce sont eux qui en parlent le mieux.",
+    caption: "Ce qu'ils en disent :",
+    items: [],
+  },
+  press: {
+    vo: "J'ai raconté tout ça à Actu17.",
+    caption: "Mon histoire, dans *Actu17*.",
+    source: "actu17.fr",
+    headline: "Second Armor : Une plateforme d'achat et de revente d'équipement tactique pour les militaires et les policiers",
+    quote: "« …virer 400 euros à un inconnu sur internet, sans garantie de quoi que ce soit, et croiser les doigts pour que son colis arrive. »",
+    screenshot: null, // ex. "assets/actu17.png" : capture de l'article, remplace la carte dessinée
   },
   community: {
     vo: "Et ce qu'on construit, on le redonne à la communauté.",
     caption: "Et on redonne à la *communauté*.",
     photoCaption: "Match de hockey des blessés\nde guerre : on sponsorise.",
-    photo: null, // ex. "photos/hockey.jpg" pour remplacer le dessin par une vraie photo
+    photo: null, // ex. "assets/hockey.jpg" pour remplacer le dessin par une vraie photo
   },
   end: {
     vo: "Second Armor. Par des pros, pour des pros.",
@@ -72,7 +83,8 @@ const COPY = {
   },
 };
 
-const W = 1080, H = 1920, FPS = 30, DURATION = 30;
+const W = 1080, H = 1920, FPS = 30;
+let DURATION = 0; // calculée à partir des durées de scènes
 
 // ---------------------------------------------------------------------------
 // Outils
@@ -133,7 +145,7 @@ function caption(parent, text, cx, cy, cls = "caption") {
     if (!seg) return;
     const hl = seg.startsWith("*");
     const raw = hl ? seg.slice(1, -1) : seg;
-    raw.split(/\s+/).forEach((w, i) => {
+    raw.split(/[ \t\n]+/).forEach((w, i) => {
       if (!w) return;
       const glued = i === 0 && !/^\s/.test(raw) && words.length && !hl;
       if (glued) { words[words.length - 1].innerHTML += esc(w); return; }
@@ -196,14 +208,13 @@ function stickman(parent, w, cap = TEAL) {
   return s;
 }
 
-// Logo Second Armor : le « A » entre quatre carrés.
-// Redessiné d'après le visuel du site : à remplacer par le SVG officiel dès qu'on l'a.
+// Logo Second Armor : le « A » entre quatre carrés, vectorisé d'après l'icône officielle de l'app.
 function logoMark(parent, w, color = WHITE) {
-  return svg(parent, w, (w * 250) / 420, "0 0 420 250", `
+  const sq = (x, y) => `<path d="M${x + 6} ${y} h78 l6 6 v76 l-6 6 h-78 l-6 -6 v-76 Z"/>`;
+  return svg(parent, w, (w * 513) / 857, "83 255 857 513", `
     <g fill="${color}">
-      <rect x="0" y="0" width="44" height="40" rx="4"/><rect x="376" y="0" width="44" height="40" rx="4"/>
-      <rect x="0" y="210" width="44" height="40" rx="4"/><rect x="376" y="210" width="44" height="40" rx="4"/>
-      <path fill-rule="evenodd" d="M92 250 L168 0 L252 0 L328 250 L260 250 L245 198 L175 198 L160 250 Z M190 148 L230 148 L210 76 Z"/>
+      ${sq(83, 255)}${sq(850, 255)}${sq(83, 680)}${sq(850, 680)}
+      <path fill-rule="evenodd" d="M272 768 L422 255 L595 255 L752 768 L652 768 L618 652 L395 652 L361 768 Z M469 357 L541 357 L551 418 L598 574 L413 574 L459 418 Z"/>
     </g>`);
 }
 
@@ -213,14 +224,15 @@ function logoMark(parent, w, color = WHITE) {
 // Scènes
 // ---------------------------------------------------------------------------
 const scenes = [];
-function scene(from, to, build) {
+function scene(key, dur, build) {
   const root = el("div", "scene", stage);
   const update = build(root);
-  scenes.push({ from, to, root, update });
+  scenes.push({ key, from: DURATION, to: DURATION + dur, root, update });
+  DURATION += dur;
 }
 
-// 1. Intro — 0 → 4 s
-scene(0, 4, (root) => {
+// 1. Intro
+scene("intro", 4, (root) => {
   const cap = caption(root, COPY.intro.caption, 540, 380);
   const nico = place(stickman(root, 380), 540, 860);
   const brand = place(el("div", "a brandword", root, COPY.intro.brand), 540, 1250);
@@ -237,30 +249,31 @@ scene(0, 4, (root) => {
   };
 });
 
-// 2. La chasse au matos — 4 → 9 s
-scene(4, 9, (root) => {
+// 2. La chasse au matos
+scene("hunt", 5.5, (root) => {
   const cap = caption(root, COPY.hunt.caption, 540, 330);
   const r = rng(42);
   const tabs = COPY.hunt.tabs.map(([url, tag], i) => {
     const e = el("div", "a tab", root, `
       <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">${esc(url)}</span></div>
       <div class="body"><div class="img"></div><div class="lines"><div class="line" style="width:90%"></div><div class="line" style="width:70%"></div><div class="line" style="width:50%"></div><div class="tag">${esc(tag)}</div></div></div>`);
-    const x = lerp(330, 720, r()), y = lerp(680, 1240, i / 14) + lerp(-40, 40, r());
+    const x = lerp(330, 720, r()), y = lerp(700, 1220, i / (COPY.hunt.tabs.length - 1)) + lerp(-30, 30, r());
     place(e, x, y);
     return { e, rot: lerp(-9, 9, r()) };
   });
-  const stamp = place(el("div", "a stamp", root, COPY.hunt.stamp), 540, 960);
+  const stamp = place(el("div", "a stamp", root, COPY.hunt.stamp), 540, 1000);
+  stamp.style.fontSize = "118px";
   return (t) => {
     cap.update(t, 0);
-    tabs.forEach(({ e, rot }, i) => set(e, { ...pop(t, 0.4 + i * 0.17, 0.3, 0.3), r: rot }));
-    set(stamp, { ...slam(t, 3.3), r: -8 });
-    const sh = shake(t, 3.58, 0.35, 26);
+    tabs.forEach(({ e, rot }, i) => set(e, { ...pop(t, 0.5 + i * 0.3, 0.3, 0.3), r: rot }));
+    set(stamp, { ...slam(t, 4.0), r: -8 });
+    const sh = shake(t, 4.28, 0.35, 26);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 3. Payer dans le vide — 9 → 13.5 s
-scene(9, 13.5, (root) => {
+// 3. Payer dans le vide
+scene("money", 5.5, (root) => {
   const cap = caption(root, COPY.money.caption, 540, 360);
   const q = place(el("div", "a marker", root, "?"), 770, 900);
   q.style.fontSize = "360px"; q.style.color = "#8a8a90";
@@ -283,14 +296,14 @@ scene(9, 13.5, (root) => {
       set(b, { x: lerp(0, 440, e), y: -Math.sin(Math.PI * f) * 300, s: lerp(1, 0.35, e), r: f * 540, o: f > 0 && f < 1 ? 1 : 0 });
     });
     set(aside, { ...pop(t, 1.5), r: -5 + boil(t, 7) });
-    set(stamp, { ...slam(t, 3.0), r: -10 });
-    const sh = shake(t, 3.28, 0.35, 28);
+    set(stamp, { ...slam(t, 3.5), r: -10 });
+    const sh = shake(t, 3.78, 0.35, 28);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 4. La création — 13.5 → 18.5 s
-scene(13.5, 18.5, (root) => {
+// 4. La création
+scene("build", 5, (root) => {
   const cap = caption(root, COPY.build.caption, 540, 260);
   const [lt, lp] = COPY.build.listing;
   const phone = place(el("div", "a phone", root, `
@@ -320,8 +333,8 @@ scene(13.5, 18.5, (root) => {
   };
 });
 
-// 5. La croissance — 18.5 → 22.5 s
-scene(18.5, 22.5, (root) => {
+// 5. La croissance
+scene("growth", 4, (root) => {
   const cap = caption(root, COPY.growth.caption, 540, 360);
   cap.box.style.fontSize = "110px";
   const num = place(el("div", "a counter", root, "1"), 540, 620);
@@ -367,8 +380,51 @@ scene(18.5, 22.5, (root) => {
   };
 });
 
-// 6. La communauté — 22.5 → 26.5 s
-scene(22.5, 26.5, (root) => {
+// 6. Avis d'utilisateurs (sautée tant que COPY.reviews.items est vide)
+if (COPY.reviews.items.length) {
+  const items = COPY.reviews.items.slice(0, 3);
+  scene("reviews", 1.8 + items.length * 2.2, (root) => {
+    const cap = caption(root, COPY.reviews.caption, 540, 300);
+    const stack = place(el("div", "a reviews", root), 540, 900);
+    set(stack);
+    const cards = items.map((rv) => el("div", "review", stack, `
+      <div class="stars">${"★".repeat(rv.stars || 5)}</div>
+      <div class="rtext">${esc(rv.text)}</div>
+      <div class="rauthor">${esc(rv.author || "")}${rv.role ? " · " + esc(rv.role) : ""}</div>`));
+    return (t) => {
+      cap.update(t, 0);
+      cards.forEach((c, i) => {
+        const a = pop(t, 0.8 + i * 2.2, 0.4, 0.6);
+        c.style.opacity = a.o;
+        c.style.transform = `scale(${a.s}) rotate(${(i % 2 ? 1.5 : -1.5) + boil(t, 70 + i) * 0.3}deg)`;
+      });
+    };
+  });
+}
+
+// 7. La presse
+scene("press", 4.5, (root) => {
+  const cap = caption(root, COPY.press.caption, 540, 300);
+  const P = COPY.press;
+  const card = place(el("div", "a article", root, P.screenshot
+    ? `<img src="${esc(P.screenshot)}" alt="">`
+    : `<div class="url">${esc(P.source)}</div>
+       <div class="kicker">${esc(P.source.toUpperCase())}</div>
+       <div class="headline">${esc(P.headline)}</div>
+       <div class="line" style="width:92%"></div><div class="line" style="width:80%"></div>
+       <div class="quote"><span class="hl-sweep">${esc(P.quote)}</span></div>
+       <div class="line" style="width:86%"></div><div class="line" style="width:60%"></div>`), 540, 900);
+  const sweep = card.querySelector(".hl-sweep");
+  return (t) => {
+    cap.update(t, 0);
+    const d = ease.out(prog(t, 0.3, 0.6));
+    set(card, { y: lerp(900, 0, d), r: lerp(6, -1.5, d), o: clamp(d * 2) });
+    if (sweep) sweep.style.backgroundSize = `${ease.inOut(prog(t, 1.3, 1.6)) * 100}% 100%`;
+  };
+});
+
+// 8. La communauté
+scene("community", 4.5, (root) => {
   const cap = caption(root, COPY.community.caption, 540, 320);
   const pol = place(el("div", "a polaroid", root, `<div class="pic"></div><div class="cap">${esc(COPY.community.photoCaption).replace(/\n/g, "<br>")}</div>`), 540, 930);
   const pic = pol.querySelector(".pic");
@@ -398,8 +454,8 @@ scene(22.5, 26.5, (root) => {
   };
 });
 
-// 7. Fin (couleurs de la marque) — 26.5 → 30 s
-scene(26.5, 30, (root) => {
+// 9. Fin (couleurs de la marque)
+scene("end", 3.5, (root) => {
   root.style.background = NAVY;
   const mark = place(logoMark(root, 360), 540, 600);
   const brand = place(el("div", "a brandword", root, COPY.end.brand), 540, 850);
@@ -444,7 +500,7 @@ function seek(t) {
 }
 
 const params = new URLSearchParams(location.search);
-window.VIDEO = { W, H, FPS, DURATION, seek, COPY, scenes: scenes.map((s) => [s.from, s.to]) };
+window.VIDEO = { W, H, FPS, DURATION, seek, COPY, scenes: scenes.map((s) => [s.from, s.to, s.key]) };
 window.videoReady = document.fonts.ready;
 
 if (params.has("render")) {
@@ -460,6 +516,7 @@ if (params.has("render")) {
   };
   window.addEventListener("resize", fit); fit();
   const btn = document.getElementById("play"), scrub = document.getElementById("scrub"), time = document.getElementById("time");
+  scrub.max = DURATION;
   let playing = true, t0 = performance.now(), cur = 0;
   btn.onclick = () => { playing = !playing; btn.textContent = playing ? "Pause" : "Lecture"; t0 = performance.now() - cur * 1000; };
   scrub.oninput = () => { cur = +scrub.value; t0 = performance.now() - cur * 1000; seek(cur); time.textContent = cur.toFixed(2) + " s"; };

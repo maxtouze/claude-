@@ -5,7 +5,8 @@
   "scripts": {
     "preview": "npx serve .",
     "render": "node render.mjs",
-    "stills": "node render.mjs --stills"
+    "stills": "node render.mjs --stills",
+    "vo": "node render.mjs --vo"
   },
   "devDependencies": {
     "ffmpeg-static": "^5.2.0",
