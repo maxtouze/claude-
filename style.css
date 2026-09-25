@@ -5,9 +5,9 @@
 
 :root {
   --paper: #efe8d8;
-  --ink: #1c1c18;
-  --olive: #4b5320;
-  --olive-dark: #2f3514;
+  --ink: #192230;   /* bleu marine Second Armor */
+  --navy: #192230;
+  --teal: #5b8990;  /* couleur principale du site secondarmor.eu */
   --khaki: #c8b98a;
   --orange: #e8622c;
   --red: #c8252c;
@@ -41,7 +41,8 @@ body.render #controls { display: none; }
 .caption .w { display: inline-block; margin: 0 .12em; }
 .caption .hl { background: var(--orange); color: var(--white); padding: 0 .16em; border-radius: 10px; transform: rotate(-1.5deg); }
 .marker { font-family: "Marker"; color: var(--ink); font-size: 64px; white-space: nowrap; }
-.stencil { font-family: "Stencil"; color: var(--olive); white-space: nowrap; }
+.brandword { font: 800 108px "Inter"; color: var(--navy); letter-spacing: 8px; white-space: nowrap; }
+.counter { font: 800 230px "Inter"; color: var(--navy); letter-spacing: -6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 /* Onglets navigateur */
 .tab { width: 560px; height: 360px; background: var(--white); border: 5px solid var(--ink); border-radius: 18px; box-shadow: 10px 10px 0 rgba(28,28,24,.85); overflow: hidden; }
@@ -58,14 +59,17 @@ body.render #controls { display: none; }
 .stamp { font-family: "Stencil"; font-size: 150px; color: var(--red); border: 14px solid var(--red); border-radius: 22px; padding: 6px 40px; white-space: nowrap; mix-blend-mode: multiply; letter-spacing: 2px; }
 
 /* Téléphone */
-.phone { width: 520px; height: 900px; background: var(--ink); border-radius: 70px; padding: 22px; box-shadow: 16px 16px 0 rgba(75,83,32,.55); }
+.phone { width: 520px; height: 900px; background: var(--ink); border-radius: 70px; padding: 22px; box-shadow: 16px 16px 0 rgba(91,137,144,.55); }
 .screen { width: 100%; height: 100%; background: var(--white); border-radius: 50px; overflow: hidden; }
-.app-head { background: var(--olive); color: var(--white); font: 400 44px "Stencil"; padding: 70px 0 26px; text-align: center; letter-spacing: 1px; }
+.app-head { background: var(--navy); color: var(--white); font: 800 38px "Inter"; letter-spacing: 4px; padding: 72px 0 26px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+.app-head .mark { display: flex; }
+.checks { margin: 30px 24px 0; display: flex; flex-direction: column; gap: 18px; }
+.check { display: flex; align-items: center; gap: 16px; font: 800 30px "Inter"; color: var(--navy); line-height: 1.15; transform-origin: left center; }
+.check .tick { flex: none; width: 52px; height: 52px; border-radius: 50%; background: var(--teal); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 30px; }
 .card { margin: 22px 24px 0; border: 4px solid var(--ink); border-radius: 18px; display: flex; gap: 18px; padding: 16px; background: #fff; }
 .card .thumb { width: 110px; height: 110px; border-radius: 12px; background: var(--khaki); border: 3px solid var(--ink); flex: none; }
 .card .t { font: 800 30px "Inter"; color: var(--ink); line-height: 1.15; }
-.card .price { font: 800 32px "Inter"; color: var(--olive); margin-top: 6px; }
-.card .ok { display: inline-block; margin-top: 8px; font: 800 20px "Inter"; color: var(--white); background: var(--olive); border-radius: 8px; padding: 3px 10px; }
+.card .price { font: 800 32px "Inter"; color: var(--teal); margin-top: 6px; }
 
 /* Polaroid */
 .polaroid { width: 640px; background: #fff; padding: 28px 28px 30px; box-shadow: 14px 14px 0 rgba(28,28,24,.25); border: 3px solid #e2dccd; }

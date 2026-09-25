@@ -16,12 +16,16 @@ Si Chromium ou ffmpeg sont déjà installés ailleurs : `CHROMIUM=/chemin FFMPEG
 
 ## Découpage
 
+Le texte de la voix off et son minutage sont dans `VOICEOVER.md`.
+
 | Temps | Scène |
 |---|---|
-| 0 – 3,5 s | « Salut, moi c'est Nico. » — fondateur de Second Armor |
-| 3,5 – 8,5 s | 15 onglets qui s'empilent → tampon « 15 SITES » |
-| 8,5 – 13 s | Billets envoyés dans le vide → tampon « COMPTE BANNI » |
-| 13 – 17,5 s | L'app, créée juste pour son unité |
-| 17,5 – 21,5 s | Compteur 1 → 10 000 membres |
-| 21,5 – 26,5 s | Par des pros, pour des pros + polaroid hockey (blessés de guerre) |
-| 26,5 – 30 s | Carte de fin : Second Armor, le Vinted militaire, lien en bio |
+| 0 – 4 s | « Salut, moi c'est Nico. » : Second Armor, le Vinted militaire |
+| 4 – 9 s | 15 onglets qui s'empilent → tampon « 15 SITES » |
+| 9 – 13,5 s | Billets envoyés dans le vide → tampon « ET MON COLIS ? » |
+| 13,5 – 18,5 s | L'app : vendeurs vérifiés, annonces validées, argent bloqué ; au début pour une unité |
+| 18,5 – 22,5 s | Compteur 1 → 10 000 membres (l'unité de départ reste en orange) |
+| 22,5 – 26,5 s | On redonne à la communauté : polaroid hockey (blessés de guerre) |
+| 26,5 – 30 s | Fin aux couleurs de la marque : logo, « Par des pros, pour des pros. », lien en bio |
+
+Couleurs : bleu marine `#192230` et bleu-gris `#5b8990`, repris du site secondarmor.eu. Le logo est redessiné d'après le visuel du site ; à remplacer par le SVG officiel.

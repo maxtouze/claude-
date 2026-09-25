@@ -30,7 +30,7 @@ const { FPS, DURATION } = await page.evaluate(() => ({ FPS: window.VIDEO.FPS, DU
 
 if (stills) {
   mkdirSync(path.join(out, "stills"), { recursive: true });
-  for (const t of [1.2, 2.6, 6.0, 8.0, 10.5, 12.2, 16.5, 19.0, 21.0, 24.0, 26.0, 29.0]) {
+  for (const t of [3.0, 8.5, 11.0, 13.0, 18.0, 22.0, 26.0, 29.5]) {
     await page.evaluate((t) => window.VIDEO.seek(t), t);
     await page.screenshot({ path: path.join(out, "stills", `t${t.toFixed(1)}.png`) });
   }

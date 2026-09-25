@@ -5,53 +5,69 @@
 // ---------------------------------------------------------------------------
 // Textes et médias : c'est ici qu'on modifie la vidéo.
 // *mot* = surligné en orange.
+// `vo` = ce que Nico dit en voix off pendant la scène (repris dans VOICEOVER.md).
+// Règle : un seul texte principal à l'écran à la fois, et il colle à la voix off.
 // ---------------------------------------------------------------------------
 const COPY = {
-  intro: { caption: "Salut, moi c'est Nico.", aside: "fondateur de", brand: "SECOND ARMOR" },
+  intro: {
+    vo: "Salut, moi c'est Nico. J'ai créé Second Armor, le Vinted militaire.",
+    caption: "Salut, moi c'est Nico.",
+    brand: "SECOND ARMOR",
+    aside: "le Vinted militaire.",
+  },
   hunt: {
-    caption: "Pour trouver du matos, je checkais…",
+    vo: "Avant, pour trouver du matos, je checkais quinze sites différents…",
+    caption: "Avant, pour trouver du matos…",
     stamp: "15 SITES",
     tabs: [
       ["surplus-du-cousin.fr", "RUPTURE"],
       ["forum-airsoft-2009.net", "topic fermé"],
       ["vends-gilet-URGENT", "VENDU"],
       ["tacti-kool.shop", "livraison 6 sem."],
-      ["groupe-fb-matos (privé)", "demande envoyée"],
+      ["groupe FB matos (privé)", "demande envoyée"],
       ["occaz-rangers.biz", "T.39 only"],
       ["lebonplan-kaki.fr", "« dispo ? » (vu)"],
-      ["@gear_deal en MP", "paiement ami ?"],
+      ["serveur Discord #3", "paiement ami ?"],
       ["topic page 47/112", "…"],
       ["vente-flash-ops.com", "RUPTURE"],
       ["annonce-sans-photo", "?"],
-      ["tactical-stuff.ru", "hmm."],
+      ["marketplace-generaliste", "COMPTE BANNI"],
       ["surplus-du-cousin.fr/2", "RUPTURE"],
-      ["compte-suspendu.com", "BANNI"],
+      ["groupe FB matos #5", "annonce supprimée"],
       ["déjà-vendu-désolé", "VENDU"],
     ],
   },
-  money: { caption: "…et j'envoyais de la thune sans *aucune* garantie.", aside: "*prie très fort*", stamp: "COMPTE BANNI" },
-  build: {
-    caption: "Alors j'ai créé un endroit *sécurisé*.",
-    aside: "…juste pour mon unité.",
-    appName: "SECOND ARMOR",
-    listings: [
-      ["Gilet porte-plaques", "85 €"],
-      ["Rangers T.43", "40 €"],
-      ["Sac 3 jours", "60 €"],
-      ["Casque + couvre", "70 €"],
-    ],
+  money: {
+    vo: "…et j'envoyais de l'argent sans aucune garantie.",
+    caption: "…et je payais sans *aucune* garantie.",
+    aside: "*prie très fort*",
+    stamp: "ET MON COLIS ?",
   },
-  growth: { caption: "Aujourd'hui ?", target: 10000, aside: "membres. (et ça grandit)" },
+  build: {
+    vo: "Alors j'ai créé un endroit sécurisé. Au début, juste pour mon unité.",
+    caption: "Alors j'ai créé un endroit *sécurisé*.",
+    appName: "SECOND ARMOR",
+    listing: ["Gilet porte-plaques", "85 €"],
+    checks: ["Vendeurs vérifiés", "Annonces validées à la main", "Argent bloqué jusqu'à réception"],
+    aside: "…au début, juste pour mon unité.",
+  },
+  growth: {
+    vo: "Aujourd'hui, on est dix mille.",
+    caption: "Aujourd'hui ?",
+    target: 10000,
+    aside: "membres. (et ça grandit)",
+  },
   community: {
-    caption: "Par des pros, *pour des pros*.",
-    photoCaption: "Match de hockey des blessés\nde guerre — on sponsorise.",
+    vo: "Et ce qu'on construit, on le redonne à la communauté.",
+    caption: "Et on redonne à la *communauté*.",
+    photoCaption: "Match de hockey des blessés\nde guerre : on sponsorise.",
     photo: null, // ex. "photos/hockey.jpg" pour remplacer le dessin par une vraie photo
-    outro: "Et on redonne à la *communauté*.",
   },
   end: {
+    vo: "Second Armor. Par des pros, pour des pros.",
     brand: "SECOND ARMOR",
-    tagline: "le Vinted militaire.",
-    sub: "Équipement tactique de seconde main,\nentre ceux qui servent.",
+    tagline: "Par des pros, pour des pros.",
+    sub: "Militaires, forces de l'ordre, sécurité :\nl'équipement tactique de seconde main, en confiance.",
     cta: "Lien en bio",
   },
 };
@@ -160,11 +176,11 @@ function drawOn(root, q) {
     if (p.dataset.fill) p.style.fillOpacity = local >= 1 ? 1 : 0;
   });
 }
-const INK = "#1c1c18", OLIVE = "#4b5320", KHAKI = "#c8b98a", ORANGE = "#e8622c", WHITE = "#fbf8f1";
+const INK = "#192230", NAVY = "#192230", TEAL = "#5b8990", ORANGE = "#e8622c", WHITE = "#fbf8f1";
 const stroke = (w = 9, c = INK) => `fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" class="draw"`;
 
 // Bonhomme (Nico) — viewBox 200x300
-function stickman(parent, w, cap = OLIVE) {
+function stickman(parent, w, cap = TEAL) {
   const s = svg(parent, w, w * 1.5, "0 0 200 300", `
     <path d="M100 22 a38 38 0 1 0 0.01 0" ${stroke()}/>
     <path d="M58 52 Q60 12 100 12 Q140 12 142 52 Z" ${stroke(8)} fill="${cap}" style="fill-opacity:0" data-fill="1"/>
@@ -180,6 +196,19 @@ function stickman(parent, w, cap = OLIVE) {
   return s;
 }
 
+// Logo Second Armor : le « A » entre quatre carrés.
+// Redessiné d'après le visuel du site : à remplacer par le SVG officiel dès qu'on l'a.
+function logoMark(parent, w, color = WHITE) {
+  return svg(parent, w, (w * 250) / 420, "0 0 420 250", `
+    <g fill="${color}">
+      <rect x="0" y="0" width="44" height="40" rx="4"/><rect x="376" y="0" width="44" height="40" rx="4"/>
+      <rect x="0" y="210" width="44" height="40" rx="4"/><rect x="376" y="210" width="44" height="40" rx="4"/>
+      <path fill-rule="evenodd" d="M92 250 L168 0 L252 0 L328 250 L260 250 L245 198 L175 198 L160 250 Z M190 148 L230 148 L210 76 Z"/>
+    </g>`);
+}
+
+// Zones sûres TikTok : rien d'important sous y ≈ 1500 (légende, pseudo) ni collé au bord droit (boutons).
+
 // ---------------------------------------------------------------------------
 // Scènes
 // ---------------------------------------------------------------------------
@@ -190,128 +219,121 @@ function scene(from, to, build) {
   scenes.push({ from, to, root, update });
 }
 
-// 1. Intro — 0 → 3.5 s
-scene(0, 3.5, (root) => {
-  const cap = caption(root, COPY.intro.caption, 540, 420);
-  const nico = place(stickman(root, 400), 540, 950);
-  const aside = place(el("div", "a marker", root, COPY.intro.aside), 540, 1340);
-  const brand = place(el("div", "a stencil", root, COPY.intro.brand), 540, 1470);
-  brand.style.fontSize = "116px";
+// 1. Intro — 0 → 4 s
+scene(0, 4, (root) => {
+  const cap = caption(root, COPY.intro.caption, 540, 380);
+  const nico = place(stickman(root, 380), 540, 860);
+  const brand = place(el("div", "a brandword", root, COPY.intro.brand), 540, 1250);
+  const aside = place(el("div", "a marker", root, COPY.intro.aside), 540, 1380);
   return (t) => {
     cap.update(t, 0.15);
     drawOn(nico, prog(t, 0, 1.0));
     nico.querySelector(".arm").style.transform = `rotate(${t > 1 ? Math.sin((t - 1) * 11) * 22 : 0}deg)`;
     set(nico, { r: boil(t, 1) * 0.8 });
-    const a = pop(t, 1.5);
-    set(aside, { ...a, r: -3 + boil(t, 2) });
-    const b = slam(t, 1.85);
-    set(brand, { ...b, r: -2 + boil(t, 3) * 0.3 });
-    const sh = shake(t, 2.13, 0.3, 14);
+    set(brand, slam(t, 1.6));
+    set(aside, { ...pop(t, 2.4), r: -3 + boil(t, 2) });
+    const sh = shake(t, 1.88, 0.3, 14);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 2. La chasse au matos — 3.5 → 8.5 s
-scene(3.5, 8.5, (root) => {
+// 2. La chasse au matos — 4 → 9 s
+scene(4, 9, (root) => {
   const cap = caption(root, COPY.hunt.caption, 540, 330);
   const r = rng(42);
   const tabs = COPY.hunt.tabs.map(([url, tag], i) => {
     const e = el("div", "a tab", root, `
       <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">${esc(url)}</span></div>
       <div class="body"><div class="img"></div><div class="lines"><div class="line" style="width:90%"></div><div class="line" style="width:70%"></div><div class="line" style="width:50%"></div><div class="tag">${esc(tag)}</div></div></div>`);
-    const x = lerp(330, 750, r()), y = lerp(720, 1380, i / 14) + lerp(-60, 60, r());
+    const x = lerp(330, 720, r()), y = lerp(680, 1240, i / 14) + lerp(-40, 40, r());
     place(e, x, y);
     return { e, rot: lerp(-9, 9, r()) };
   });
-  const stamp = place(el("div", "a stamp", root, COPY.hunt.stamp), 540, 1050);
+  const stamp = place(el("div", "a stamp", root, COPY.hunt.stamp), 540, 960);
   return (t) => {
     cap.update(t, 0);
-    tabs.forEach(({ e, rot }, i) => {
-      const a = pop(t, 0.5 + i * 0.19, 0.3, 0.3);
-      set(e, { ...a, r: rot });
-    });
-    const s = slam(t, 3.55);
-    set(stamp, { ...s, r: -8 });
-    const sh = shake(t, 3.83, 0.35, 26);
+    tabs.forEach(({ e, rot }, i) => set(e, { ...pop(t, 0.4 + i * 0.17, 0.3, 0.3), r: rot }));
+    set(stamp, { ...slam(t, 3.3), r: -8 });
+    const sh = shake(t, 3.58, 0.35, 26);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 3. L'argent dans le vide — 8.5 → 13 s
-scene(8.5, 13, (root) => {
+// 3. Payer dans le vide — 9 → 13.5 s
+scene(9, 13.5, (root) => {
   const cap = caption(root, COPY.money.caption, 540, 360);
-  const q = place(el("div", "a marker", root, "?"), 810, 1010);
-  q.style.fontSize = "380px"; q.style.color = "#8a8270";
-  const guy = place(stickman(root, 260), 230, 1060);
+  const q = place(el("div", "a marker", root, "?"), 770, 900);
+  q.style.fontSize = "360px"; q.style.color = "#8a8a90";
+  const guy = place(stickman(root, 260), 250, 960);
   const bills = Array.from({ length: 9 }, () => {
     const b = el("div", "a", root, `<svg width="190" height="100" viewBox="0 0 190 100"><rect x="4" y="4" width="182" height="92" rx="10" fill="#9dbb84" stroke="${INK}" stroke-width="6"/><circle cx="95" cy="50" r="28" fill="none" stroke="${INK}" stroke-width="5"/><text x="95" y="63" text-anchor="middle" font-family="Inter" font-weight="800" font-size="38" fill="${INK}">€</text></svg>`);
-    return place(b, 300, 1000);
+    return place(b, 320, 900);
   });
-  const aside = place(el("div", "a marker", root, COPY.money.aside), 300, 1400);
-  const stamp = place(el("div", "a stamp", root, COPY.money.stamp), 540, 1080);
-  stamp.style.fontSize = "118px";
+  const aside = place(el("div", "a marker", root, COPY.money.aside), 300, 1260);
+  const stamp = place(el("div", "a stamp", root, COPY.money.stamp), 540, 1000);
+  stamp.style.fontSize = "112px";
   return (t) => {
-    cap.update(t, 0, 0.07);
+    cap.update(t, 0, 0.08);
     drawOn(guy, 1);
     set(guy, { ...pop(t, 0.1, 0.3), r: boil(t, 5) });
     set(q, { ...pop(t, 0.4, 0.4), r: boil(t, 6) * 4 });
     bills.forEach((b, i) => {
       const f = prog(t, 0.6 + i * 0.17, 0.75);
       const e = ease.out(f);
-      set(b, {
-        x: lerp(0, 500, e), y: -Math.sin(Math.PI * f) * 340,
-        s: lerp(1, 0.35, e), r: f * 540, o: f > 0 && f < 1 ? 1 : 0,
-      });
+      set(b, { x: lerp(0, 440, e), y: -Math.sin(Math.PI * f) * 300, s: lerp(1, 0.35, e), r: f * 540, o: f > 0 && f < 1 ? 1 : 0 });
     });
     set(aside, { ...pop(t, 1.5), r: -5 + boil(t, 7) });
-    const s = slam(t, 2.9);
-    set(stamp, { ...s, r: -12 });
-    const sh = shake(t, 3.18, 0.35, 28);
+    set(stamp, { ...slam(t, 3.0), r: -10 });
+    const sh = shake(t, 3.28, 0.35, 28);
     root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
   };
 });
 
-// 4. La création — 13 → 17.5 s
-scene(13, 17.5, (root) => {
+// 4. La création — 13.5 → 18.5 s
+scene(13.5, 18.5, (root) => {
   const cap = caption(root, COPY.build.caption, 540, 260);
-  const phone = place(el("div", "a phone", root, `<div class="screen"><div class="app-head">${esc(COPY.build.appName)}</div></div>`), 540, 880);
-  const screen = phone.querySelector(".screen");
-  const cards = COPY.build.listings.map(([t, p]) =>
-    el("div", "card", screen, `<div class="thumb"></div><div><div class="t">${esc(t)}</div><div class="price">${esc(p)}</div><div class="ok">✓ entre militaires</div></div>`));
-  // Le groupe de départ : 8 bonhommes
-  const squad = Array.from({ length: 8 }, (_, i) => place(stickman(root, 92, i === 3 ? ORANGE : OLIVE), 225 + i * 90, 1470));
-  const aside = place(el("div", "a marker", root, COPY.build.aside), 540, 1640);
+  const [lt, lp] = COPY.build.listing;
+  const phone = place(el("div", "a phone", root, `
+    <div class="screen">
+      <div class="app-head"><span class="mark"></span>${esc(COPY.build.appName)}</div>
+      <div class="card"><div class="thumb"></div><div><div class="t">${esc(lt)}</div><div class="price">${esc(lp)}</div></div></div>
+      <div class="checks"></div>
+    </div>`), 540, 840);
+  logoMark(phone.querySelector(".mark"), 60, WHITE).setAttribute("class", "");
+  const checks = COPY.build.checks.map((c) => el("div", "check", phone.querySelector(".checks"), `<span class="tick">✓</span>${esc(c)}`));
+  const squad = Array.from({ length: 8 }, (_, i) => place(stickman(root, 84, i === 3 ? ORANGE : TEAL), 225 + i * 90, 1290));
+  const aside = place(el("div", "a marker", root, COPY.build.aside), 540, 1440);
+  aside.style.fontSize = "56px";
   return (t) => {
     cap.update(t, 0);
     const up = ease.out(prog(t, 0.3, 0.7));
     set(phone, { y: lerp(1400, 0, up), s: 0.78, r: lerp(8, -2, up) });
-    cards.forEach((c, i) => {
-      const a = pop(t, 1.0 + i * 0.22, 0.3, 0.7);
+    checks.forEach((c, i) => {
+      const a = pop(t, 1.1 + i * 0.35, 0.3, 0.7);
       c.style.opacity = a.o; c.style.transform = `scale(${a.s})`;
     });
     squad.forEach((m, i) => {
-      drawOn(m, prog(t, 2.0 + i * 0.08, 0.5));
-      set(m, { r: boil(t, 20 + i) * 2, y: Math.abs(Math.sin((t - 2.8) * 8 + i)) * (t > 2.8 ? -10 : 0) });
+      drawOn(m, prog(t, 2.6 + i * 0.07, 0.45));
+      set(m, { r: boil(t, 20 + i) * 2, y: t > 3.3 ? -Math.abs(Math.sin((t - 3.3) * 8 + i)) * 10 : 0 });
     });
-    set(aside, { ...pop(t, 2.6), r: -2 + boil(t, 30) });
+    set(aside, { ...pop(t, 3.0), r: -2 + boil(t, 30) });
   };
 });
 
-// 5. La croissance — 17.5 → 21.5 s
-scene(17.5, 21.5, (root) => {
-  const cap = caption(root, COPY.growth.caption, 540, 380);
+// 5. La croissance — 18.5 → 22.5 s
+scene(18.5, 22.5, (root) => {
+  const cap = caption(root, COPY.growth.caption, 540, 360);
   cap.box.style.fontSize = "110px";
-  const num = place(el("div", "a stencil", root, "1"), 540, 700);
-  num.style.fontSize = "250px";
-  const aside = place(el("div", "a marker", root, COPY.growth.aside), 540, 900);
+  const num = place(el("div", "a counter", root, "1"), 540, 620);
+  const aside = place(el("div", "a marker", root, COPY.growth.aside), 540, 800);
   const cv = el("canvas", "a", root);
-  cv.width = 1000; cv.height = 560;
-  place(cv, 540, 1320);
+  cv.width = 1000; cv.height = 520;
+  set(place(cv, 540, 1150));
   const ctx = cv.getContext("2d");
   const cols = 20, rows = 8, N = cols * rows;
   const r = rng(7);
   const order = Array.from({ length: N }, (_, i) => ({ i, k: r() }));
-  const firstUnit = new Set([63, 64, 65, 66, 83, 84, 85, 86]); // le groupe de départ, au centre
+  const firstUnit = new Set([68, 69, 70, 71, 88, 89, 90, 91]); // le groupe de départ, au centre
   order.forEach((o) => { if (firstUnit.has(o.i)) o.k = -1; });
   order.sort((a, b) => a.k - b.k);
   const rank = new Array(N);
@@ -320,9 +342,10 @@ scene(17.5, 21.5, (root) => {
   return (t) => {
     cap.update(t, 0);
     const g = ease.inOut(prog(t, 0.6, 2.0));
-    const val = Math.max(1, Math.round(lerp(1, COPY.growth.target, g)));
-    num.textContent = fmt(val);
-    set(num, { ...pop(t, 0.35, 0.3), s: pop(t, 0.35, 0.3).s * (1 + (g > 0 && g < 1 ? Math.sin(t * 40) * 0.015 : 0)) + (prog(t, 2.6, 0.2) > 0 ? 0.08 * Math.sin(Math.PI * prog(t, 2.6, 0.25)) : 0) });
+    num.textContent = fmt(Math.max(1, Math.round(lerp(1, COPY.growth.target, g))));
+    const p = pop(t, 0.35, 0.3);
+    const bump = 0.08 * Math.sin(Math.PI * prog(t, 2.6, 0.25));
+    set(num, { o: p.o, s: p.s + bump });
     set(aside, { ...pop(t, 2.7), r: -3 + boil(t, 40) });
     ctx.clearRect(0, 0, cv.width, cv.height);
     const shown = Math.max(8, Math.round(g * N));
@@ -330,7 +353,7 @@ scene(17.5, 21.5, (root) => {
     for (let i = 0; i < N; i++) {
       if (rank[i] >= shown) continue;
       const cx = (i % cols) * cw + cw / 2, cy = Math.floor(i / cols) * ch + ch / 2;
-      const c = firstUnit.has(i) ? ORANGE : OLIVE;
+      const c = firstUnit.has(i) ? ORANGE : NAVY;
       ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 4; ctx.lineCap = "round";
       const jig = firstUnit.has(i) ? 0 : boil(t, i) * 1.5;
       ctx.beginPath(); ctx.arc(cx + jig, cy - 18, 9, 0, Math.PI * 2); ctx.fill();
@@ -344,10 +367,10 @@ scene(17.5, 21.5, (root) => {
   };
 });
 
-// 6. La communauté — 21.5 → 26.5 s
-scene(21.5, 26.5, (root) => {
-  const cap = caption(root, COPY.community.caption, 540, 300);
-  const pol = place(el("div", "a polaroid", root, `<div class="pic"></div><div class="cap">${esc(COPY.community.photoCaption).replace(/\n/g, "<br>")}</div>`), 540, 950);
+// 6. La communauté — 22.5 → 26.5 s
+scene(22.5, 26.5, (root) => {
+  const cap = caption(root, COPY.community.caption, 540, 320);
+  const pol = place(el("div", "a polaroid", root, `<div class="pic"></div><div class="cap">${esc(COPY.community.photoCaption).replace(/\n/g, "<br>")}</div>`), 540, 930);
   const pic = pol.querySelector(".pic");
   if (COPY.community.photo) {
     el("img", "", pic).src = COPY.community.photo;
@@ -358,50 +381,44 @@ scene(21.5, 26.5, (root) => {
       <path d="M0 150 L584 150" stroke="#2c5aa0" stroke-width="10" opacity=".6"/>
       <ellipse cx="292" cy="240" rx="80" ry="80" fill="none" stroke="#2c5aa0" stroke-width="6" opacity=".5"/>
       <path d="M130 90 L330 400 L400 400" ${stroke(18)}/>
-      <path d="M454 90 L254 400 L184 400" ${stroke(18, OLIVE)}/>
+      <path d="M454 90 L254 400 L184 400" ${stroke(18, TEAL)}/>
       <ellipse cx="292" cy="455" rx="44" ry="16" fill="${INK}"/>
       <path d="M60 470 l0 -30 M50 455 l20 0" ${stroke(8, ORANGE)}/>
       <path d="M520 60 l14 -26 l14 26 l-28 -16 l28 0 Z" ${stroke(6, ORANGE)}/>
     `, "");
   }
-  const tape = place(el("div", "a tape", root), 540, 590);
-  const outro = caption(root, COPY.community.outro, 540, 1560);
+  const tape = place(el("div", "a tape", root), 540, 570);
   return (t) => {
     cap.update(t, 0);
-    const d = ease.back(prog(t, 0.5, 0.55));
+    const d = ease.back(prog(t, 0.4, 0.55));
     set(pol, { y: lerp(-1400, 0, d), r: lerp(-20, 3, d) + boil(t, 50) * 0.3 });
     const svgEl = pic.querySelector("svg");
-    if (svgEl) drawOn(svgEl, prog(t, 1.0, 1.0));
-    set(tape, { ...pop(t, 1.05, 0.2, 1.4), r: -6 });
-    outro.update(t, 2.4, 0.1);
+    if (svgEl) drawOn(svgEl, prog(t, 0.9, 1.0));
+    set(tape, { ...pop(t, 0.95, 0.2, 1.4), r: -6 });
   };
 });
 
-// 7. Fin — 26.5 → 30 s
+// 7. Fin (couleurs de la marque) — 26.5 → 30 s
 scene(26.5, 30, (root) => {
-  root.style.background = "#4b5320";
-  const shield = place(svg(root, 260, 290, "0 0 200 224", `
-    <path d="M100 10 L182 42 V112 C182 166 144 196 100 214 C56 196 18 166 18 112 V42 Z" ${stroke(12, KHAKI)}/>
-    <path d="M60 104 L100 134 L140 104" ${stroke(14, KHAKI)}/>
-    <path d="M60 140 L100 170 L140 140" ${stroke(14, WHITE)}/>
-  `), 540, 640);
-  const brand = place(el("div", "a stencil", root, COPY.end.brand), 540, 920);
-  brand.style.fontSize = "112px"; brand.style.color = WHITE;
-  const tag = place(el("div", "a marker", root, COPY.end.tagline), 540, 1060);
-  tag.style.color = KHAKI; tag.style.fontSize = "76px";
-  const sub = place(el("div", "a", root, esc(COPY.end.sub).replace(/\n/g, "<br>")), 540, 1230);
-  Object.assign(sub.style, { font: '600 44px "Inter"', color: WHITE, textAlign: "center", width: "900px", lineHeight: 1.3, opacity: 0.9 });
-  const cta = place(el("div", "a pill", root, COPY.end.cta), 540, 1440);
+  root.style.background = NAVY;
+  const mark = place(logoMark(root, 360), 540, 600);
+  const brand = place(el("div", "a brandword", root, COPY.end.brand), 540, 850);
+  brand.style.color = WHITE;
+  const tag = place(el("div", "a marker", root, COPY.end.tagline), 540, 980);
+  tag.style.color = TEAL; tag.style.fontSize = "64px";
+  const sub = place(el("div", "a", root, esc(COPY.end.sub).replace(/\n/g, "<br>")), 540, 1140);
+  Object.assign(sub.style, { font: '600 40px "Inter"', color: WHITE, textAlign: "center", width: "900px", lineHeight: 1.35 });
+  const cta = place(el("div", "a pill", root, COPY.end.cta), 540, 1340);
   return (t) => {
     const w = ease.out(prog(t, 0, 0.45));
     root.style.clipPath = `circle(${w * 130}% at 50% 50%)`;
-    drawOn(shield, prog(t, 0.25, 0.8));
-    set(shield, { r: boil(t, 60) * 0.8 });
-    set(brand, slam(t, 0.6, 0.25, 2.2));
-    set(tag, { ...pop(t, 1.0), r: -3 + boil(t, 61) });
-    set(sub, { ...pop(t, 1.3, 0.35, 0.9), o: pop(t, 1.3).o * 0.9 });
-    const pulse = t > 1.9 ? 1 + Math.sin((t - 1.9) * 7) * 0.04 : 1;
-    const c = pop(t, 1.7);
+    set(mark, pop(t, 0.3, 0.4, 0.2));
+    set(brand, slam(t, 0.7, 0.25, 2.2));
+    set(tag, { ...pop(t, 1.1), r: -2 + boil(t, 61) });
+    const sb = pop(t, 1.4, 0.35, 0.9);
+    set(sub, { s: sb.s, o: sb.o * 0.85 });
+    const pulse = t > 2.0 ? 1 + Math.sin((t - 2.0) * 7) * 0.04 : 1;
+    const c = pop(t, 1.8);
     set(cta, { o: c.o, s: c.s * pulse });
   };
 });
@@ -427,7 +444,7 @@ function seek(t) {
 }
 
 const params = new URLSearchParams(location.search);
-window.VIDEO = { W, H, FPS, DURATION, seek };
+window.VIDEO = { W, H, FPS, DURATION, seek, COPY, scenes: scenes.map((s) => [s.from, s.to]) };
 window.videoReady = document.fonts.ready;
 
 if (params.has("render")) {
