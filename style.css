@@ -1,0 +1,78 @@
+@font-face { font-family: "Marker"; src: url(fonts/PermanentMarker.woff2) format("woff2"); }
+@font-face { font-family: "Stencil"; src: url(fonts/BlackOpsOne.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; src: url(fonts/Inter-600.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 800; src: url(fonts/Inter-800.woff2) format("woff2"); }
+
+:root {
+  --paper: #efe8d8;
+  --ink: #1c1c18;
+  --olive: #4b5320;
+  --olive-dark: #2f3514;
+  --khaki: #c8b98a;
+  --orange: #e8622c;
+  --red: #c8252c;
+  --white: #fbf8f1;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: #111; overflow: hidden; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: "Inter", sans-serif; }
+
+#viewport { position: relative; flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; }
+#stage {
+  position: absolute; width: 1080px; height: 1920px; overflow: hidden;
+  transform-origin: center center;
+  background-color: var(--paper);
+  /* grain papier */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .15  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+#controls { display: flex; gap: 12px; align-items: center; padding: 10px 16px; color: #ddd; width: min(100%, 560px); }
+#controls input { flex: 1; }
+#controls button { padding: 6px 14px; border-radius: 6px; border: 0; background: #eee; font-weight: 600; cursor: pointer; }
+#time { font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
+body.render { background: var(--paper); }
+body.render #controls { display: none; }
+
+.scene { position: absolute; inset: 0; display: none; }
+.a { position: absolute; left: 0; top: 0; transform-origin: center center; will-change: transform, opacity; }
+
+/* Textes */
+.caption { font-family: "Inter"; font-weight: 800; font-size: 86px; line-height: 1.12; color: var(--ink); text-align: center; width: 940px; letter-spacing: -1.5px; }
+.caption .w { display: inline-block; margin: 0 .12em; }
+.caption .hl { background: var(--orange); color: var(--white); padding: 0 .16em; border-radius: 10px; transform: rotate(-1.5deg); }
+.marker { font-family: "Marker"; color: var(--ink); font-size: 64px; white-space: nowrap; }
+.stencil { font-family: "Stencil"; color: var(--olive); white-space: nowrap; }
+
+/* Onglets navigateur */
+.tab { width: 560px; height: 360px; background: var(--white); border: 5px solid var(--ink); border-radius: 18px; box-shadow: 10px 10px 0 rgba(28,28,24,.85); overflow: hidden; }
+.tab .bar { height: 58px; background: #ddd5c2; border-bottom: 5px solid var(--ink); display: flex; align-items: center; gap: 10px; padding: 0 18px; }
+.tab .dot { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--ink); }
+.tab .url { margin-left: 10px; font: 600 26px "Inter"; color: #555; background: var(--white); border-radius: 20px; padding: 3px 16px; white-space: nowrap; }
+.tab .body { padding: 26px; display: flex; gap: 22px; }
+.tab .img { width: 170px; height: 170px; background: var(--khaki); border: 4px solid var(--ink); border-radius: 10px; }
+.tab .lines { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+.tab .line { height: 20px; background: #cfc6b0; border-radius: 10px; }
+.tab .tag { font: 800 30px "Inter"; color: var(--red); transform: rotate(-4deg); }
+
+/* Tampons */
+.stamp { font-family: "Stencil"; font-size: 150px; color: var(--red); border: 14px solid var(--red); border-radius: 22px; padding: 6px 40px; white-space: nowrap; mix-blend-mode: multiply; letter-spacing: 2px; }
+
+/* Téléphone */
+.phone { width: 520px; height: 900px; background: var(--ink); border-radius: 70px; padding: 22px; box-shadow: 16px 16px 0 rgba(75,83,32,.55); }
+.screen { width: 100%; height: 100%; background: var(--white); border-radius: 50px; overflow: hidden; }
+.app-head { background: var(--olive); color: var(--white); font: 400 44px "Stencil"; padding: 70px 0 26px; text-align: center; letter-spacing: 1px; }
+.card { margin: 22px 24px 0; border: 4px solid var(--ink); border-radius: 18px; display: flex; gap: 18px; padding: 16px; background: #fff; }
+.card .thumb { width: 110px; height: 110px; border-radius: 12px; background: var(--khaki); border: 3px solid var(--ink); flex: none; }
+.card .t { font: 800 30px "Inter"; color: var(--ink); line-height: 1.15; }
+.card .price { font: 800 32px "Inter"; color: var(--olive); margin-top: 6px; }
+.card .ok { display: inline-block; margin-top: 8px; font: 800 20px "Inter"; color: var(--white); background: var(--olive); border-radius: 8px; padding: 3px 10px; }
+
+/* Polaroid */
+.polaroid { width: 640px; background: #fff; padding: 28px 28px 30px; box-shadow: 14px 14px 0 rgba(28,28,24,.25); border: 3px solid #e2dccd; }
+.polaroid .pic { width: 100%; height: 520px; background: #cfe0ea; overflow: hidden; position: relative; }
+.polaroid .pic img { width: 100%; height: 100%; object-fit: cover; }
+.polaroid .cap { font-family: "Marker"; font-size: 40px; color: var(--ink); text-align: center; margin-top: 22px; line-height: 1.2; }
+.tape { width: 220px; height: 60px; background: rgba(232, 214, 160, .8); }
+
+/* Fin */
+.pill { font: 800 56px "Inter"; background: var(--orange); color: var(--white); padding: 24px 56px; border-radius: 80px; white-space: nowrap; }
