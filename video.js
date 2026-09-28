@@ -269,6 +269,22 @@ function Img(name, cx, cy, w, o = {}) {
   const h = (w * ih) / iw;
   return G(`<image href="img/${name}.png" x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" preserveAspectRatio="none"${flip ? ' transform="scale(-1 1)"' : ""}/>`, { x: cx, y: cy, r, o: op });
 }
+// Vraies photos (événement, expédition) : facultatives. Si le fichier manque, un cadre « photo à venir » s'affiche.
+const PHOTOS = { caen: "img/photos/caen.jpg", amazonie: "img/photos/amazonie.jpg" };
+const PHOTO_OK = {};
+// Polaroid scotché, centré sur (cx, cy), largeur w, photo au format 4:5
+function polaroid(name, cx, cy, w, o = {}) {
+  const { r = 0, s = 1, caption = "" } = o;
+  const pw = w - 50, ph = pw * 1.25, h = ph + 150;
+  let g = Rect(-w / 2 + 10, -h / 2 + 14, w, h, { fill: "#d8d8d8", sw: 0 }) + Rect(-w / 2, -h / 2, w, h, { fill: PAPER, sw: 6 });
+  const px = -pw / 2, py = -h / 2 + 25;
+  if (PHOTO_OK[name]) g += `<image href="${PHOTOS[name]}" x="${n2(px)}" y="${n2(py)}" width="${n2(pw)}" height="${n2(ph)}" preserveAspectRatio="xMidYMid slice"/>` + Rect(px, py, pw, ph, { sw: 5 });
+  else g += Rect(px, py, pw, ph, { fill: "#e9e9e9", sw: 5 }) + P(`M${px + 60} ${py + ph - 80} l120 -150 l90 100 l60 -60 l110 110`, { w: 6, op: 0.5 }) +
+    Dot(px + pw - 110, py + 110, 34, "#bdbdbd") + T("photo à venir", 0, py + ph / 2, { size: 44, c: "#8a8a8a" });
+  if (caption) g += T(caption, 0, h / 2 - 62, { size: 50 });
+  g += Rect(-70, -h / 2 - 26, 140, 52, { fill: "#f3e7a8", sw: 0, op: 0.85 });
+  return G(g, { x: cx, y: cy, r, s });
+}
 // Clope au bec : à placer dans le repère d'un bonhomme (bouche vers (8, -226))
 function clope(t, o = {}) {
   const { smoke = true } = o;
@@ -816,6 +832,74 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
   }
   return g;
 });
+// 6 bis. Rendre à la communauté
+const AMAZONIE_COMPTE = "@son.compte"; // À REMPLACER : le compte de l'ancien des forces spéciales
+shot("rendre", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3], ["Pour l'instant, on est encore en perte.", 1.3]], (t, c) => {
+  let g = "";
+  if (t < c[1]) {
+    // Nico tend des cartons à la section
+    for (let i = 0; i < 5; i++) {
+      const x = 610 + (i % 3) * 150 + (i > 2 ? 75 : 0), y = i > 2 ? 1300 : 1180;
+      g += stick({ x, y, s: 0.7, acc: ["helmet"], la: [-40, -130], ra: [40, -130], mouth: t > 1.2 + i * 0.3 ? "smile" : null });
+    }
+    const k = ease.inOut(prog(t, 0.5, 0.8));
+    g += stick({ x: 230, y: 1240, s: 1.1, la: [-40, -120], ra: [lerp(60, 120, k), -150] });
+    g += G(box({ w: 150, h: 100 }), { x: lerp(340, 470, k), y: lerp(1090, 1060, k) });
+    g += label(t, 1.6, "la communauté", 700, 780, 700, 930, { size: 54 });
+    return Z(g, 1.25, 560, 1100);
+  }
+  // En perte : la courbe plonge, Nico retourne ses poches
+  const t1 = t - c[1];
+  const x0 = 140, y0 = 620, w = 800;
+  g += arrow(x0, 1000, x0, 300, { bend: 0 }) + P(`M${x0} ${y0} H${x0 + w}`, { w: 5, op: 0.5 }) + T("compte en banque", x0 + 20, 270, { size: 46, anchor: "start" }) + T("0 €", x0 - 20, y0 + 10, { size: 38, anchor: "end" });
+  const k = ease.inOut(prog(t1, 0.1, 1.4));
+  const pts = [];
+  for (let i = 0; i <= 40; i++) { const u = (i / 40) * k; pts.push([x0 + u * w, y0 - 60 + Math.pow(u, 1.8) * 360]); }
+  g += P("M" + pts.map((p) => `${n2(p[0])} ${n2(p[1])}`).join(" L"), { w: 8, c: RED });
+  g += stick({ x: 540, y: 1290, s: 0.95, la: [-60, -60], ra: [60, -60], eyes: "dot" });
+  g += P("M515 1180 q-30 5 -40 30 q25 10 45 -10 Z M565 1180 q30 5 40 30 q-25 10 -45 -10 Z", { fill: PAPER, w: 5 });
+  if (t1 > 0.8) g += fly(t1, 540, 1060, { s: 0.8, rad: 50 });
+  g += label(t, c[1] + 1.4, "c'est un\ninvestissement", 820, 1080, 900, 970, { size: 50 });
+  return g;
+});
+shot("hockey", [["Mais on a déjà sponsorisé les Frères d'Armes :", 0.15], ["un match de hockey à Caen, pour le D-Day,", 0.15], ["au profit du Bleuet de France.", 1.0]], (t, c) => {
+  const k = ease.out(prog(t, 0.1, 0.5));
+  let g = T("LES FRÈRES D'ARMES", 540, 190, { size: 76, font: STENCIL, c: NAVY, op: clamp(t * 3) });
+  g += T("Forces alliées vs Drakkars de Caen", 540, 265, { size: 46, op: clamp(t * 3 - 1) });
+  g += polaroid("caen", lerp(1500, 600, k), 760, 600, { r: lerp(12, -3, k), caption: "Caen, 5 juin 2026" });
+  if (t > c[0] + 0.8) g += G(logoMark(150, NAVY), { x: 880, y: 1100, r: 10, s: pop(t, c[0] + 0.8) });
+  if (t > c[1]) g += label(t, c[1] + 0.3, "D-Day,\n6 juin 44", 160, 380, 290, 460, { size: 60, c: ACC });
+  if (t > c[2]) {
+    // bleuet dessiné
+    const s = pop(t, c[2] + 0.2);
+    let f = P("M0 0 V120", { w: 6, c: GREEN });
+    for (let i = 0; i < 8; i++) f += G(`<ellipse cx="0" cy="-34" rx="16" ry="30" fill="#3f6fd1" stroke="${INK}" stroke-width="4"/>`, { r: i * 45 });
+    f += Dot(0, 0, 14, NAVY);
+    g += G(f, { x: 170, y: 1010, s }) + T("Bleuet\nde France", 170, 1200, { size: 44, op: clamp((t - c[2]) * 3) });
+  }
+  return g;
+});
+shot("amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1], ["qui part dix jours en autonomie en Amazonie.", 0.3], ["Allez le suivre. Il va en avoir besoin.", 1.3]], (t, c) => {
+  const k = ease.out(prog(t, 0.1, 0.5));
+  let g = "";
+  // feuillage dessiné autour
+  for (let i = 0; i < 9; i++) {
+    const x = [80, 1000, 60, 1020, 150, 930, 40, 1040, 540][i], y = [260, 240, 700, 660, 1050, 1030, 1640, 1620, 110][i];
+    g += G(P("M0 0 q60 -80 0 -170 q-60 90 0 170 Z M0 0 v-160", { fill: "#6fae5c", w: 5 }), { x, y: y + 80, r: (i % 2 ? 1 : -1) * (20 + i * 7), s: 1.1 });
+  }
+  g += polaroid("amazonie", lerp(-500, 540, k), 640, 580, { r: lerp(-12, 3, k), caption: "10 jours, en autonomie" });
+  if (t > c[1] + 0.3) g += fly(t, 800, 420, { rad: 70 }) + fly(t, 300, 560, { rad: 55, seed: 3 });
+  if (t > c[2]) {
+    // bouton « suivre »
+    const s = pop(t, c[2]);
+    const clicked = t > c[2] + 1.1;
+    g += G(Rect(-400, -70, 800, 140, { fill: PAPER, sw: 6, rx: 70 }) + T(AMAZONIE_COMPTE, -360, 0, { size: 54, font: SANS, weight: 800, anchor: "start" }) +
+      Rect(120, -48, 250, 96, { fill: clicked ? GREY : ACC, sw: 5, rx: 48 }) + T(clicked ? "Suivi ✓" : "Suivre", 245, 0, { size: 46, font: SANS, weight: 800, c: clicked ? INK : PAPER }), { x: 540, y: 1200, s });
+    const m = ease.inOut(prog(t, c[2] + 0.4, 0.6));
+    g += G(P("M0 0 L0 60 L16 46 L28 72 L38 67 L27 42 L48 42 Z", { fill: PAPER, w: 5 }), { x: lerp(1000, 800, m), y: lerp(1420, 1210, m), s: t > c[2] + 1.05 && t < c[2] + 1.2 ? 0.85 : 1 });
+  }
+  return g;
+});
 // 7. Fin
 shot("continuez", [["Alors continuez à prendre des risques. Même des inutiles.", 0.4]], (t, c, d) => {
   return tallyGraph(t, { poele: 90, inf: 1, one: true, circle: 1, meme: -1, plus: prog(t, d * 0.5, 0.3) }) +
@@ -918,7 +1002,8 @@ window.VIDEO = {
   shots: SHOTS.map((s) => ({ key: s.key, from: s.from, to: s.from + s.dur, cues: s.cues.map((c) => ({ text: c.text, at: s.from + c.at, dur: c.dur })) })),
   subs: SUBS,
 };
-window.videoReady = Promise.all([document.fonts.ready, ...Object.keys(IMG).map((n) => { const im = new Image(); im.src = `img/${n}.png`; return im.decode(); })]);
+window.videoReady = Promise.all([document.fonts.ready, ...Object.keys(IMG).map((n) => { const im = new Image(); im.src = `img/${n}.png`; return im.decode(); }),
+  ...Object.entries(PHOTOS).map(([n, src]) => { const im = new Image(); im.src = src; return im.decode().then(() => { PHOTO_OK[n] = true; }, () => {}); })]);
 
 if (params.has("render")) {
   document.body.classList.add("render");

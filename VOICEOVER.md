@@ -1,4 +1,4 @@
-# Voix off : Second Armor, founder story (134 s)
+# Voix off : Second Armor, founder story (161 s)
 
 Texte à lire par Nico, avec le minutage utilisé par les sous-titres et l'animation.
 Ton : monotone, pince-sans-rire. Nico ne joue pas, il constate. Les pauses comptent autant que les mots.
@@ -44,11 +44,19 @@ Fichier généré par `npm run vo` à partir des plans de `video.js` : modifier 
 | 1:51,9 – 1:54,4 | dixmille | Et faut croire que c'est pas trop con : |
 | 1:54,6 – 1:56,3 | dixmille | on est déjà 10 000, |
 | 1:56,4 – 1:58,9 | dixmille | avec plus de 300 transactions notées cinq étoiles. |
-| 1:59,8 – 2:02,5 | continuez | Alors continuez à prendre des risques. Même des inutiles. |
-| 2:03,1 – 2:05,3 | belote | Mais si vous devez perdre 400 balles… |
-| 2:05,6 – 2:07,8 | belote | perdez-les à la belote avec la section. |
+| 1:59,8 – 2:04,7 | rendre | Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit. |
+| 2:05,0 – 2:07,3 | rendre | Pour l'instant, on est encore en perte. |
+| 2:08,7 – 2:11,3 | hockey | Mais on a déjà sponsorisé les Frères d'Armes : |
+| 2:11,4 – 2:14,4 | hockey | un match de hockey à Caen, pour le D-Day, |
+| 2:14,6 – 2:16,4 | hockey | au profit du Bleuet de France. |
+| 2:17,6 – 2:20,1 | amazonie | Et on soutient un ancien des forces spéciales, |
+| 2:20,2 – 2:22,7 | amazonie | qui part dix jours en autonomie en Amazonie. |
+| 2:23,0 – 2:25,4 | amazonie | Allez le suivre. Il va en avoir besoin. |
+| 2:26,9 – 2:29,6 | continuez | Alors continuez à prendre des risques. Même des inutiles. |
+| 2:30,1 – 2:32,4 | belote | Mais si vous devez perdre 400 balles… |
+| 2:32,7 – 2:34,9 | belote | perdez-les à la belote avec la section. |
 
-Total : 310 mots en 133,7 s.
+Total : 385 mots en 160,8 s.
 
 ## Conseils d'enregistrement
 

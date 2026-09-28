@@ -1,4 +1,4 @@
-# Second Armor : founder story, script v6
+# Second Armor : founder story, script v7
 
 Format TikTok vertical, environ 85 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
 
@@ -125,6 +125,20 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 **« Alors oui, je touche encore des poêles. Mais ça, c'est moi qui l'ai créé. Ça s'appelle Second Armor. Et faut croire que c'est pas trop con : on est déjà 10 000, avec plus de 300 transactions notées cinq étoiles. »**
 — Nico, le doigt encore rouge, pose à côté du logo Second Armor qui tombe avec un « BOUM » de basse. Coupe sèche : faux graphique « Membres ». Il commence avec quelques bonhommes (étiquette : « au début : mon unité »), la courbe monte, les bonhommes remplissent l'écran. Compteur : 10 000. Juste en dessous, des étoiles tombent une à une : « 300+ transactions ★★★★★ ».
 
+### 6 bis. Rendre à la communauté
+
+**« Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit. »**
+— Nico tend un carton à une petite foule de bonshommes casqués, qui sourient un par un. Étiquette : « la communauté ».
+
+**« Pour l'instant, on est encore en perte. »**
+— Coupe sèche : faux graphique « compte en banque », la courbe rouge passe sous 0 €. Nico, poches retournées, une mouche lui tourne autour. Étiquette : « c'est un investissement ».
+
+**« Mais on a déjà sponsorisé les Frères d'Armes : un match de hockey à Caen, pour le D-Day, au profit du Bleuet de France. »**
+— Ton sérieux, sans gag. Titre « LES FRÈRES D'ARMES — Forces alliées vs Drakkars de Caen ». Un polaroid scotché glisse à l'écran : la vraie photo de l'événement (légende « Caen, 5 juin 2026 »), avec un autocollant Second Armor dans le coin. Étiquette « D-Day, 6 juin 44 », puis un bleuet dessiné.
+
+**« Et on soutient un ancien des forces spéciales, qui part dix jours en autonomie en Amazonie. Allez le suivre. Il va en avoir besoin. »**
+— Feuillage dessiné autour de l'écran, polaroid avec sa vraie photo (« 10 jours, en autonomie »), deux moustiques arrivent. Un bouton « @son.compte — Suivre » apparaît, le curseur clique : « Suivi ✓ ».
+
 ### 7. Fin (1:17)
 
 **« Alors continuez à prendre des risques. Même des inutiles. »**
@@ -150,6 +164,9 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 - **Déguisements** : c'est une blague, pas un fait vérifié sur une plateforme précise. À l'écran, pas de vrai logo, et « là-bas » plutôt que le nom de la plateforme.
 - **300+ transactions cinq étoiles** : chiffre à confirmer avant publication.
 - **L'unité de départ** : elle n'est plus dite à l'oral, seulement écrite sur le graphique (« au début : mon unité »). On peut la remettre à l'oral si tu y tiens.
-- **Durée** : environ 85 s.
+- **Durée** : environ 2:40 avec la partie « rendre à la communauté ». Long pour TikTok : à couper ailleurs si on garde tout.
+- **Les Frères d'Armes** : vérifier que Second Armor apparaît bien comme sponsor et qu'on peut citer l'événement et le Bleuet de France.
+- **Les photos** : à déposer dans `img/photos/caen.jpg` (l'événement) et `img/photos/amazonie.jpg` (l'expédition). Tant qu'elles manquent, un cadre « photo à venir » s'affiche.
+- **L'expédition en Amazonie** : son compte (à mettre dans `AMAZONIE_COMPTE`, en haut de la partie 6 bis de `video.js`), et vérifier « ancien des forces spéciales » (ou son unité exacte, s'il est d'accord pour qu'on la cite).
 - **Les méchants** : ils restent très cartoon (cagoule, moustache, pancarte « MÉCHANT »). Aucun uniforme ni aucun drapeau réel reconnaissable.
 - **Vinted, eBay, Telegram, Facebook** : cités à l'oral, mais à l'écran on dessine des icônes génériques avec le nom écrit à la main, pas leurs vrais logos.
