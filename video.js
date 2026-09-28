@@ -685,9 +685,9 @@ shot("ordi", [["Sauf que là-bas, ton porte-plaques, il est rangé dans « Dégu
   g += Circ(540, 1090, 64, { fill: PAPER, w: 8 }) + P("M540 1154 V1300 M540 1190 L430 1120 M540 1190 L650 1120", { w: 9 });
   return g;
 });
-shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.", 0.9]], (t, c) => {
-  const t1 = t - c[1];
-  const panic = t1 > 2.0, bag = t1 > 3.1 && t1 < 4.3, tel = t1 > 4.1;
+shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.", 1.3]], (t, c) => {
+  const t1 = t - c[1], D = SHOTS.find((x) => x.key === "algo").cues[1].dur; // calé sur la vraie durée de la réplique
+  const panic = t1 > 0.3 * D, bag = t1 > 0.45 * D && t1 < 0.72 * D, tel = t1 > 0.66 * D;
   let g = "";
   // l'algorithme : cheveux longs, lunettes rondes, gros pull beige, tote bag
   const sweater = P("M-58 -205 Q0 -222 58 -205 L74 -100 H-74 Z", { fill: BEIGE, w: 6 });
@@ -704,11 +704,11 @@ shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un
   for (let i = 0; i < 2; i++) g += P(`M${915 + i * 22} ${1010 - ((t * 40 + i * 20) % 40)} q8 -10 0 -20`, { w: 3, op: 0.5 });
   g += P("M130 1080 L170 1010 H290 L330 1080", { fill: PAPER, w: 5 }) + T("safe space", 230, 1045, { size: 30 });
   // écran avec l'annonce
-  const fall = t1 > 5.6 ? ease.in(prog(t1, 5.6, 0.6)) : 0;
+  const fall = t1 > D + 0.3 ? ease.in(prog(t1, D + 0.3, 0.6)) : 0;
   let scr = Rect(140, 640, 430, 280, { fill: PAPER, sw: 8, rx: 12 }) + P("M355 920 V960 M305 960 H405", { w: 7 });
   let card = G(pouch(), { x: 215, y: 770, s: 0.8 }) + T("Porte-chargeur", 275, 720, { size: 30, anchor: "start", font: SANS, weight: 800 }) + T("bon état · 15 €", 275, 770, { size: 32, anchor: "start" }) + T("vendu par Nico", 275, 820, { size: 30, anchor: "start", c: "#666" });
-  if (t1 > 2.6) card += G(P("M0 -46 L48 40 H-48 Z", { fill: "#ffd24a", w: 5 }) + T("!", 0, 14, { size: 50, font: SANS, weight: 800 }) + T("contenu choquant", 0, 80, { size: 30, c: RED }), { x: 350, y: 800, s: pop(t1, 2.6) });
-  if (t1 > 5.0) card += stamp("FICHÉ S", 350, 780, t1, 5.0, { size: 60, r: -14 });
+  if (t1 > 0.4 * D) card += G(P("M0 -46 L48 40 H-48 Z", { fill: "#ffd24a", w: 5 }) + T("!", 0, 14, { size: 50, font: SANS, weight: 800 }) + T("contenu choquant", 0, 80, { size: 30, c: RED }), { x: 350, y: 800, s: pop(t1, 0.4 * D) });
+  if (t1 > D - 0.25) card += stamp("FICHÉ S", 350, 780, t1, D - 0.25, { size: 60, r: -14 }); // sur « terrorisme »
   g += scr + G(card, { y: fall * 700, r: fall * 25 });
   if (fall > 0) g += `<ellipse cx="350" cy="1300" rx="170" ry="26" fill="${INK}"/>`;
   // téléphone rouge + gyrophare

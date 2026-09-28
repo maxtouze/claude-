@@ -32,6 +32,12 @@ Quand Nico a enregistré :
 
 Une réplique sans prise garde sa durée estimée : on peut enregistrer au fur et à mesure.
 
+## Voix off générée
+
+La voix actuelle est générée avec ElevenLabs (voix « Drew – Deadpan Narrator », modèle Multilingual v2), une prise par réplique dans `voice/NN.mp3`. `DIRECTION.md` (et `voice/direction.json`) donne pour chaque réplique le texte balisé pour Eleven v3 / v4 (`[deadpan]`, `[short pause]`, `[sighs]`…) et l'intention de jeu : c'est la base pour une nouvelle génération ou pour Nico s'il enregistre. Pour remplacer une prise : écraser `voice/NN.*`, puis `npm run voice`, `npm run render`, `npm run audio`.
+
+Le clone de la voix de Nico existe sur le compte ElevenLabs (« Nico », clone professionnel) mais demande l'offre Creator.
+
 ## Son
 
 Pas de bruitages (essayés, retirés). `audio.mjs` ne pose que la voix, plus le bip sur « enculer ». Pour la musique, mieux vaut ajouter un son de la bibliothèque TikTok dans l'app (volume bas sous la voix).

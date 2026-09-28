@@ -1,0 +1,296 @@
+[
+ {
+  "n": "01",
+  "texte": "Salut, moi c'est Nico.",
+  "v3": "[flatly] Salut, moi c'est Nico.",
+  "jeu": "Neutre, présentation de répondeur. Aucun sourire."
+ },
+ {
+  "n": "02",
+  "texte": "… Euh. Un peu de respect.",
+  "v3": "[short pause] … Euh. [dry] Un peu de respect.",
+  "jeu": "« Euh » hésitant, puis sec : il se vexe sans hausser le ton."
+ },
+ {
+  "n": "03",
+  "texte": "Voilà. Je préfère.",
+  "v3": "[satisfied, flatly] Voilà. [short pause] Je préfère.",
+  "jeu": "Contentement minuscule, comme s'il ajustait sa cravate."
+ },
+ {
+  "n": "04",
+  "texte": "Tant que personne vérifie, c'est bon.",
+  "v3": "[matter-of-fact] Tant que personne vérifie… c'est bon.",
+  "jeu": "Petite suspension avant « c'est bon ». Il y croit."
+ },
+ {
+  "n": "05",
+  "texte": "Dans la vie, je suis militaire.",
+  "v3": "[flatly] Dans la vie, je suis militaire.",
+  "jeu": "Posé, fier sans le montrer."
+ },
+ {
+  "n": "06",
+  "texte": "Des risques, j'en prends.",
+  "v3": "[dry] Des risques, j'en prends.",
+  "jeu": "Viril sur le papier, dit comme une liste de courses."
+ },
+ {
+  "n": "07",
+  "texte": "Mais il m'arrive aussi d'en prendre des inutiles.",
+  "v3": "Mais il m'arrive aussi… [short pause] d'en prendre des INUTILES.",
+  "jeu": "Le mot « inutiles » tombe à plat, légère insistance."
+ },
+ {
+  "n": "08",
+  "texte": "Toucher une poêle pour voir si elle est chaude.",
+  "v3": "[deadpan] Toucher une poêle… pour voir si elle est chaude.",
+  "jeu": "Constat clinique. Aucune douleur dans la voix."
+ },
+ {
+  "n": "09",
+  "texte": "Répondre « oui oui » quand ma meuf me demande si je l'écoute.",
+  "v3": "[deadpan] Répondre « oui oui »… quand ma meuf me demande si je l'écoute.",
+  "jeu": "« oui oui » dit exactement comme il le dit à sa copine : distrait."
+ },
+ {
+  "n": "10",
+  "texte": "Envoyer quatre cents balles à un inconnu sur internet.",
+  "v3": "[deadpan] Envoyer quatre cents balles… à un inconnu sur internet.",
+  "jeu": "Montée de gravité nulle : même ton que la poêle. C'est ça la blague."
+ },
+ {
+  "n": "11",
+  "texte": "… Non mais le mec avait quarante avis.",
+  "v3": "[defensive] … Non mais le mec avait quarante avis.",
+  "jeu": "Se justifie, un peu plus rapide, léger agacement."
+ },
+ {
+  "n": "12",
+  "texte": "Il m'a envoyé des photos, une vidéo.",
+  "v3": "[defensive] Il m'a envoyé des photos, une vidéo.",
+  "jeu": "Même élan, il énumère ses preuves."
+ },
+ {
+  "n": "13",
+  "texte": "Tout était carré.",
+  "v3": "[confident] Tout était carré.",
+  "jeu": "Sûr de lui. Point final net."
+ },
+ {
+  "n": "14",
+  "texte": "Sur les photos, il était parfait.",
+  "v3": "[flatly] Sur les photos, il était parfait.",
+  "jeu": "Neutre."
+ },
+ {
+  "n": "15",
+  "texte": "En vrai, le camo était tellement bon…",
+  "v3": "En vrai, le camo était tellement bon… [long pause]",
+  "jeu": "Traîne sur « tellement bon », suspension longue : on attend la chute."
+ },
+ {
+  "n": "16",
+  "texte": "que je l'ai jamais vu.",
+  "v3": "[deadpan] que je l'ai jamais vu.",
+  "jeu": "Chute sèche, plus bas, sans rire."
+ },
+ {
+  "n": "17",
+  "texte": "… Bon. Je me suis fait enculer.",
+  "v3": "[sighs] … Bon. [resigned] Je me suis fait enculer.",
+  "jeu": "Soupir, résignation totale. Le dernier mot sera bipé."
+ },
+ {
+  "n": "18",
+  "texte": "Et j'étais pas le seul.",
+  "v3": "[flatly] Et j'étais pas le seul.",
+  "jeu": "Constat, presque de la compassion pour lui-même."
+ },
+ {
+  "n": "19",
+  "texte": "Je touche encore des poêles.",
+  "v3": "[flatly] Je touche encore des poêles.",
+  "jeu": "Aveu tranquille."
+ },
+ {
+  "n": "20",
+  "texte": "Mais ça… même moi, j'ai arrêté.",
+  "v3": "Mais ça… [short pause] [dry] même moi, j'ai arrêté.",
+  "jeu": "Pause après « ça », « même moi » appuyé : il se sait capable de tout."
+ },
+ {
+  "n": "21",
+  "texte": "Et là, vous allez me dire : « Nico, t'es con. Va sur Vinted. »",
+  "v3": "Et là, vous allez me dire : [mocking] « Nico, t'es con. Va sur Vinted. »",
+  "jeu": "Il imite le spectateur, un cran plus nasillard, sans surjouer."
+ },
+ {
+  "n": "22",
+  "texte": "Sauf que là-bas, ton porte-plaques, il est rangé dans « Déguisements ».",
+  "v3": "[dry] Sauf que là-bas, ton porte-plaques, il est rangé dans… « Déguisements ».",
+  "jeu": "Micro-pause avant « Déguisements », dit avec un mépris poli."
+ },
+ {
+  "n": "23",
+  "texte": "Alors trouver du matos, c'est une chasse au trésor.",
+  "v3": "[tired] Alors trouver du matos, c'est une chasse au trésor.",
+  "jeu": "Lassitude."
+ },
+ {
+  "n": "24",
+  "texte": "Et si tu tombes enfin sur le bon truc… t'as de la chance.",
+  "v3": "Et si tu tombes enfin sur le bon truc… [short pause] t'as de la chance.",
+  "jeu": "« t'as de la chance » presque ironique, sans y croire."
+ },
+ {
+  "n": "25",
+  "texte": "Enfin… si tu t'es pas fait bannir.",
+  "v3": "[short pause] Enfin… si tu t'es pas fait bannir.",
+  "jeu": "Rattrapage, un ton plus bas."
+ },
+ {
+  "n": "26",
+  "texte": "Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.",
+  "v3": "Parce que pour un algorithme bien-pensant, [short pause] « porte-chargeur », [short pause] c'est de l'apologie du terrorisme.",
+  "jeu": "Débit régulier, « porte-chargeur » isolé comme une pièce à conviction, fin dite très sérieusement."
+ },
+ {
+  "n": "27",
+  "texte": "… C'est une poche.",
+  "v3": "[long pause] [flatly] … C'est une poche.",
+  "jeu": "Après un vrai blanc. Plat, las, définitif."
+ },
+ {
+  "n": "28",
+  "texte": "Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles.",
+  "v3": "[matter-of-fact] Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles.",
+  "jeu": "Aucune emphase sur « couilles » : c'est l'absence d'effet qui fait rire."
+ },
+ {
+  "n": "29",
+  "texte": "Des gars du milieu, à la place d'un algorithme qui panique.",
+  "v3": "[calm] Des gars du milieu, à la place d'un algorithme qui panique.",
+  "jeu": "Calme, rassurant, un peu de fierté."
+ },
+ {
+  "n": "30",
+  "texte": "Et eux, ils vérifient.",
+  "v3": "[flatly] Et eux, ils vérifient.",
+  "jeu": "Neutre, posé."
+ },
+ {
+  "n": "31",
+  "texte": "… ok.",
+  "v3": "[long pause] [disappointed, quietly] … Ok.",
+  "jeu": "Tout petit, déçu : son fantasme vient d'éclater."
+ },
+ {
+  "n": "32",
+  "texte": "Et chaque transaction garantie.",
+  "v3": "[confident] Et chaque transaction garantie.",
+  "jeu": "Pro, net."
+ },
+ {
+  "n": "33",
+  "texte": "Alors oui, je touche encore des poêles.",
+  "v3": "[flatly] Alors oui, je touche encore des poêles.",
+  "jeu": "Rappel, autodérision tranquille."
+ },
+ {
+  "n": "34",
+  "texte": "Mais ça, c'est moi qui l'ai créé.",
+  "v3": "Mais ça, [short pause] c'est moi qui l'ai créé.",
+  "jeu": "Premier vrai soupçon de fierté, retenu."
+ },
+ {
+  "n": "35",
+  "texte": "Ça s'appelle Second Armor.",
+  "v3": "[proud, understated] Ça s'appelle Second Armor.",
+  "jeu": "Nom de marque bien articulé, sans pub."
+ },
+ {
+  "n": "36",
+  "texte": "Et faut croire que c'est pas trop con :",
+  "v3": "[dry] Et faut croire que c'est pas trop con :",
+  "jeu": "Modestie de façade."
+ },
+ {
+  "n": "37",
+  "texte": "on est déjà dix mille,",
+  "v3": "on est déjà… [short pause] dix mille,",
+  "jeu": "Petite suspension avant le chiffre."
+ },
+ {
+  "n": "38",
+  "texte": "avec plus de trois cents transactions notées cinq étoiles.",
+  "v3": "avec plus de trois cents transactions notées cinq étoiles.",
+  "jeu": "Énumération claire, fierté contenue."
+ },
+ {
+  "n": "39",
+  "texte": "Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.",
+  "v3": "[sincere] Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.",
+  "jeu": "Bascule sincère : plus chaud, plus lent. Pas de second degré."
+ },
+ {
+  "n": "40",
+  "texte": "Pour l'instant, on est encore en perte.",
+  "v3": "[honest, flatly] Pour l'instant, on est encore en perte.",
+  "jeu": "Honnête, petit sourire dans la voix."
+ },
+ {
+  "n": "41",
+  "texte": "Mais on a déjà sponsorisé les Frères d'Armes :",
+  "v3": "[sincere] Mais on a déjà sponsorisé les Frères d'Armes :",
+  "jeu": "Sérieux, respectueux."
+ },
+ {
+  "n": "42",
+  "texte": "un match de hockey à Caen, pour le D-Day,",
+  "v3": "un match de hockey à Caen, pour le D-Day,",
+  "jeu": "« D-Day » dit « di-dé »."
+ },
+ {
+  "n": "43",
+  "texte": "au profit du Bleuet de France.",
+  "v3": "au profit du Bleuet de France.",
+  "jeu": "Posé, respectueux."
+ },
+ {
+  "n": "44",
+  "texte": "Et on soutient un ancien des forces spéciales,",
+  "v3": "[sincere] Et on soutient un ancien des forces spéciales,",
+  "jeu": "Respect."
+ },
+ {
+  "n": "45",
+  "texte": "qui part dix jours en autonomie en Amazonie.",
+  "v3": "qui part dix jours en autonomie en Amazonie.",
+  "jeu": "Clair, un peu d'admiration."
+ },
+ {
+  "n": "46",
+  "texte": "Allez le suivre. Il va en avoir besoin.",
+  "v3": "Allez le suivre. [short pause] [dry] Il va en avoir besoin.",
+  "jeu": "Retour du pince-sans-rire sur la 2e phrase."
+ },
+ {
+  "n": "47",
+  "texte": "Alors continuez à prendre des risques. Même des inutiles.",
+  "v3": "[flatly] Alors continuez à prendre des risques. [short pause] Même des inutiles.",
+  "jeu": "Retour au ton du début, « même des inutiles » en aparté."
+ },
+ {
+  "n": "48",
+  "texte": "Mais si vous devez perdre quatre cents balles…",
+  "v3": "Mais si vous devez perdre quatre cents balles…",
+  "jeu": "Suspension, on attend le conseil."
+ },
+ {
+  "n": "49",
+  "texte": "perdez-les à la belote avec la section.",
+  "v3": "[deadpan] perdez-les à la belote avec la section.",
+  "jeu": "Conseil de sage, parfaitement sérieux. Fin."
+ }
+]
