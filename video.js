@@ -445,16 +445,23 @@ const speakDur = (s) => {
   const beats = (s.match(/[,:…]/g) || []).length;
   return Math.max(0.7, words / WORDS_PER_SEC + beats * 0.12 + 0.1);
 };
+// Prises de Nico : si voice/timing.js existe (généré par `npm run voice`), chaque réplique prend la durée réelle
+// de sa prise au lieu de l'estimation. Les répliques sont numérotées dans l'ordre du script (01, 02…).
+const VOICE_TIMING = window.VOICE_TIMING || {};
+let CUE_N = 0;
 function shot(key, cues, draw, opt = {}) {
   const { lead = 0.12, min = 0, dark = false, subs = true } = opt;
   let t = lead;
   const cs = cues.map(([text, pause = 0.25, sub]) => {
-    const c = { text, sub: sub ?? text, at: t, dur: speakDur(text) };
+    const n = ++CUE_N;
+    const c = { n, text, sub: sub ?? text, at: t, dur: VOICE_TIMING[n] ?? speakDur(text) };
     t += c.dur + pause;
     return c;
   });
   SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs });
 }
+// Fin d'une réplique (en temps local du plan) : suit la vraie prise quand elle existe
+const cueEnd = (key, i = 0) => { const c = SHOTS.find((s) => s.key === key).cues[i]; return c.at + c.dur; };
 // Le petit spectateur assis dans le coin (sections 3 à 5)
 const spectator = (t, o = {}) => stick({ x: 970, y: 1300, s: 0.62, la: [-30, -150], ra: [30, -150], ll: [40, -160, 70, -110], rl: [50, -150, 85, -110], ...o });
 
@@ -521,7 +528,7 @@ shot("graphe", [["Mais il m'arrive aussi d'en prendre des inutiles.", 0.3]], (t,
   return risksGraph(t, { mission: pop(t, 0.3), zero: prog(t, cz, 0.4) }) + spectator(t);
 });
 shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 2.7]], (t, c, d) => {
-  const vo = c[0] + speakDur("Toucher une poêle pour voir si elle est chaude.");
+  const vo = cueEnd("poele");
   const g0 = d - 0.9;
   if (t >= g0) return risksGraph(t, { zero: 1, poele: pop(t, g0 + 0.15) }) + spectator(t);
   if (t < vo + 0.35) {
@@ -544,7 +551,7 @@ shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 2.7]], (t, c
     label(t, vo + 0.9, "elle était\nchaude", 250, 560, 470, 650, { size: 60 });
 }, { min: 4 });
 shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écoute.", 5.3]], (t, c, d) => {
-  const e = c[0] + speakDur("Répondre « oui oui » quand ma meuf me demande si je l'écoute.");
+  const e = cueEnd("ouioui");
   const g0 = d - 0.9;
   if (t >= g0) return risksGraph(t, { zero: 1, poele: 1, ouioui: pop(t, g0 + 0.15) }) + spectator(t);
   const turn = t > e + 2.9 && t < e + 4.0;
@@ -566,12 +573,12 @@ shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écou
   return Z(g, z, lerp(540, 700, prog(t, e + 0.5, 2.3)), lerp(880, 930, prog(t, e + 0.5, 2.3)));
 }, { min: 6 });
 shot("inconnu", [["Envoyer 400 balles à un inconnu sur internet.", 1.4]], (t, c, d) => {
-  const talk = c[0] + 2.7; // fin de la phrase (approx.)
+  const talk = cueEnd("inconnu") + 0.13; // fin de la phrase
   if (t < talk) {
     const k = ease.inOut(prog(t, 0.5, 1.8));
     const s = lerp(1, 0.52, k);
     const py = lerp(GR.y0 - 250, GR.y0 - 1480, ease.out(prog(t, 0.5, 1.9)));
-    let g = risksGraph(t, { zero: 1, poele: 1, ouioui: 1 });
+    let g = risksGraph(t, { zero: 1, poele: 1, ouioui: SHOTS.some((x) => x.key === "ouioui") ? 1 : 0 });
     if (t > talk - 0.5) g += P(`M${GR.x0 - 30} ${GR.y0 - GR.h + 40} l60 30 l-60 30 l60 30`, { w: 8, c: RED }) + T("crac", GR.x0 + 110, GR.y0 - GR.h + 60, { size: 56, font: MARK, c: RED });
     g += G(Dot(0, 0, 22, RED) + T("400 balles\nà un inconnu", 250, 0, { size: 70, c: RED, anchor: "start" }), { x: GR.x0 + 110, y: py, s: 1 / Math.max(s, 0.55) });
     return G(G(g, { x: -540, y: -1150 }), { x: 540, y: 1150 + jit(t, t > talk - 0.5 ? 6 : 0), s }) + spectator(t);
@@ -614,7 +621,7 @@ shot("furtif", [["Sur les photos, il était parfait.", 0.25], ["En vrai, le camo
   return g;
 });
 shot("bip", [["… Bon. Je me suis fait enculer.", 0.6, "… Bon. Je me suis fait ████."]], (t, c) => {
-  const bip = c[0] + 1.8;
+  const bip = cueEnd("bip") - 0.18; // « enculer » est le dernier mot
   let g = bigFace(540, 700, 250);
   if (t > bip) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
   return g;
@@ -646,10 +653,10 @@ shot("arrete", [["Je touche encore des poêles.", 0.2], ["Mais ça… même moi,
 shot("tescon", [["Et là, vous allez me dire : « Nico, t'es con. Va sur Vinted. »", 0.5]], (t, c) => {
   const crossed = { la: [30, -150], ra: [-30, -160] };
   let g = stick({ x: 620, y: 1200, s: 1.2, mouth: t > 0.3 && t < 1.5 && Math.sin(t * 20) > 0 ? "o" : "flat" });
-  g += stick({ x: 140, y: 1220, s: 0.85, ...crossed, eyes: "flat" }) + stick({ x: 300, y: 1250, s: 0.8, ...crossed, eyes: "flat" }) + stick({ x: 940, y: 1230, s: 0.85, ...crossed, eyes: "flat" });
+  g += stick({ x: 140, y: 1220, s: 0.85, ...crossed, eyes: "flat" }) + stick({ x: 300, y: 1250, s: 0.8, ...crossed, eyes: "flat" }) + stick({ x: 850, y: 1230, s: 0.85, ...crossed, eyes: "flat" });
   g += bubble(170, 810, 260, 110, 150, 930, T("t'es con", 170, 810, { size: 50 }), { s: pop(t, c[0] + 1.6) });
   g += bubble(340, 610, 230, 110, 310, 960, T("Vinted", 340, 610, { size: 50 }), { s: pop(t, c[0] + 2.4) });
-  g += bubble(890, 780, 290, 110, 930, 930, T("bah eBay ?", 890, 780, { size: 50 }), { s: pop(t, c[0] + 3.0) });
+  g += bubble(760, 780, 290, 110, 840, 930, T("bah eBay ?", 760, 780, { size: 50 }), { s: pop(t, c[0] + 3.0) });
   return Z(g, 1.12, 540, 1000);
 });
 const WINS = [
@@ -777,7 +784,7 @@ shot("verifient", [["Et eux, ils vérifient.", 0.3], ["… ok.", 1.1]], (t, c) =
 });
 shot("garantie", [["Et chaque transaction garantie.", 2.9]], (t) => {
   let g = stick({ x: 170, y: 1220, s: 0.9 }) + T("toi", 170, 1290, { size: 44 });
-  g += stick({ x: 910, y: 1220, s: 0.9, acc: ["cap"] }) + T("vendeur", 910, 1290, { size: 44 });
+  g += stick({ x: 860, y: 1220, s: 0.9, acc: ["cap"] }) + T("vendeur", 860, 1290, { size: 44 });
   // coffre-fort
   g += Rect(400, 820, 280, 260, { fill: "#d9dde3", sw: 8, rx: 14 }) + Circ(540, 950, 60, { w: 7, fill: PAPER }) + P("M540 950 l30 -30 M600 950 h40", { w: 7 }) + T("Second Armor", 540, 1130, { size: 44 });
   const bx1 = lerp(230, 540, ease.inOut(prog(t, 0.3, 0.7))), by1 = lerp(1000, 950, ease.inOut(prog(t, 0.3, 0.7)));
@@ -910,14 +917,14 @@ shot("belote", [["Mais si vous devez perdre 400 balles…", 0.3], ["perdez-les �
   let g = "";
   const soldier = (x, y, s, o = {}) => stick({ x, y, s, acc: ["helmet"], ...o });
   g += soldier(420, 1000, 0.8, { la: [-30, -150], ra: [30, -150] }) + soldier(660, 1000, 0.8, { la: [-30, -150], ra: [30, -150] });
-  g += Rect(250, 1000, 580, 40, { fill: "#c9b98f", sw: 7 }) + P("M300 1040 L360 1250 M780 1040 L720 1250 M300 1250 L780 1040 M780 1250 L300 1040", { w: 6 });
+  g += Rect(330, 1000, 420, 40, { fill: "#c9b98f", sw: 7 }) + P("M370 1040 L420 1250 M710 1040 L660 1250 M370 1250 L710 1040 M710 1250 L370 1040", { w: 6 });
   for (let i = 0; i < 3; i++) g += Rect(430 + i * 60, 985, 44, 18, { fill: PAPER, sw: 3 });
   const pushed = ease.inOut(prog(t1, 1.4, 0.6));
-  if (t > c[1] + 0.2) g += bill(lerp(240, 520, pushed), lerp(960, 975, pushed), { s: 0.55 }) + bill(lerp(260, 560, pushed), lerp(975, 985, pushed), { s: 0.55, r: 10 });
+  if (t > c[1] + 0.2) g += bill(lerp(300, 520, pushed), lerp(960, 975, pushed), { s: 0.55 }) + bill(lerp(320, 560, pushed), lerp(975, 985, pushed), { s: 0.55, r: 10 });
   const shrug = t1 > 2.1;
-  g += soldier(190, 1240, 1.0, { la: shrug ? [-60, -200, -70, -260] : [60, -160], ra: shrug ? [60, -200, 80, -250] : [80, -170], eyes: "dot" });
-  g += soldier(890, 1240, 1.0, { la: t1 > 0.9 ? [-60, -220, -40, -290] : [-80, -160], ra: t1 > 0.9 ? [60, -220, 40, -290] : [-60, -150], mouth: t1 > 0.9 ? "smile" : null });
-  if (t1 > 0.9) g += T("belote !", 890, 830, { size: 50, op: clamp((t1 - 0.9) * 4) });
+  g += soldier(250, 1240, 1.0, { la: shrug ? [-60, -200, -70, -260] : [60, -160], ra: shrug ? [60, -200, 80, -250] : [80, -170], eyes: "dot" });
+  g += soldier(830, 1240, 1.0, { la: t1 > 0.9 ? [-60, -220, -40, -290] : [-80, -160], ra: t1 > 0.9 ? [60, -220, 40, -290] : [-60, -150], mouth: t1 > 0.9 ? "smile" : null });
+  if (t1 > 0.9) g += T("belote !", 800, 830, { size: 50, op: clamp((t1 - 0.9) * 4) });
   g += label(t, c[1] + 2.4, "au moins, je les\nai vus partir", 540, 620, 250, 900, { size: 54 });
   return Z(g, 1.2, 540, 1050);
 });
@@ -935,6 +942,15 @@ shot("fin", [], (t) => {
 // ---------------------------------------------------------------------------
 // Moteur : seek(t), sous-titres, lecteur, mode export
 // ---------------------------------------------------------------------------
+// Versions : ?cut=court ne garde qu'une partie des plans (voir CUTS). Sans paramètre : la version complète.
+const CUTS = {
+  // sans « oui oui », « pas le seul », la file de modération ni le coffre-fort : environ 2:20 au lieu de 2:41
+  court: ["salut", "respect", "bulle", "militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "arrete",
+    "tescon", "ordi", "algo", "poche", "couilles", "verifient", "cree", "dixmille", "rendre", "hockey", "amazonie", "continuez", "belote", "fin"],
+};
+const params = new URLSearchParams(location.search);
+const CUT = CUTS[params.get("cut")];
+if (CUT) SHOTS.splice(0, SHOTS.length, ...SHOTS.filter((s) => CUT.includes(s.key)));
 let DURATION = 0;
 for (const s of SHOTS) { s.from = DURATION; DURATION += s.dur; }
 DURATION = Math.round(DURATION * FPS) / FPS;
@@ -996,11 +1012,47 @@ function seek(t) {
   subEl.classList.toggle("dark", s.dark);
 }
 
-const params = new URLSearchParams(location.search);
+// Bruitages : [instant dans le plan, son]. Les sons sont synthétisés par audio.mjs (aucun fichier externe).
+const SFX = {
+  respect: () => [[0.9, "bam"], [1.45, "bam"], [1.45, "whoosh"], [2.1, "clack"], [2.5, "moto"], [3.05, "ding"], [3.35, "fire"], [3.45, "vroom"]],
+  bulle: (c) => [[c[1] - 0.15, "whoosh"], [c[1] + 0.8, "bell"]],
+  militaire: () => [0.45, 0.85, 1.25].flatMap((x) => [[x, "pew"], [x + 0.4, "thud"]]),
+  graphe: (c) => [[0.3, "pop"], [c[0] + 1.6, "pop"]],
+  poele: (c, d) => { const vo = cueEnd("poele"); return [[0.2, "crackle", vo + 0.15], [vo - 0.5, "tsss"], [vo + 0.4, "fire"], [d - 0.75, "pop"]]; },
+  ouioui: (c, d) => { const e = cueEnd("ouioui"); return [[e + 0.6, "tick"], [e + 1.4, "tick"], [e + 2.2, "tick"], [e + 3.0, "tick"], [d - 0.75, "pop"]]; },
+  inconnu: () => { const talk = cueEnd("inconnu") + 0.13; return [[talk - 0.5, "crack"], [talk + 0.45, "pop"]]; },
+  justif: (c) => [[c[1] + 0.8, "pop"], [c[1] + 1.1, "pop"], [c[1] + 1.8, "pop"], [c[2], "ding"], [c[2] + 0.2, "ding"], [c[2] + 0.4, "ding"]],
+  furtif: (c) => [[0.3, "sparkle"], [c[1], "buzz", 2.5]],
+  bip: () => [[cueEnd("bip") - 0.18, "bip"]],
+  pasleseul: () => [[0.35, "whoosh"], [0.5, "buzz", 2.2]],
+  arrete: (c) => [[c[0] + 0.9, "pop"], [c[1] + 0.8, "scribble"]],
+  tescon: (c) => [[c[0] + 1.6, "pop"], [c[0] + 2.4, "pop"], [c[0] + 3.0, "pop"]],
+  ordi: (c) => {
+    const t0 = c[0] + 0.3, t1 = c[1] + 0.2, n = WINS.length, step = (c[2] - t1) / (n - 2);
+    return [[t0, "click"], ...Array.from({ length: n - 2 }, (_, i) => [t1 + i * step, "click"]), [c[2] + 0.9, "ding"], [c[2] + 1.2, "scribble"]];
+  },
+  algo: (c) => [[c[1] + 2.0, "gasp"], [c[1] + 2.6, "pop"], [c[1] + 4.1, "alarm", 1.5], [c[1] + 5.0, "stamp"], [c[1] + 5.6, "whoosh"]],
+  poche: () => [[0.5, "pop"]],
+  couilles: () => [[1.35, "grab"], [2.0, "whoosh"], [2.85, "ting"]],
+  moderation: () => [0, 1, 2].flatMap((i) => [[0.3 + i * 1.45, "whoosh"], [0.85 + i * 1.45, "stamp"]]),
+  verifient: (c) => [[0.1, "bell"], [1.35, "stamp"], [1.9, "pop"]],
+  garantie: () => [[0.3, "whoosh"], [1.1, "whoosh"], [2.05, "ding"]],
+  cree: (c) => [[c[1] + 0.2, "whoosh"], [c[1] + 0.55, "boum"], [c[2], "pop"]],
+  dixmille: (c) => [[c[1], "count", 1.0], ...[0, 1, 2, 3, 4].map((i) => [c[2] + 1.0 + i * 0.15, "star"])],
+  rendre: (c) => [[c[1] + 0.2, "sad"]],
+  hockey: () => [[0.1, "whoosh"]],
+  amazonie: (c) => [[0.1, "whoosh"], [c[1] + 0.3, "buzz", 3.0], [c[2] + 1.1, "click"]],
+  continuez: (c, d) => [[d * 0.5, "scribble"]],
+  belote: (c) => [[c[1] + 0.2, "cards"], [c[1] + 1.4, "cards"]],
+  fin: () => [[0.1, "boum"], [0.4, "pop"], [1.4, "pop"]],
+};
+
 window.VIDEO = {
   W, H, FPS, DURATION, seek,
-  shots: SHOTS.map((s) => ({ key: s.key, from: s.from, to: s.from + s.dur, cues: s.cues.map((c) => ({ text: c.text, at: s.from + c.at, dur: c.dur })) })),
+  shots: SHOTS.map((s) => ({ key: s.key, from: s.from, to: s.from + s.dur, cues: s.cues.map((c) => ({ n: c.n, text: c.text, at: s.from + c.at, dur: c.dur })) })),
   subs: SUBS,
+  cues: SHOTS.flatMap((s) => s.cues.map((c) => ({ n: c.n, text: c.text, at: s.from + c.at, dur: c.dur, bip: s.key === "bip" }))),
+  sfx: SHOTS.flatMap((s) => (SFX[s.key] ? SFX[s.key](s.cues.map((q) => q.at), s.dur) : []).map(([t, name, len]) => ({ t: s.from + t, name, len }))),
 };
 window.videoReady = Promise.all([document.fonts.ready, ...Object.keys(IMG).map((n) => { const im = new Image(); im.src = `img/${n}.png`; return im.decode(); }),
   ...Object.entries(PHOTOS).map(([n, src]) => { const im = new Image(); im.src = src; return im.decode().then(() => { PHOTO_OK[n] = true; }, () => {}); })]);

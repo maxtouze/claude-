@@ -4,6 +4,7 @@
 //   npm install
 //   npm run render            -> out/second-armor.mp4
 //   npm run render -- --stills -> quelques captures PNG dans out/stills
+//   npm run render -- --cut=court -> out/second-armor-court.mp4 (version courte, voir CUTS dans video.js)
 //
 // Variables utiles : FFMPEG=/chemin/ffmpeg, CHROMIUM=/chemin/chromium
 import { chromium } from "playwright";
@@ -18,6 +19,8 @@ mkdirSync(out, { recursive: true });
 
 const stills = process.argv.includes("--stills");
 const vo = process.argv.includes("--vo");
+const cutArg = process.argv.find((x) => x.startsWith("--cut="));
+const cut = cutArg ? cutArg.split("=")[1] : null;
 let ffmpegPath = process.env.FFMPEG;
 if (!ffmpegPath && !stills && !vo) {
   try { ffmpegPath = (await import("ffmpeg-static")).default; } catch { ffmpegPath = "ffmpeg"; }
@@ -25,7 +28,7 @@ if (!ffmpegPath && !stills && !vo) {
 
 const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
-await page.goto(pathToFileURL(path.join(root, "index.html")).href + "?render");
+await page.goto(pathToFileURL(path.join(root, "index.html")).href + "?render" + (cut && !vo ? `&cut=${cut}` : ""));
 await page.evaluate(() => window.videoReady);
 const { FPS, DURATION } = await page.evaluate(() => ({ FPS: window.VIDEO.FPS, DURATION: window.VIDEO.DURATION }));
 
@@ -37,17 +40,20 @@ if (vo) {
   const rows = shots.flatMap((s) => s.cues.map((c) => {
     const n = (c.text.match(/[\p{L}\d]+/gu) || []).length;
     total += n;
-    return `| ${fmt(c.at)} – ${fmt(c.at + c.dur)} | ${s.key} | ${c.text.replace(/\|/g, "/")} |`;
+    return `| ${String(c.n).padStart(2, "0")} | ${fmt(c.at)} – ${fmt(c.at + c.dur)} | ${s.key} | ${c.text.replace(/\|/g, "/")} |`;
   }));
   const md = [
     `# Voix off : Second Armor, founder story (${Math.round(DURATION)} s)`, "",
     "Texte à lire par Nico, avec le minutage utilisé par les sous-titres et l'animation.",
     "Ton : monotone, pince-sans-rire. Nico ne joue pas, il constate. Les pauses comptent autant que les mots.",
     "Fichier généré par `npm run vo` à partir des plans de `video.js` : modifier les textes là-bas, pas ici.", "",
-    "| Temps | Plan | Texte |", "|---|---|---|", ...rows, "",
+    "| N° | Temps | Plan | Texte |", "|---|---|---|---|", ...rows, "",
     `Total : ${total} mots en ${DURATION.toFixed(1).replace(".", ",")} s.`, "",
     "## Conseils d'enregistrement", "",
-    "- Enregistrer au téléphone, dans une pièce calme ; une prise par réplique, c'est plus simple à caler.",
+    "- Enregistrer au téléphone (Dictaphone), dans une pièce calme, téléphone à 20 cm de la bouche.",
+    "- **Une prise par réplique**, nommée par son numéro : `01.m4a`, `02.m4a`… (« 01 salut.m4a » marche aussi). Les déposer dans `voice/`.",
+    "- Pas besoin de couper les blancs au début et à la fin : `npm run voice` s'en charge, mesure chaque prise et recale l'animation dessus.",
+    "- Puis `npm run render` (image) et `npm run audio` (voix + bruitages, niveau TikTok).",
     "- Garder les silences : après « sur internet » (le « frère ? »), avant « que je l'ai jamais vu », avant « … ok. ».",
     "- « enculer » est couvert par un bip et une barre noire à l'image : le dire quand même, le bip se pose au montage.", "",
   ].join("\n");
@@ -62,7 +68,7 @@ if (vo) {
   }
   console.log("Captures dans out/stills");
 } else {
-  const file = path.join(out, "second-armor.mp4");
+  const file = path.join(out, cut ? `second-armor-${cut}.mp4` : "second-armor.mp4");
   const ff = spawn(ffmpegPath, [
     "-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(FPS), "-i", "-",
     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-preset", "medium", "-movflags", "+faststart", file,

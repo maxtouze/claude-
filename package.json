@@ -6,7 +6,10 @@
     "preview": "npx serve .",
     "render": "node render.mjs",
     "stills": "node render.mjs --stills",
-    "vo": "node render.mjs --vo"
+    "vo": "node render.mjs --vo",
+    "voice": "node voice.mjs",
+    "audio": "node audio.mjs",
+    "render:court": "node render.mjs --cut=court"
   },
   "devDependencies": {
     "ffmpeg-static": "^5.2.0",
