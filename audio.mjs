@@ -92,7 +92,7 @@ const SYN = {
   cards: () => highpass(noise(0.06, dec(70)), 2000).map((v) => v * 1.4),
 };
 function add2(b, x, t) { const o = Math.round(t * SR); for (let i = 0; i < x.length && o + i < b.length; i++) b[o + i] += x[i]; }
-const GAIN = { buzz: 0.5, crackle: 0.5, alarm: 0.35, tick: 0.8, bip: 0.8, boum: 0.9, sad: 0.55, count: 0.7 };
+const GAIN = { buzz: 0.5, crackle: 0.5, alarm: 1.2, tick: 0.8, bip: 0.8, boum: 0.9, sad: 0.8, count: 2.5 };
 
 // ---------------------------------------------------------------------------
 // Voix
