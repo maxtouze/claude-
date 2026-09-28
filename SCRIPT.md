@@ -1,6 +1,6 @@
-# Second Armor : founder story, script v5
+# Second Armor : founder story, script v5.2
 
-Format TikTok vertical, environ 85 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
+Format TikTok vertical, environ 95 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
 
 ## Le style : « Casually Explained »
 
@@ -39,36 +39,51 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 
 ### 3. Les risques inutiles (0:17)
 
+La liste de trois : les deux premiers risques posent le motif, le troisième le casse. Nico ne change jamais de ton : il ne donne pas de leçon, il constate.
+
 **« Et il m'arrive aussi de prendre des risques inutiles. »**
-— Faux graphique très sérieux, titre « Mes risques ». Axe horizontal : « utilité ». Axe vertical : « risque ». Un point « mission » apparaît en haut à droite : risqué, mais utile. Puis des points se posent en haut à gauche, à côté de « zéro utilité ».
+— Faux graphique très sérieux, titre « Mes risques ». Axe horizontal : « utilité ». Axe vertical : « risque ». Un point « mission » apparaît en haut à droite : risqué, mais utile. Le reste du graphique est vide, à gauche : « zéro utilité ».
 
 **« Genre toucher une poêle pour voir si elle est chaude. »**
-— Gros plan : une main bâton, l'index posé sur une poêle. « Tsss. » Le bout du doigt devient rouge. Plan sur le visage de Nico : aucune expression. Petite étiquette : « elle était chaude ».
+— Gros plan : une main bâton, l'index posé sur une poêle. « Tsss. » Le bout du doigt devient rouge. Plan sur le visage de Nico : aucune expression. Petite étiquette : « elle était chaude ». Un point « poêle » se pose sur le graphique, côté « zéro utilité ».
 
-**« Ou répondre "oui oui" quand ma meuf me demande si je l'écoute. »**
+**« Répondre "oui oui" quand ma meuf me demande si je l'écoute. »**
 — Canapé. Nico regarde son téléphone. Sa copine, en bulle : « … donc t'es d'accord pour tout le week-end chez ma mère ? » Nico, sans lever les yeux : « oui oui ».
-— Coupe sèche : Nico assis dans un salon à napperons, entre la copine et la belle-mère, une tasse de thé à la main, regard vide. Étiquette : « samedi, 14h ».
+— Coupe sèche : Nico assis dans un salon à napperons, entre la copine et la belle-mère, une tasse de thé à la main, regard vide. Étiquette : « samedi, 14h ». Un point « oui oui » se pose à côté du point « poêle ».
 
-### 4. Le risque de trop (0:30)
+**« Ou envoyer 400 balles à un inconnu sur internet, pour un gilet. »**
+— Même ton, même rythme que les deux autres. Un troisième point se pose… beaucoup plus haut. Le graphique dézoome pour le contenir, puis encore, puis l'axe se casse en deux avec un petit « crac ». Étiquette : « ça ».
 
-**« Par contre, il y a un risque que je ne veux plus jamais prendre. »**
-— Retour au graphique. Un point rouge énorme se pose tout en haut à gauche, si haut que le graphique doit dézoomer pour le contenir. Étiquette : « ça ».
+### 4. Le gilet furtif (0:31)
 
-**« Sortir 400 balles de ma paie pour m'équiper… »**
-— Une fiche de paie. Quatre billets de 100 € en sortent, se font pousser des petites jambes bâtons et s'en vont en marchant en file indienne. Nico les regarde partir en faisant coucou. Les billets rejoignent un inconnu à capuche, pseudo « Gear_Deal_92 », dont la photo de profil est un chat.
+Le flash-back. On comprend pourquoi 400 balles, à qui, et ce qu'il a reçu, sans que Nico sorte de son personnage.
 
-**« … et recevoir en échange… »**
-— Un colis arrive devant la porte. Nico l'ouvre lentement. Petit roulement de tambour.
+**« J'avais besoin d'un porte-plaques. En mission, on vérifie tout. Là, j'avais un pseudo, une photo de chat, et un bon feeling. »**
+— Écran coupé en deux. À gauche, « en mission » : une table de briefing avec une carte, des flèches, des bonhommes penchés dessus. À droite, « pour mon gilet » : Nico devant son téléphone. À l'écran, le profil « Gear_Deal_92 », photo de profil : un chat, « 0 avis ». Nico lève le pouce.
 
-**« … bah, rien. »**
-— Carton vide. Une mouche en sort. Une seconde de silence complet.
+**« Alors j'ai viré 400 balles. »**
+— Une fiche de paie. Quatre billets de 100 € en sortent, se font pousser des petites jambes bâtons et partent en file indienne vers le chat. Nico leur fait coucou.
 
-**« Parce que j'avais viré des thunes à un inconnu, sans la moindre garantie. »**
-— Capture de chat sur fond blanc. Nico : « Toujours dispo ? 🙂 », puis « Tu l'as envoyé ? », puis « Allô ? ». En dessous : « Vu il y a 3 semaines ». Puis le profil devient gris : « Ce compte n'existe plus ».
+**« Et j'ai reçu le colis. Le camo était tellement bon… que je l'ai jamais vu. »**
+— Nico ouvre le carton : vide. Il en sort « le gilet » avec précaution (ses mains ne tiennent rien), l'enfile devant un miroir, serre des sangles invisibles et prend la pose, pouce levé. Étiquette : « gilet (camo niveau expert) ».
 
-### 5. « Nico, t'es con » (0:45)
+**« J'ai attendu trois semaines, au cas où il se montre. »**
+— Même plan, même pose. Une toile d'araignée entre son bras et le miroir. Le calendrier derrière lui tourne trois pages. Une mouche sort du carton vide.
 
-**« Et là, vous allez me dire : "Nico, t'es con. Utilise Vinted, eBay, Facebook Marketplace. C'est sécurisé." »**
+**« … Bon. Je l'ai jamais reçu. Je me suis fait enculer. »**
+— Coupe sèche : Nico face caméra, sans expression. Sur le mot « enculer », une barre noire de censure sur sa bouche et un « BIP ». (Si le mot passe mal sur TikTok, on garde la barre et le « bip » par-dessus « je me suis fait avoir ».)
+
+**« Et le pire, c'est que la poêle, je la retouche encore. Le "oui oui", je le redis toutes les semaines. Mais ça… même moi, j'ai arrêté. »**
+— Nouveau faux graphique, titre « Nombre de fois où j'ai refait la connerie ». Trois colonnes de bâtons tracés à la main, comme sur un mur de cellule.
+  - « poêle » : les bâtons s'empilent vite, 23, 24, 25… la colonne sort par le haut de l'écran.
+  - « oui oui » : pas de colonne, juste « ∞ (en cours) ».
+  - « 400 € à un inconnu » : un seul bâton. Entouré en rouge, avec la flèche « même moi ».
+
+*Variante de graphique si les bâtons ne marchent pas : une « courbe d'apprentissage », avec en axe horizontal « nombre de fois » et en axe vertical « j'ai compris ? ». La courbe « poêle » monte très lentement, au bout de 30 essais. La courbe « oui oui » reste à zéro pour toujours. La courbe « 400 € » monte à la verticale au premier essai.*
+
+### 5. « Nico, t'es con » (0:52)
+
+**« Et là, vous allez me dire : "Nico, t'es con. Utilise Vinted, eBay, Facebook Marketplace. C'est sécurisé." … Oui, merci. Mais. »**
 — Nico face caméra. Autour de lui, trois bonhommes du public, bras croisés, avec des bulles : « t'es con », « Vinted », « bah eBay ? ». À côté d'eux, trois icônes d'appli dessinées à la main, avec le nom écrit dessous. Pas les vrais logos.
 
 **« Sauf que là-bas, ton porte-plaques, il finit entre des plaques de cuisson… et des plaquettes de frein. »**
@@ -80,7 +95,7 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 **« Et faut recommencer ça sur chaque plateforme. Bref : le bordel. Aucun endroit à nous, juste des solutions bricolées un peu partout. »**
 — Nico jongle avec six icônes d'appli, puis une septième qu'on lui lance. Il les fait toutes tomber. Étiquette sur le tas : « l'écosystème ».
 
-### 6. La solution (1:02)
+### 6. La solution (1:09)
 
 **« C'est pour ça que j'ai créé Second Armor. Le Vinted qui a deux paires de couilles. »**
 — Coupe sèche sur le logo Second Armor, qui se pose avec un « BOUM » de basse. Nico à côté, lunettes de soleil, hoche la tête une fois.
@@ -94,18 +109,18 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 **« … et ils garantissent chaque transaction : ton argent reste bloqué tant que t'as pas reçu ton colis. »**
 — Schéma simple : Nico → coffre-fort « Second Armor » → vendeur. Le colis arrive chez Nico, la case « reçu ? » se coche, et seulement ensuite l'argent passe au vendeur. Cette fois, pas de mouche.
 
-### 7. La preuve (1:12)
+### 7. La preuve (1:19)
 
 **« À la base, c'était juste pour mon unité. Aujourd'hui, on est 10 000. »**
 — Faux graphique, titre « Membres ». Il commence avec quelques bonhommes. La courbe monte, les bonhommes se multiplient jusqu'à remplir l'écran. Le compteur s'arrête sur 10 000.
 
-### 8. Fin (1:18)
+### 8. Fin (1:25)
 
 **« Alors continuez à prendre des risques. Même des inutiles. Touchez des poêles. Dites "oui oui". »**
-— Retour au graphique « Mes risques » : les points « poêle » et « oui oui » clignotent. Petits plans de rappel : le doigt rouge, la tasse de thé chez la belle-mère.
+— Retour au graphique « Nombre de fois où j'ai refait la connerie ». Un bâton de plus s'ajoute à « poêle » (plan de rappel : le doigt rouge). « oui oui » reste à « ∞ » (plan de rappel : la tasse de thé chez la belle-mère).
 
 **« Mais votre matos, achetez-le sur Second Armor. »**
-— Le point rouge « 400 € à un inconnu » est rayé et disparaît du graphique. Logo Second Armor, « Le Vinted militaire. », « Lien en bio ». Dernier plan de 0,5 s : la mouche du colis vide passe devant le logo.
+— La colonne « 400 € à un inconnu » reste à un seul bâton, avec l'étiquette « et ça restera à 1 ». Logo Second Armor, « Le Vinted militaire. », « Lien en bio ». Dernier plan de 0,5 s : la mouche du colis vide passe devant le logo.
 
 **Fin alternative, plus crue (à tester) :** « Dans la vie, vous allez vous faire avoir plein de fois. C'est ok. Mais vous faites pas avoir tout seuls. » On peut aussi la dire en version directe, avec « baiser » à la place de « avoir », si c'est le ton de la page.
 
@@ -113,8 +128,9 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 
 ## À valider
 
-- **« Bah, rien »** : est-ce que Nico a vraiment déjà payé sans rien recevoir ? Si oui, c'est parfait. Sinon, on garde la blague mais en disant « ou recevoir… bah, rien » comme une possibilité, pas comme un souvenir.
+- **Le gilet jamais reçu** : est-ce que c'est vraiment arrivé à Nico ? Si oui, parfait. Sinon, on peut le raconter comme « un pote à moi », mais ça perd de la force.
+- **« Je me suis fait enculer »** : TikTok peut limiter la portée d'une vidéo pour un mot pareil. La barre de censure et le « bip » gardent la blague dans les deux cas.
 - **La copine et la belle-mère** : vérifie que Nico est à l'aise avec cette blague sur sa vie privée.
-- **Durée** : environ 85 s. Pour raccourcir, on peut enlever d'abord la poêle, puis la phrase « faut recommencer sur chaque plateforme ».
+- **Durée** : environ 95 s. Pour raccourcir, on peut enlever d'abord la phrase « faut recommencer sur chaque plateforme », puis le plan « en mission, on vérifie tout ».
 - **Les méchants** : ils restent très cartoon (cagoule, moustache, pancarte « MÉCHANT »). Aucun uniforme ni aucun drapeau réel reconnaissable.
 - **Vinted, eBay, Facebook Marketplace** : on les cite à l'oral, mais à l'écran on dessine des icônes génériques avec le nom écrit à la main, pas leurs vrais logos. Et on ne dit jamais que c'est une plateforme précise qui bannit : c'est « l'algorithme » en général.
