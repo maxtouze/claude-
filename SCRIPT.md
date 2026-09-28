@@ -1,4 +1,4 @@
-# Second Armor : founder story, script v5.4
+# Second Armor : founder story, script v5.5
 
 Format TikTok vertical, environ 85 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
 
@@ -34,33 +34,36 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 
 ### 2. Le métier (0:12)
 
-**« Dans la vie, je suis militaire. »**
+**« Dans la vie, je suis militaire. Des risques, j'en prends. »**
 — Nico bâton, casqué, derrière un muret, tire une rafale : « PEW PEW PEW ». En face, des méchants caricaturaux : cagoule noire, moustache de méchant de dessin animé, et une pancarte « MÉCHANT » autour du cou pour qu'il n'y ait pas de doute. Ils tombent comme des quilles. Le dernier fait un salto arrière totalement inutile avant de tomber.
 
 ### 3. Les risques inutiles (0:17)
 
 Trois risques, dits vite et sur le même ton. Nico s'arrête sur le troisième : un temps de silence, puis il se justifie, trop vite, comme quelqu'un de pris en faute.
 
-**« Il m'arrive aussi de prendre des risques inutiles. »**
+Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant toute la section. Il ne dit rien jusqu'au troisième risque. On le retrouve à la section 5, avec deux copains.
+
+**« Mais il m'arrive aussi d'en prendre des inutiles. »**
 — Faux graphique très sérieux, titre « Mes risques ». Axe horizontal : « utilité ». Axe vertical : « risque ». Un point « mission » en haut à droite. Tout le côté gauche est marqué « zéro utilité ».
 
 **« Toucher une poêle pour voir si elle est chaude. »**
 — Une main bâton, l'index sur une poêle. « Tsss. » Le bout du doigt devient rouge. Nico, aucune expression. Un point « poêle » se pose sur le graphique.
 
-**« Dire "oui oui" à ma meuf quand elle me parle. »**
-— Canapé. Nico sur son téléphone. La copine, en bulle : « … donc ok pour le week-end chez ma mère ? » Nico : « oui oui ». Coupe sèche : salon à napperons, Nico entre la copine et la belle-mère, tasse de thé, regard vide. Étiquette : « samedi, 14h ». Un point « oui oui » se pose sur le graphique.
+**« Répondre "oui oui" quand ma meuf me demande si je l'écoute. »**
+— Canapé. La copine bâton, cheveux blonds, parle, avec une grosse bulle pleine de gribouillis. Puis : « Tu m'écoutes ? » Nico, les yeux baissés sur son téléphone, sans lever la tête : « oui oui ». Elle le fixe. Une goutte de sueur apparaît sur la tête de Nico. Un point « oui oui » se pose sur le graphique.
+— *Option : la copine a le même dessin que la femme sur la moto de la section 1. Le spectateur attentif comprend que la « vraie » est moins glamour, et beaucoup moins impressionnée.*
 
 **« Envoyer 400 balles à un inconnu sur internet. »**
 — Un troisième point se pose, beaucoup plus haut. Le graphique dézoome, puis l'axe se casse avec un petit « crac ».
-— **Une seconde de silence.** Nico regarde la caméra. Étiquette qui apparaît à côté de lui : « frère ? »
+— **Une seconde de silence.** Nico regarde la caméra. Le spectateur dans le coin tourne lentement la tête vers lui : « frère ? »
 
-**« … Non mais le mec avait 40 avis. Il m'a envoyé des photos. Une vidéo. Tout était carré. »**
-— Nico ne passe pas pour un idiot : l'arnaque avait l'air sérieuse. Le profil du vendeur, « Gear_Deal_92 », se remplit à chaque phrase : ★★★★★ « 40 avis », des photos nettes du porte-plaques, une petite vidéo avec un bouton lecture, une coche « vendeur sérieux ». Nico coche mentalement chaque case d'une checklist : ✓ ✓ ✓.
+**« … Non mais le mec avait 40 avis. Il m'a envoyé des photos, une vidéo. Tout était carré. »**
+— Nico ne passe pas pour un idiot : l'arnaque avait l'air sérieuse. Le profil du vendeur, « Thomas R. », se remplit à chaque phrase : ★★★★★ « 40 avis », des photos nettes du porte-plaques, une petite vidéo avec un bouton lecture. Le spectateur, dans le coin, hoche la tête : lui aussi aurait acheté.
 
 ### 4. Le gilet furtif (0:30)
 
-**« En ouvrant le colis, j'ai été bluffé par la qualité du camo. Parce que le gilet, je l'ai jamais vu. »**
-— Nico ouvre le carton : vide. Il en sort « le gilet » avec précaution (ses mains ne tiennent rien), l'enfile devant un miroir, serre des sangles invisibles, pouce levé. Étiquette : « gilet (camo niveau expert) ». Une mouche sort du carton.
+**« Sur les photos, il était parfait. En vrai, le camo était tellement bon… que je l'ai jamais vu. »**
+— Écran coupé en deux. À gauche, « sur les photos » : le porte-plaques, net, avec des petites étincelles. À droite, « en vrai » : Nico ouvre le carton. Vide. Il en sort « le gilet » avec précaution (ses mains ne tiennent rien), l'enfile devant un miroir, serre des sangles invisibles, pouce levé. Étiquette : « gilet (camo niveau expert) ». Une mouche sort du carton.
 
 **« … Bon. Je me suis fait enculer. »**
 — Coupe sèche : Nico face caméra, sans expression. Barre noire de censure sur sa bouche et « BIP » sur le mot.
@@ -77,16 +80,21 @@ Trois risques, dits vite et sur le même ton. Nico s'arrête sur le troisième :
 ### 5. « Nico, t'es con » (0:45)
 
 **« Et là, vous allez me dire : "Nico, t'es con. Va sur Vinted." »**
-— Nico face caméra. Autour de lui, trois bonhommes du public, bras croisés, avec des bulles : « t'es con », « Vinted », « bah eBay ? ».
+— Nico face caméra. Le spectateur de la section 3 est revenu avec deux copains, bras croisés, avec des bulles : « t'es con », « Vinted », « bah eBay ? ».
 
-**« Sauf que là-bas, ton porte-plaques, il finit dans la catégorie "Déguisements". »**
-— Un menu de catégories dessiné : Femme › Robes, Homme › Jeans, Enfants › Jouets… Le porte-plaques de Nico est rangé dans « Déguisements », entre un costume de pirate et une tenue d'infirmière sexy. Étiquette : « pas prévu pour ».
+**« Sauf que là-bas, ton porte-plaques, il est rangé dans "Déguisements". Alors pour trouver du matos, tu rafraîchis la page. Toute la nuit. »**
+— Un menu de catégories dessiné : Femme › Robes, Homme › Jeans… Le porte-plaques est rangé dans « Déguisements », entre un costume de pirate et une tenue d'infirmière sexy.
+— Coupe sèche : Nico dans son lit, dans le noir, le visage éclairé par son téléphone. Réveil : 3h12. Son pouce tire l'écran vers le bas pour rafraîchir, encore et encore. Compteur de rafraîchissements à côté de lui, comme les bâtons du graphique. À l'écran : « 0 nouveau résultat ». Des cernes qui s'agrandissent.
 
-**« Et encore, si ton annonce passe. Parce qu'en face, t'as un algorithme bien-pensant… qui te fiche S parce que t'as écrit "porte-chargeur". »**
+**« Et encore, faut que ton annonce passe. Parce que pour l'algorithme bien-pensant, "porte-chargeur", c'est de l'apologie du terrorisme. »**
 — L'algorithme est un personnage (voir la note plus bas). Il lit l'annonce « Porte-chargeur, bon état, 15 € ». Il blêmit, se couvre les yeux, pose un panneau « ⚠ contenu choquant » sur l'annonce, respire dans un sac en papier, puis décroche un téléphone rouge. Gyrophare. Tampon rouge : **FICHÉ S**. Le compte de Nico tombe dans une trappe.
 
 **« … C'est une poche. »**
 — Coupe sèche : Nico face caméra, qui tient un porte-chargeur vide. C'est une poche.
+
+*Autres versions de la phrase de l'algorithme :*
+- *« Et ça, c'est si t'es pas fiché S entre-temps, parce que l'algorithme bien-pensant a fait une crise d'angoisse en lisant "porte-chargeur". » (la plus proche de ton idée, mais plus longue)*
+- *« Et ça, c'est quand l'algorithme bien-pensant fait pas une crise d'angoisse en lisant "porte-chargeur"… et te signale à la DGSI. »*
 
 **Le personnage de l'algorithme.** Il ressemble à un militant « bienveillance » : cheveux longs, lunettes rondes, gros pull beige, tote bag « bienveillance », gourde couverte d'autocollants, tisane, un panneau « safe space » sur son bureau. Le public militaire doit y reconnaître celui qui juge le terrain sans y avoir jamais mis les pieds.
 
@@ -96,7 +104,10 @@ Trois risques, dits vite et sur le même ton. Nico s'arrête sur le troisième :
 — Coupe sèche. L'algorithme, toujours dans son sac en papier, est poussé hors du cadre avec son tote bag.
 
 **« Des gars du milieu à la place d'un algorithme qui panique. »**
-— À sa place, deux bonshommes calmes, casquette et café, derrière un bureau « Modération ». Ils regardent l'annonce du porte-chargeur : « … c'est une poche. » Tampon vert : **VALIDÉ**. Le porte-plaques, lui, est rangé dans la bonne catégorie : « Porte-plaques ».
+— À sa place, deux bonshommes calmes, casquette et café, derrière un bureau « Modération ». Ils regardent l'annonce du porte-chargeur : « … c'est une poche. » Tampon vert : **VALIDÉ**. Le porte-plaques, lui, est rangé dans la bonne catégorie : « Porte-plaques ». Nico dort, et son téléphone s'allume tout seul : « 🔔 nouveau porte-plaques dispo ».
+
+**« Et eux, ils vérifient. »**
+— Rappel de la section 1 : le Nico en carton (torse en V, lunettes, moto) passe devant le bureau. Un des deux gars baisse ses lunettes et le regarde. Tampon rouge : **REFUSÉ**. Le carton tombe à plat. Derrière, le petit Nico bâton, pris la main dans le sac : « … ok. »
 
 **« Et chaque transaction garantie. »**
 — Schéma simple : Nico → coffre-fort → vendeur. Le colis arrive, la case « reçu ? » se coche, et seulement ensuite l'argent part au vendeur. Le colis est ouvert : cette fois, il y a un vrai gilet dedans. Pas de mouche.
@@ -123,7 +134,8 @@ Trois risques, dits vite et sur le même ton. Nico s'arrête sur le troisième :
 
 - **Le gilet jamais reçu** : est-ce que c'est vraiment arrivé à Nico ? Si oui, parfait. Sinon, on peut le raconter comme « un pote à moi », mais ça perd de la force.
 - **« Je me suis fait enculer »** : TikTok peut limiter la portée d'une vidéo pour un mot pareil. La barre de censure et le « bip » gardent la blague dans les deux cas.
-- **La copine et la belle-mère** : vérifie que Nico est à l'aise avec cette blague sur sa vie privée.
+- **La copine** : vérifie que Nico est à l'aise avec cette blague sur sa vie privée.
+- **Les alertes** : le plan où Nico dort pendant qu'une notification « nouveau porte-plaques » arrive suppose que Second Armor envoie des alertes. Si ce n'est pas le cas, on coupe ce plan.
 - **L'algorithme « bien-pensant »** : il faut que ce soit son comportement qui fasse rire (il panique pour une poche), pas le fait que ce soit une femme. Beaucoup de militaires et de clientes sont des femmes. Les accessoires (tote bag, gourde, « safe space ») suffisent à faire passer la blague.
 - **Déguisements** : c'est une blague, pas un fait vérifié sur une plateforme précise. À l'écran, pas de vrai logo, et « là-bas » plutôt que le nom de la plateforme.
 - **300+ transactions cinq étoiles** : chiffre à confirmer avant publication.
