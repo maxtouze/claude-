@@ -39,7 +39,7 @@ const voiceDir = path.join(out, "voice");
 let voiced = 0, bipWin = null;
 for (const c of cues) {
   const f = path.join(voiceDir, `${String(c.n).padStart(2, "0")}.f32`);
-  if (c.bip) bipWin = [c.at + c.dur - 0.18, c.at + c.dur + 0.1];
+  if (c.bip) bipWin = [c.at + c.dur - 0.6, c.at + c.dur + 0.1];
   if (!existsSync(f)) continue;
   const raw = readFileSync(f);
   const buf = new Float32Array(raw.buffer, raw.byteOffset, raw.length / 4).slice();

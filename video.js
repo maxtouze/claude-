@@ -621,7 +621,7 @@ shot("furtif", [["Sur les photos, il était parfait.", 0.25], ["En vrai, le camo
   return g;
 });
 shot("bip", [["… Bon. Je me suis fait enculer.", 0.6, "… Bon. Je me suis fait ████."]], (t, c) => {
-  const bip = cueEnd("bip") - 0.18; // « enculer » est le dernier mot
+  const bip = cueEnd("bip") - 0.6; // « enculer » est le dernier mot (≈ 0,6 s)
   let g = bigFace(540, 700, 250);
   if (t > bip) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
   return g;

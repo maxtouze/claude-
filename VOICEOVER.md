@@ -25,38 +25,38 @@ Fichier généré par `npm run vo` à partir des plans de `video.js` : modifier 
 | 17 | 0:50,5 – 0:52,2 | bip | … Bon. Je me suis fait enculer. |
 | 18 | 0:53,0 – 0:54,2 | pasleseul | Et j'étais pas le seul. |
 | 19 | 0:55,6 – 0:57,0 | arrete | Je touche encore des poêles. |
-| 20 | 0:57,2 – 0:59,9 | arrete | Mais ça… même moi, j'ai arrêté. |
-| 21 | 1:00,8 – 1:04,7 | tescon | Et là, vous allez me dire : « Nico, t'es con. Va sur Vinted. » |
+| 20 | 0:57,2 – 0:59,8 | arrete | Mais ça… même moi, j'ai arrêté. |
+| 21 | 1:00,7 – 1:04,7 | tescon | Et là, vous allez me dire : « Nico, t'es con. Va sur Vinted. » |
 | 22 | 1:05,3 – 1:10,5 | ordi | Sauf que là-bas, ton porte-plaques, il est rangé dans « Déguisements ». |
-| 23 | 1:10,8 – 1:13,9 | ordi | Alors trouver du matos, c'est une chasse au trésor. |
-| 24 | 1:14,2 – 1:18,3 | ordi | Et si tu tombes enfin sur le bon truc… t'as de la chance. |
-| 25 | 1:19,0 – 1:21,3 | algo | Enfin… si tu t'es pas fait bannir. |
+| 23 | 1:10,7 – 1:13,9 | ordi | Alors trouver du matos, c'est une chasse au trésor. |
+| 24 | 1:14,1 – 1:18,3 | ordi | Et si tu tombes enfin sur le bon truc… t'as de la chance. |
+| 25 | 1:18,9 – 1:21,3 | algo | Enfin… si tu t'es pas fait bannir. |
 | 26 | 1:21,5 – 1:28,9 | algo | Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme. |
-| 27 | 1:29,9 – 1:31,0 | poche | … C'est une poche. |
-| 28 | 1:32,0 – 1:35,9 | couilles | Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles. |
-| 29 | 1:37,7 – 1:41,1 | moderation | Des gars du milieu, à la place d'un algorithme qui panique. |
-| 30 | 1:42,8 – 1:44,2 | verifient | Et eux, ils vérifient. |
-| 31 | 1:44,5 – 1:45,1 | verifient | … ok. |
-| 32 | 1:46,3 – 1:47,9 | garantie | Et chaque transaction garantie. |
-| 33 | 1:50,9 – 1:52,9 | cree | Alors oui, je touche encore des poêles. |
-| 34 | 1:53,1 – 1:54,8 | cree | Mais ça, c'est moi qui l'ai créé. |
-| 35 | 1:55,0 – 1:56,6 | cree | Ça s'appelle Second Armor. |
-| 36 | 1:57,2 – 1:59,6 | dixmille | Et faut croire que c'est pas trop con : |
-| 37 | 1:59,8 – 2:01,2 | dixmille | on est déjà 10 000, |
-| 38 | 2:01,4 – 2:05,7 | dixmille | avec plus de 300 transactions notées cinq étoiles. |
-| 39 | 2:06,7 – 2:11,8 | rendre | Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit. |
-| 40 | 2:12,1 – 2:14,5 | rendre | Pour l'instant, on est encore en perte. |
-| 41 | 2:15,9 – 2:18,6 | hockey | Mais on a déjà sponsorisé les Frères d'Armes : |
-| 42 | 2:18,7 – 2:21,5 | hockey | un match de hockey à Caen, pour le D-Day, |
-| 43 | 2:21,7 – 2:23,2 | hockey | au profit du Bleuet de France. |
-| 44 | 2:24,3 – 2:27,7 | amazonie | Et on soutient un ancien des forces spéciales, |
-| 45 | 2:27,8 – 2:30,1 | amazonie | qui part dix jours en autonomie en Amazonie. |
-| 46 | 2:30,4 – 2:32,8 | amazonie | Allez le suivre. Il va en avoir besoin. |
-| 47 | 2:34,2 – 2:38,0 | continuez | Alors continuez à prendre des risques. Même des inutiles. |
-| 48 | 2:38,5 – 2:41,6 | belote | Mais si vous devez perdre 400 balles… |
-| 49 | 2:41,9 – 2:44,0 | belote | perdez-les à la belote avec la section. |
+| 27 | 1:30,3 – 1:31,3 | poche | … C'est une poche. |
+| 28 | 1:32,3 – 1:36,3 | couilles | Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles. |
+| 29 | 1:38,1 – 1:41,4 | moderation | Des gars du milieu, à la place d'un algorithme qui panique. |
+| 30 | 1:43,1 – 1:44,5 | verifient | Et eux, ils vérifient. |
+| 31 | 1:44,8 – 1:45,4 | verifient | … ok. |
+| 32 | 1:46,6 – 1:48,2 | garantie | Et chaque transaction garantie. |
+| 33 | 1:51,2 – 1:53,5 | cree | Alors oui, je touche encore des poêles. |
+| 34 | 1:53,7 – 1:55,4 | cree | Mais ça, c'est moi qui l'ai créé. |
+| 35 | 1:55,6 – 1:57,1 | cree | Ça s'appelle Second Armor. |
+| 36 | 1:57,8 – 2:00,2 | dixmille | Et faut croire que c'est pas trop con : |
+| 37 | 2:00,3 – 2:01,8 | dixmille | on est déjà 10 000, |
+| 38 | 2:01,9 – 2:06,3 | dixmille | avec plus de 300 transactions notées cinq étoiles. |
+| 39 | 2:07,2 – 2:12,4 | rendre | Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit. |
+| 40 | 2:12,7 – 2:15,0 | rendre | Pour l'instant, on est encore en perte. |
+| 41 | 2:16,4 – 2:19,1 | hockey | Mais on a déjà sponsorisé les Frères d'Armes : |
+| 42 | 2:19,3 – 2:22,1 | hockey | un match de hockey à Caen, pour le D-Day, |
+| 43 | 2:22,2 – 2:23,8 | hockey | au profit du Bleuet de France. |
+| 44 | 2:24,9 – 2:28,3 | amazonie | Et on soutient un ancien des forces spéciales, |
+| 45 | 2:28,4 – 2:30,7 | amazonie | qui part dix jours en autonomie en Amazonie. |
+| 46 | 2:31,0 – 2:33,3 | amazonie | Allez le suivre. Il va en avoir besoin. |
+| 47 | 2:34,8 – 2:38,6 | continuez | Alors continuez à prendre des risques. Même des inutiles. |
+| 48 | 2:39,1 – 2:42,2 | belote | Mais si vous devez perdre 400 balles… |
+| 49 | 2:42,5 – 2:44,6 | belote | perdez-les à la belote avec la section. |
 
-Total : 385 mots en 169,9 s.
+Total : 385 mots en 170,5 s.
 
 ## Conseils d'enregistrement
 
