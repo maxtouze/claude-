@@ -1,6 +1,6 @@
 # Second Armor : founder story, script v5
 
-Format TikTok vertical, environ 75 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
+Format TikTok vertical, environ 85 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
 
 ## Le style : « Casually Explained »
 
@@ -66,31 +66,48 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 **« Parce que j'avais viré des thunes à un inconnu, sans la moindre garantie. »**
 — Capture de chat sur fond blanc. Nico : « Toujours dispo ? 🙂 », puis « Tu l'as envoyé ? », puis « Allô ? ». En dessous : « Vu il y a 3 semaines ». Puis le profil devient gris : « Ce compte n'existe plus ».
 
-### 5. Et les grandes plateformes ? (0:45)
+### 5. « Nico, t'es con » (0:45)
 
-**« Et sur les grandes plateformes ? Tu postes un gilet porte-plaques… compte banni. »**
-— Nico poste une annonce : une photo de gilet, « 400 € ». Une boîte grise avec un seul œil, étiquetée « l'algorithme », se tourne vers l'annonce. Gyrophare, « SUSPECT ». Le compte de Nico disparaît dans une trappe.
+**« Et là, vous allez me dire : "Nico, t'es con. Utilise Vinted, eBay, Facebook Marketplace. C'est sécurisé." »**
+— Nico face caméra. Autour de lui, trois bonhommes du public, bras croisés, avec des bulles : « t'es con », « Vinted », « bah eBay ? ». À côté d'eux, trois icônes d'appli dessinées à la main, avec le nom écrit dessous. Pas les vrais logos.
 
-### 6. La solution (0:50)
+**« Sauf que là-bas, ton porte-plaques, il finit entre des plaques de cuisson… et des plaquettes de frein. »**
+— Une grille de résultats de recherche dessinée : plaque de cuisson, plaquettes de frein, plaque d'immatriculation, **ton gilet porte-plaques** (entouré au feutre rouge), un plaid à carreaux, une plaque de chocolat. Étiquette : « résultats pour "plaques" ».
 
-**« Alors j'ai créé Second Armor. »**
-— Nico devant un ordinateur, en pleine nuit, entouré de canettes vides. Une horloge affiche « 3:12 ». Le logo Second Armor apparaît à l'écran de l'ordi.
+**« Et ça, c'est si t'as la chance de pas te faire bannir par un algorithme tellement sensible… qu'il te fiche S parce que t'as écrit "chargeur". »**
+— Annonce de Nico : « Chargeur iPhone, très bon état, 10 € ». La boîte grise à un œil, étiquetée « l'algorithme », lit le mot « chargeur ». Son œil s'agrandit, elle se met à trembler, respire dans un sac en papier et décroche un téléphone rouge. Gyrophare. Un dossier cartonné tombe sur l'annonce, tampon rouge : **FICHÉ S**. Le compte de Nico disparaît dans une trappe.
 
-**« Un endroit entre militaires, flics et agents de sécu, où ton argent reste bloqué tant que t'as pas reçu ton colis. »**
-— Schéma simple : Nico → un coffre-fort étiqueté « Second Armor » → le vendeur. Le colis arrive chez Nico, une case « reçu ? » se coche, et seulement ensuite l'argent passe au vendeur. Même flèches, même écriture à la main que le graphique.
+**« Et faut recommencer ça sur chaque plateforme. Bref : le bordel. Aucun endroit à nous, juste des solutions bricolées un peu partout. »**
+— Nico jongle avec six icônes d'appli, puis une septième qu'on lui lance. Il les fait toutes tomber. Étiquette sur le tas : « l'écosystème ».
 
-**« Et où chaque vendeur est vérifié. »**
-— Le Nico en carton de la scène 1 (torse en V, lunettes, moto) essaie de s'inscrire. Il passe devant un guichet « Vérification ». Tampon rouge : « REFUSÉ ». Le carton tombe à plat. Derrière, le petit Nico bâton, pris la main dans le sac : « … ok. »
+### 6. La solution (0:62)
 
-### 7. La preuve (1:02)
+**« C'est pour ça que j'ai créé Second Armor. Le Vinted qui a deux paires de couilles. »**
+— Coupe sèche sur le logo Second Armor, qui se pose avec un « BOUM » de basse. Nico à côté, lunettes de soleil, hoche la tête une fois.
 
-**« Au début, c'était juste pour mon unité. Aujourd'hui, on est 10 000. »**
+**« À la place d'un algorithme qui panique, t'as des gars du milieu. »**
+— La boîte grise à un œil est poussée hors du cadre, toujours dans son sac en papier. À sa place, deux bonshommes calmes, casquette et café, derrière un bureau « Modération ». Ils regardent l'annonce du chargeur : « … c'est un chargeur. » Tampon vert : **VALIDÉ**.
+
+**« Ils vérifient qui a le droit d'être là… »**
+— Le Nico en carton de la scène 1 (torse en V, lunettes, moto) passe devant le bureau. L'un des deux gars le regarde, baisse ses lunettes. Tampon rouge : **REFUSÉ**. Le carton tombe à plat. Derrière, le petit Nico bâton, pris la main dans le sac : « … ok. »
+
+**« … et ils garantissent chaque transaction : ton argent reste bloqué tant que t'as pas reçu ton colis. »**
+— Schéma simple : Nico → coffre-fort « Second Armor » → vendeur. Le colis arrive chez Nico, la case « reçu ? » se coche, et seulement ensuite l'argent passe au vendeur. Cette fois, pas de mouche.
+
+### 7. La preuve (1:12)
+
+**« À la base, c'était juste pour mon unité. Aujourd'hui, on est 10 000. »**
 — Faux graphique, titre « Membres ». Il commence avec quelques bonhommes. La courbe monte, les bonhommes se multiplient jusqu'à remplir l'écran. Le compteur s'arrête sur 10 000.
 
-### 8. Fin (1:08)
+### 8. Fin (1:18)
 
-**« Second Armor. Des risques, on en prend déjà assez. »**
-— Retour au graphique du début, qui s'efface : il ne reste que le point « mission ». Puis le logo Second Armor, « Le Vinted militaire. », « Lien en bio ». Dernier plan de 0,5 s : la mouche du colis vide passe devant le logo.
+**« Alors continuez à prendre des risques. Même des inutiles. Touchez des poêles. Dites "oui oui". »**
+— Retour au graphique « Mes risques » : les points « poêle » et « oui oui » clignotent. Petits plans de rappel : le doigt rouge, la tasse de thé chez la belle-mère.
+
+**« Mais votre matos, achetez-le sur Second Armor. »**
+— Le point rouge « 400 € à un inconnu » est rayé et disparaît du graphique. Logo Second Armor, « Le Vinted militaire. », « Lien en bio ». Dernier plan de 0,5 s : la mouche du colis vide passe devant le logo.
+
+**Fin alternative, plus crue (à tester) :** « Dans la vie, vous allez vous faire avoir plein de fois. C'est ok. Mais vous faites pas avoir tout seuls. » On peut aussi la dire en version directe, avec « baiser » à la place de « avoir », si c'est le ton de la page.
 
 ---
 
@@ -98,5 +115,6 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 
 - **« Bah, rien »** : est-ce que Nico a vraiment déjà payé sans rien recevoir ? Si oui, c'est parfait. Sinon, on garde la blague mais en disant « ou recevoir… bah, rien » comme une possibilité, pas comme un souvenir.
 - **La copine et la belle-mère** : vérifie que Nico est à l'aise avec cette blague sur sa vie privée.
-- **Durée** : environ 75 s. Pour raccourcir, on peut enlever d'abord la poêle, puis la scène 5 sur les grandes plateformes.
+- **Durée** : environ 85 s. Pour raccourcir, on peut enlever d'abord la poêle, puis la phrase « faut recommencer sur chaque plateforme ».
 - **Les méchants** : ils restent très cartoon (cagoule, moustache, pancarte « MÉCHANT »). Aucun uniforme ni aucun drapeau réel reconnaissable.
+- **Vinted, eBay, Facebook Marketplace** : on les cite à l'oral, mais à l'écran on dessine des icônes génériques avec le nom écrit à la main, pas leurs vrais logos. Et on ne dit jamais que c'est une plateforme précise qui bannit : c'est « l'algorithme » en général.
