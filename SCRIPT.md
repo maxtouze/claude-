@@ -1,4 +1,4 @@
-# Second Armor : founder story, script v5.3
+# Second Armor : founder story, script v5.4
 
 Format TikTok vertical, environ 85 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
 
@@ -54,16 +54,19 @@ Trois risques, dits vite et sur le même ton. Nico s'arrête sur le troisième :
 — Un troisième point se pose, beaucoup plus haut. Le graphique dézoome, puis l'axe se casse avec un petit « crac ».
 — **Une seconde de silence.** Nico regarde la caméra. Étiquette qui apparaît à côté de lui : « frère ? »
 
-**« … Non mais c'était un porte-plaques. Niveau 4. Neuf. À moitié prix. Je pouvais pas rater ça. »**
-— L'annonce apparaît, entourée de petites étoiles qui brillent, avec un chœur d'anges dessiné (« aaaah »). Le vendeur : « Gear_Deal_92 », photo de profil : un chat, « 0 avis ». Nico a des cœurs à la place des yeux.
+**« … Non mais le mec avait 40 avis. Il m'a envoyé des photos. Une vidéo. Tout était carré. »**
+— Nico ne passe pas pour un idiot : l'arnaque avait l'air sérieuse. Le profil du vendeur, « Gear_Deal_92 », se remplit à chaque phrase : ★★★★★ « 40 avis », des photos nettes du porte-plaques, une petite vidéo avec un bouton lecture, une coche « vendeur sérieux ». Nico coche mentalement chaque case d'une checklist : ✓ ✓ ✓.
 
 ### 4. Le gilet furtif (0:30)
 
-**« J'ai reçu le colis. Faut croire que le camo était vraiment bon… parce que le gilet, je l'ai jamais vu. »**
+**« En ouvrant le colis, j'ai été bluffé par la qualité du camo. Parce que le gilet, je l'ai jamais vu. »**
 — Nico ouvre le carton : vide. Il en sort « le gilet » avec précaution (ses mains ne tiennent rien), l'enfile devant un miroir, serre des sangles invisibles, pouce levé. Étiquette : « gilet (camo niveau expert) ». Une mouche sort du carton.
 
 **« … Bon. Je me suis fait enculer. »**
 — Coupe sèche : Nico face caméra, sans expression. Barre noire de censure sur sa bouche et « BIP » sur le mot.
+
+**« Et j'étais pas le seul. »**
+— Dézoom : derrière Nico, une longue file de militaires bâtons, chacun avec son carton vide et sa mouche. Le risque ne vient pas de Nico : il vient du système.
 
 **« Je touche encore des poêles. Mais ça… même moi, j'ai arrêté. »**
 — Faux graphique, titre « Nombre de fois où j'ai refait la connerie ». Trois colonnes de bâtons tracés à la main, comme sur un mur de cellule.
@@ -71,47 +74,48 @@ Trois risques, dits vite et sur le même ton. Nico s'arrête sur le troisième :
   - « oui oui » : juste « ∞ (en cours) ».
   - « 400 € à un inconnu » : un seul bâton, entouré en rouge. Flèche : « même moi ».
 
-### 5. « Nico, t'es con » (0:40)
+### 5. « Nico, t'es con » (0:45)
 
-**« Et là, vous allez me dire : "Nico, t'es con. Arrête Telegram et les groupes Facebook. Prends une marketplace sécurisée, genre Vinted ou eBay." »**
-— Nico face caméra. Autour de lui, trois bonhommes du public, bras croisés, avec des bulles : « t'es con », « Vinted », « bah eBay ? ». Des icônes d'appli dessinées à la main, le nom écrit dessous, pas les vrais logos.
+**« Et là, vous allez me dire : "Nico, t'es con. Va sur Vinted." »**
+— Nico face caméra. Autour de lui, trois bonhommes du public, bras croisés, avec des bulles : « t'es con », « Vinted », « bah eBay ? ».
 
-**« Oui. Sauf que là-bas, ton porte-plaques, il finit entre des plaques de cuisson… et des plaquettes de frein. »**
-— Grille de résultats de recherche dessinée : plaque de cuisson, plaquettes de frein, plaque d'immatriculation, **ton porte-plaques** (entouré en rouge), un plaid à carreaux, une plaque de chocolat. Étiquette : « résultats pour "plaques" ».
+**« Sauf que là-bas, ton porte-plaques, il finit dans la catégorie "Déguisements". »**
+— Un menu de catégories dessiné : Femme › Robes, Homme › Jeans, Enfants › Jouets… Le porte-plaques de Nico est rangé dans « Déguisements », entre un costume de pirate et une tenue d'infirmière sexy. Étiquette : « pas prévu pour ».
 
-**« Et ça, c'est si t'as la chance de pas te faire bannir par un algorithme tellement bien-pensant… qu'il te fiche S parce que t'as écrit "chargeur". »**
-— L'algorithme est un personnage : un petit bonhomme tout frêle, avec des lunettes rondes et un col roulé, assis derrière un écran étiqueté « l'algorithme ». Il lit l'annonce « Chargeur iPhone, très bon état, 10 € ». Il pâlit, porte la main à sa poitrine, s'évente, respire dans un sac en papier, puis décroche un téléphone rouge. Gyrophare. Tampon rouge sur l'annonce : **FICHÉ S**. Le compte de Nico tombe dans une trappe.
+**« Et encore, si ton annonce passe. Parce qu'en face, t'as un algorithme bien-pensant… qui te fiche S parce que t'as écrit "porte-chargeur". »**
+— L'algorithme est un personnage (voir la note plus bas). Il lit l'annonce « Porte-chargeur, bon état, 15 € ». Il blêmit, se couvre les yeux, pose un panneau « ⚠ contenu choquant » sur l'annonce, respire dans un sac en papier, puis décroche un téléphone rouge. Gyrophare. Tampon rouge : **FICHÉ S**. Le compte de Nico tombe dans une trappe.
 
-**« Et ça, sur quinze applis à la fois. »**
-— Nico jongle avec des icônes d'appli. On lui en lance d'autres. Tout tombe. Étiquette sur le tas : « l'écosystème ».
+**« … C'est une poche. »**
+— Coupe sèche : Nico face caméra, qui tient un porte-chargeur vide. C'est une poche.
 
-*Autres façons de décrire l'algorithme, si « bien-pensant » ne te plaît pas :*
-- *« un algorithme tellement fragile qu'il fait une crise d'angoisse quand t'écris "chargeur" »*
-- *« un algorithme qui appelle le GIGN quand t'écris "chargeur" »*
-- *« un algorithme qui s'évanouit dès que t'écris "chargeur" »*
+**Le personnage de l'algorithme.** Il ressemble à un militant « bienveillance » : cheveux longs, lunettes rondes, gros pull beige, tote bag « bienveillance », gourde couverte d'autocollants, tisane, un panneau « safe space » sur son bureau. Le public militaire doit y reconnaître celui qui juge le terrain sans y avoir jamais mis les pieds.
 
-### 6. La solution (1:00)
+### 6. La solution (1:02)
 
-**« Nous, ce qu'il nous fallait, c'est un Vinted qui a deux paires de couilles. »**
-— Coupe sèche. Le petit algorithme frêle, toujours dans son sac en papier, est poussé hors du cadre.
+**« Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles. »**
+— Coupe sèche. L'algorithme, toujours dans son sac en papier, est poussé hors du cadre avec son tote bag.
 
 **« Des gars du milieu à la place d'un algorithme qui panique. »**
-— À sa place, deux bonshommes calmes, casquette et café, derrière un bureau « Modération ». Ils regardent l'annonce du chargeur : « … c'est un chargeur. » Tampon vert : **VALIDÉ**.
+— À sa place, deux bonshommes calmes, casquette et café, derrière un bureau « Modération ». Ils regardent l'annonce du porte-chargeur : « … c'est une poche. » Tampon vert : **VALIDÉ**. Le porte-plaques, lui, est rangé dans la bonne catégorie : « Porte-plaques ».
 
 **« Et chaque transaction garantie. »**
 — Schéma simple : Nico → coffre-fort → vendeur. Le colis arrive, la case « reçu ? » se coche, et seulement ensuite l'argent part au vendeur. Le colis est ouvert : cette fois, il y a un vrai gilet dedans. Pas de mouche.
 
-**« Alors oui, je touche encore des poêles. Mais ça, c'est moi qui l'ai créé. Ça s'appelle Second Armor. Et faut croire que c'est pas trop con, parce qu'on est déjà 10 000. »**
-— Nico, le doigt encore rouge, pose à côté du logo Second Armor qui tombe avec un « BOUM » de basse. Coupe sèche : un faux graphique « Membres ». Il commence avec quelques bonhommes (étiquette : « au début : mon unité »), la courbe monte, les bonhommes remplissent l'écran. Compteur : 10 000.
+**« Alors oui, je touche encore des poêles. Mais ça, c'est moi qui l'ai créé. Ça s'appelle Second Armor. Et faut croire que c'est pas trop con : on est déjà 10 000, avec plus de 300 transactions notées cinq étoiles. »**
+— Nico, le doigt encore rouge, pose à côté du logo Second Armor qui tombe avec un « BOUM » de basse. Coupe sèche : faux graphique « Membres ». Il commence avec quelques bonhommes (étiquette : « au début : mon unité »), la courbe monte, les bonhommes remplissent l'écran. Compteur : 10 000. Juste en dessous, des étoiles tombent une à une : « 300+ transactions ★★★★★ ».
 
-### 7. Fin (1:15)
+### 7. Fin (1:17)
 
 **« Alors continuez à prendre des risques. Même des inutiles. »**
 — Retour au graphique des conneries. Un bâton de plus s'ajoute à « poêle ». « oui oui » reste à ∞.
 
-**« Mais si vous devez perdre 400 balles… perdez-les au casino. »**
-— Nico à une table de roulette, en smoking dessiné à la va-vite. Il mise, il perd. Il hausse les épaules, pouce levé. Étiquette : « au moins, j'ai passé une bonne soirée ».
+**« Mais si vous devez perdre 400 balles… perdez-les à la belote avec la section. »**
+— Une table de camp, quatre militaires bâtons qui jouent aux cartes. Nico pose sa dernière carte, perd, et pousse ses billets au milieu. Il hausse les épaules, pouce levé. Étiquette : « au moins, je les ai vus partir ».
 — Logo Second Armor, « Le Vinted militaire. », « Lien en bio ». Dernier plan de 0,5 s : la mouche passe devant le logo.
+
+*Autres chutes possibles :*
+- *« … perdez-les au casino. » (plus universel, moins « entre nous »)*
+- *« … Mais votre matos, achetez-le sur Second Armor. » (la plus sûre, la moins drôle)*
 
 ---
 
@@ -120,7 +124,9 @@ Trois risques, dits vite et sur le même ton. Nico s'arrête sur le troisième :
 - **Le gilet jamais reçu** : est-ce que c'est vraiment arrivé à Nico ? Si oui, parfait. Sinon, on peut le raconter comme « un pote à moi », mais ça perd de la force.
 - **« Je me suis fait enculer »** : TikTok peut limiter la portée d'une vidéo pour un mot pareil. La barre de censure et le « bip » gardent la blague dans les deux cas.
 - **La copine et la belle-mère** : vérifie que Nico est à l'aise avec cette blague sur sa vie privée.
-- **L'algorithme « bien-pensant »** : c'est un bonhomme fragile qui panique, pas une caricature d'un groupe de gens. On reste sur « l'algorithme », jamais sur une plateforme précise.
+- **L'algorithme « bien-pensant »** : il faut que ce soit son comportement qui fasse rire (il panique pour une poche), pas le fait que ce soit une femme. Beaucoup de militaires et de clientes sont des femmes. Les accessoires (tote bag, gourde, « safe space ») suffisent à faire passer la blague.
+- **Déguisements** : c'est une blague, pas un fait vérifié sur une plateforme précise. À l'écran, pas de vrai logo, et « là-bas » plutôt que le nom de la plateforme.
+- **300+ transactions cinq étoiles** : chiffre à confirmer avant publication.
 - **L'unité de départ** : elle n'est plus dite à l'oral, seulement écrite sur le graphique (« au début : mon unité »). On peut la remettre à l'oral si tu y tiens.
 - **Durée** : environ 85 s.
 - **Les méchants** : ils restent très cartoon (cagoule, moustache, pancarte « MÉCHANT »). Aucun uniforme ni aucun drapeau réel reconnaissable.
