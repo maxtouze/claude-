@@ -97,3 +97,5 @@ body.render #controls { display: none; }
 .listing .lprice { font: 800 44px "Inter"; color: var(--teal); margin: 10px 0 18px; }
 .listing .ltext { font: 600 34px "Inter"; color: #333; line-height: 1.35; }
 .listing .bad.on { color: #c8252c; text-decoration: underline wavy #c8252c; text-decoration-thickness: 4px; text-underline-offset: 8px; background: rgba(200,37,44,.12); border-radius: 6px; }
+
+.puff { border-radius: 50%; background: var(--paper); border: 7px solid var(--ink); }

@@ -271,7 +271,45 @@ scene("intro", 3.5, (root) => {
   };
 });
 
-// 2. Risquer sa vie en mission : ok
+// Nico version « mission » : costaud, casque, lunettes, gilet, kalach — viewBox 300x420
+// Membres épais : même tracé dessiné deux fois (contour encre + remplissage couleur).
+function buffNico(parent, w) {
+  const limb = (d, c, wOut = 40, wIn = 27) =>
+    `<path d="${d}" fill="none" stroke="${INK}" stroke-width="${wOut}" stroke-linecap="round" stroke-linejoin="round"/>
+     <path d="${d}" fill="none" stroke="${c}" stroke-width="${wIn}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const line = (d, sw = 7, c = INK, fill = "none") => `fill="${fill}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" d="${d}"`;
+  const WOOD = "#8a5a2b", GUN = "#2a2f38", VEST = "#b9ad86", SKIN = "#f6efe0";
+  return svg(parent, w, (w * 420) / 300, "0 0 300 420", `
+    ${limb("M124 290 L114 392", "#3d4f5c")}${limb("M176 290 L186 392", "#3d4f5c")}
+    <path d="M92 392 h40 v16 h-46 Z M168 392 h40 l6 16 h-46 Z" fill="${INK}"/>
+    <path ${line("M84 150 Q150 134 216 150 L206 294 L94 294 Z", 7, INK, VEST)}/>
+    <path ${line("M100 200 H200", 5)} opacity=".5"/><path ${line("M98 222 H202", 5)} opacity=".5"/>
+    <path ${line("M104 240 h28 v40 h-28 Z M136 240 h28 v40 h-28 Z M168 240 h28 v40 h-28 Z", 5, INK, "#a39570")}/>
+    <path ${line("M134 118 h32 v28 h-32 Z", 6, INK, SKIN)}/>
+    <path ${line("M112 76 Q112 40 150 40 Q188 40 188 76 L186 104 Q172 128 150 128 Q128 128 114 104 Z", 7, INK, SKIN)}/>
+    <path ${line("M104 82 Q102 22 150 22 Q198 22 196 82 L208 86 Q150 74 92 86 Z", 7, INK, TEAL)}/>
+    <path d="M141 26 h18 v16 h-18 Z" fill="${INK}"/>
+    <path d="M118 82 h28 l-3 13 h-23 Z M154 82 h28 l-3 13 h-23 Z" fill="${INK}"/>
+    <path ${line("M144 86 H156", 4)}/>
+    <path ${line("M138 111 Q150 107 164 110", 5)}/>
+    ${limb("M82 162 Q54 200 70 234 L132 257", TEAL, 44, 31)}
+    ${limb("M218 162 Q252 190 238 216 L207 192", TEAL, 44, 31)}
+    <g transform="rotate(-30 165 220)">
+      <path ${line("M40 214 L90 207 L90 233 L46 245 Z", 5, INK, WOOD)}/>
+      <path ${line("M88 205 H192 V231 H88 Z", 5, INK, GUN)}/>
+      <path ${line("M190 208 H242 V227 H190 Z", 5, INK, WOOD)}/>
+      <path ${line("M190 205 H252", 5)}/>
+      <path ${line("M242 216 H296", 7)}/>
+      <path ${line("M288 216 V203", 5)}/>
+      <path ${line("M150 231 Q151 262 132 290 L113 281 Q130 257 129 231 Z", 5, INK, GUN)}/>
+      <path ${line("M112 231 L104 258 L119 260 L125 231 Z", 5, INK, GUN)}/>
+    </g>
+    <circle cx="132" cy="257" r="15" fill="${SKIN}" stroke="${INK}" stroke-width="6"/>
+    <circle cx="207" cy="192" r="15" fill="${SKIN}" stroke="${INK}" stroke-width="6"/>
+  `);
+}
+
+// 2. Risquer sa vie en mission : ok — le petit Nico se transforme en Nico « mission »
 scene("riskOk", 5, (root) => {
   const cap = caption(root, COPY.riskOk.caption, 540, 380);
   const land = place(svg(root, 1080, 500, "0 0 1080 500", `
@@ -279,19 +317,36 @@ scene("riskOk", 5, (root) => {
     <path d="M820 300 L820 150" ${stroke(8)}/>
     <path d="M820 150 L910 176 L820 202" ${stroke(7, ORANGE)}/>
     <path d="M150 300 l20 -40 l20 40 M600 305 l14 -30 l14 30" ${stroke(6)} opacity=".6"/>
-  `), 540, 1080);
+  `), 540, 1160);
   set(land);
-  const nico = place(stickman(root, 330), 360, 940);
-  const stamp = place(el("div", "a stamp ok", root, COPY.riskOk.stamp), 700, 860);
-  stamp.style.fontSize = "170px";
+  const small = place(stickman(root, 330), 380, 1020);
+  const buff = place(buffNico(root, 520), 380, 910);
+  const puffs = Array.from({ length: 8 }, (_, i) => {
+    const a = (i / 8) * Math.PI * 2;
+    const e = place(el("div", "a puff", root), 380 + Math.cos(a) * 70, 960 + Math.sin(a) * 110);
+    return { e, dx: Math.cos(a) * 230, dy: Math.sin(a) * 260, sz: 170 + (i % 3) * 50 };
+  });
+  const stamp = place(el("div", "a stamp ok", root, COPY.riskOk.stamp), 810, 790);
+  stamp.style.fontSize = "150px";
+  const T = 0.95; // instant de la transformation
   return (t) => {
     cap.update(t, 0, 0.08);
     drawOn(land, prog(t, 0.2, 1.2));
-    drawOn(nico, prog(t, 0.3, 0.9));
-    set(nico, { r: boil(t, 2) * 0.8 });
+    drawOn(small, prog(t, 0, 0.4));
+    const charge = prog(t, 0.45, T - 0.45);
+    set(small, { r: Math.sin(t * 60) * 6 * charge, s: 1 + charge * 0.12, o: t < T ? 1 : 0 });
+    const b = ease.back(prog(t, T, 0.45));
+    const breathe = t > T + 0.5 ? Math.sin((t - T) * 3) * 0.012 : 0;
+    set(buff, { s: lerp(0.3, 1, b) + breathe, o: t >= T ? 1 : 0, r: boil(t, 2) * 0.6 });
+    puffs.forEach(({ e, dx, dy, sz }) => {
+      const q = prog(t, T - 0.05, 0.7);
+      e.style.width = e.style.height = sz + "px";
+      set(e, { x: dx * ease.out(q), y: dy * ease.out(q) - q * 60, s: lerp(0.3, 1.3, ease.out(q)), o: q > 0 && q < 1 ? 1 - q : 0 });
+    });
     set(stamp, { ...slam(t, 3.2), r: -10 });
-    const sh = shake(t, 3.48, 0.3, 18);
-    root.style.transform = `translate(${sh.x}px,${sh.y}px)`;
+    const sh = shake(t, T, 0.25, 16);
+    const sh2 = shake(t, 3.48, 0.3, 18);
+    root.style.transform = `translate(${sh.x + sh2.x}px,${sh.y + sh2.y}px)`;
   };
 });
 

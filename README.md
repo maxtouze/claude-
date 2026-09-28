@@ -23,7 +23,7 @@ Le texte de la voix off et son minutage sont dans `VOICEOVER.md`, généré par 
 | Scène | Contenu |
 |---|---|
 | intro | « Salut, moi c'est Nico. J'ai créé Second Armor. » |
-| riskOk | Risquer ma vie en mission, pour un truc auquel je crois ? Tampon vert « OK » |
+| riskOk | Risquer ma vie en mission ? Le petit Nico se transforme (nuage de fumée) en Nico « mission » : costaud, casque, kalach. Tampon vert « OK » |
 | riskNo | Me faire arnaquer sur un gilet à 400 balles ? Tampon rouge « NON » |
 | channels | Facebook, Telegram… 15 onglets qui s'empilent → « 15 CANAUX » |
 | ban | Annonce signalée (photo suspecte, mot interdit) → « COMPTE BANNI » |
