@@ -450,7 +450,7 @@ const speakDur = (s) => {
 const VOICE_TIMING = window.VOICE_TIMING || {};
 let CUE_N = 0;
 function shot(key, cues, draw, opt = {}) {
-  const { lead = 0.12, min = 0, dark = false, subs = true } = opt;
+  const { lead = 0.05, min = 0, dark = false, subs = true } = opt;
   let t = lead;
   const cs = cues.map(([text, pause = 0.25, sub]) => {
     const n = ++CUE_N;
@@ -466,7 +466,7 @@ const cueEnd = (key, i = 0) => { const c = SHOTS.find((s) => s.key === key).cues
 const spectator = (t, o = {}) => stick({ x: 970, y: 1300, s: 0.62, la: [-30, -150], ra: [30, -150], ll: [40, -160, 70, -110], rl: [50, -150, 85, -110], ...o });
 
 // 1. Présentation
-shot("salut", [["Salut, moi c'est Nico.", 0.35]], (t, c) => {
+shot("salut", [["Salut, moi c'est Nico.", 0.25]], (t, c) => {
   const q = prog(t, 0, 0.9);
   const wave = t > 0.9 ? Math.sin((t - 0.9) * 10) * 22 : 0;
   return stick({ x: 540, y: 1180, s: 1.6, q, ra: t > 0.9 ? [70 + wave, -300] : [48, -118] }) +
@@ -475,18 +475,18 @@ shot("salut", [["Salut, moi c'est Nico.", 0.35]], (t, c) => {
 // Le fantasme se construit sur le même bonhomme, fond blanc : lunettes, clope, muscles, kalach, bécane, meuf, flammes.
 const FANTASY = { k: 1, glasses: 1, cig: 1, ak: 1, moto: 1, girl: 1, fire: 1, vroom: 1 };
 const bam = (t, at, x, y, txt = "BAM") => (t > at && t < at + 0.45 ? T(txt, x, y, { font: MARK, size: 70, c: ACC, r: -10, stroke: [8, INK], op: clamp((at + 0.45 - t) * 4) }) : "");
-shot("respect", [["… Euh. Un peu de respect.", 2.3]], (t) => {
+shot("respect", [["… Euh. Un peu de respect.", 1.0]], (t) => {
   const st = {
-    glasses: t > 0.9, cig: t > 1.2, k: ease.back(prog(t, 1.45, 0.4)), shake: t > 1.45 && t < 1.9,
-    ak: pop(t, 2.1), moto: prog(t, 2.5, 0.45), girl: pop(t, 3.05), fire: prog(t, 3.35, 0.2), vroom: prog(t, 3.45, 0.2),
+    glasses: t > 0.5, cig: t > 0.75, k: ease.back(prog(t, 0.95, 0.35)), shake: t > 0.95 && t < 1.3,
+    ak: pop(t, 1.35), moto: prog(t, 1.6, 0.35), girl: pop(t, 1.95), fire: prog(t, 2.15, 0.2), vroom: prog(t, 2.2, 0.2),
   };
   let g = fantasy(t, st);
-  g += bam(t, 0.9, 780, 640) + bam(t, 1.45, 300, 700) + bam(t, 2.1, 820, 820);
-  if (t < 3.6) g += T("moi", 830, 560, { size: 64, r: -3 }) + arrow(830, 610, t > 1.45 ? 610 : 640, 730);
-  else g += label(t, 3.6, "moi (réel)", 190, 760, 390, 820, { size: 66, from: [220, 810] });
+  g += bam(t, 0.5, 780, 640) + bam(t, 0.95, 300, 700) + bam(t, 1.35, 820, 820);
+  if (t < 2.35) g += T("moi", 830, 560, { size: 64, r: -3 }) + arrow(830, 610, t > 0.95 ? 610 : 640, 730);
+  else g += label(t, 2.35, "moi (réel)", 190, 760, 390, 820, { size: 66, from: [220, 810] });
   return g;
 });
-shot("bulle", [["Voilà. Je préfère.", 0.3], ["Tant que personne vérifie, c'est bon.", 1.3]], (t, c) => {
+shot("bulle", [["Voilà. Je préfère.", 0.25], ["Tant que personne vérifie, c'est bon.", 0.5]], (t, c) => {
   const k = ease.inOut(prog(t, c[1] - 0.15, 0.9));
   const s = lerp(1, 0.46, k), cx = lerp(560, 640, k), cy = lerp(890, 560, k);
   let g = "";
@@ -499,7 +499,7 @@ shot("bulle", [["Voilà. Je préfère.", 0.3], ["Tant que personne vérifie, c'e
   return g;
 });
 // 2. Le métier
-shot("militaire", [["Dans la vie, je suis militaire.", 0.25], ["Des risques, j'en prends.", 0.5]], (t, c) => {
+shot("militaire", [["Dans la vie, je suis militaire.", 0.2], ["Des risques, j'en prends.", 0.3]], (t, c) => {
   let g = P("M0 1150 H1080", { w: 6 });
   // Nico casqué + fusil
   g += stick({ x: 290, y: 1150, s: 1.05, acc: ["helmet"], la: [60, -165], ra: [100, -170], eyes: "dot" });
@@ -523,13 +523,13 @@ shot("militaire", [["Dans la vie, je suis militaire.", 0.25], ["Des risques, j'e
   return Z(g, 1.18, 560, 1000);
 });
 // 3. Les risques inutiles
-shot("graphe", [["Mais il m'arrive aussi d'en prendre des inutiles.", 0.3]], (t, c) => {
+shot("graphe", [["Mais il m'arrive aussi d'en prendre des inutiles.", 0.25]], (t, c) => {
   const cz = c[0] + 1.6;
   return risksGraph(t, { mission: pop(t, 0.3), zero: prog(t, cz, 0.4) }) + spectator(t);
 });
-shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 2.7]], (t, c, d) => {
+shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 1.6]], (t, c, d) => {
   const vo = cueEnd("poele");
-  const g0 = d - 0.9;
+  const g0 = d - 0.7;
   if (t >= g0) return risksGraph(t, { zero: 1, poele: pop(t, g0 + 0.15) }) + spectator(t);
   if (t < vo + 0.35) {
     // gros plan : feu vif, la main arrive, touche
@@ -548,13 +548,13 @@ shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 2.7]], (t, c
   const hx = 540 + 60 * 1.5, hy = 1230 - 360 * 1.5;
   const fl = 1 + Math.sin(t * 25) * 0.08;
   return stick({ x: 540, y: 1230, s: 1.5, ra: [70, -290, 60, -360] }) + Img("flammes", hx, hy - 50, 170 * fl, { r: -90 }) +
-    label(t, vo + 0.9, "elle était\nchaude", 250, 560, 470, 650, { size: 60 });
+    label(t, vo + 0.6, "elle était\nchaude", 250, 560, 470, 650, { size: 60 });
 }, { min: 4 });
-shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écoute.", 5.3]], (t, c, d) => {
+shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écoute.", 3.4]], (t, c, d) => {
   const e = cueEnd("ouioui");
-  const g0 = d - 0.9;
+  const g0 = d - 0.8;
   if (t >= g0) return risksGraph(t, { zero: 1, poele: 1, ouioui: pop(t, g0 + 0.15) }) + spectator(t);
-  const turn = t > e + 2.9 && t < e + 4.0;
+  const turn = t > e + 1.5 && t < e + 2.5;
   let g = "";
   g += P("M150 1150 V930 Q150 880 200 880 H880 Q930 880 930 930 V1150", { fill: "#e9e4dc", w: 7 }) + P("M150 1040 H930", { w: 6 }) + P("M150 1150 H930 M180 1150 v40 M900 1150 v40", { w: 7 });
   g += stick({ x: 360, y: 1150, s: 1.0, acc: ["blonde", "fringe"], look: [9, 0], eyes: t > e + 0.5 ? "flat" : "dot", la: [-40, -120], ra: [50, -130], ll: [-40, -60, -40, 0], rl: [0, -60, 0, 0], mouth: t < e ? (Math.sin(t * 22) > 0 ? "o" : "flat") : "flat" });
@@ -567,12 +567,12 @@ shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écou
     for (let i = 0; i < Math.min(n, 9); i++) inner += P(`M${190 + (i % 3) * 120} ${520 + Math.floor(i / 3) * 55} q20 -20 40 0 t40 0 t40 0`, { w: 5 });
   } else inner += T("Tu m'écoutes ?", 390, 580, { size: 58 });
   g += bubble(390, 580, 440, 230, 380, 760, inner, { s: pop(t, 0.1) });
-  if (t > e + 3.2) g += bubble(790, 700, 260, 120, 720, 800, T("oui oui", 790, 700, { size: 54 }), { s: pop(t, e + 3.2) });
+  if (t > e + 1.8) g += bubble(790, 700, 260, 120, 720, 800, T("oui oui", 790, 700, { size: 54 }), { s: pop(t, e + 1.8) });
   // le blanc : on se rapproche lentement de Nico, qui fixe son téléphone
-  const z = lerp(1.3, 2.1, ease.inOut(prog(t, e + 0.5, 2.3)));
-  return Z(g, z, lerp(540, 700, prog(t, e + 0.5, 2.3)), lerp(880, 930, prog(t, e + 0.5, 2.3)));
+  const z = lerp(1.3, 2.1, ease.inOut(prog(t, e + 0.4, 1.4)));
+  return Z(g, z, lerp(540, 700, prog(t, e + 0.4, 1.4)), lerp(880, 930, prog(t, e + 0.4, 1.4)));
 }, { min: 6 });
-shot("inconnu", [["Envoyer 400 balles à un inconnu sur internet.", 1.4]], (t, c, d) => {
+shot("inconnu", [["Envoyer 400 balles à un inconnu sur internet.", 1.2]], (t, c, d) => {
   const talk = cueEnd("inconnu") + 0.13; // fin de la phrase
   if (t < talk) {
     const k = ease.inOut(prog(t, 0.5, 1.8));
@@ -589,7 +589,7 @@ shot("inconnu", [["Envoyer 400 balles à un inconnu sur internet.", 1.4]], (t, c
     spectator(t, { look: turned ? [-10, 0] : [0, 0] }) +
     bubble(820, 1020, 230, 110, 930, 1130, T("frère ?", 820, 1020, { size: 52 }), { s: pop(t, talk + 0.45) });
 });
-shot("justif", [["… Non mais le mec avait 40 avis.", 0.2], ["Il m'a envoyé des photos, une vidéo.", 0.2], ["Tout était carré.", 0.5]], (t, c) => {
+shot("justif", [["… Non mais le mec avait 40 avis.", 0.15], ["Il m'a envoyé des photos, une vidéo.", 0.15], ["Tout était carré.", 0.25]], (t, c) => {
   let inner = Circ(330, 450, 52, { w: 6, fill: PAPER }) + Dot(314, 445, 5) + Dot(346, 445, 5) + P("M316 470 q14 10 28 0", { w: 4 });
   inner += T("Thomas R.", 400, 425, { size: 50, anchor: "start", font: SANS, weight: 800 });
   if (t > c[0] + 1.0) inner += T("★★★★★", 400, 480, { size: 40, anchor: "start", c: ACC, font: SANS }) + T("40 avis", 590, 482, { size: 38, anchor: "start", font: SANS, weight: 600 });
@@ -603,7 +603,7 @@ shot("justif", [["… Non mais le mec avait 40 avis.", 0.2], ["Il m'a envoyé de
   return g + spectator(t, { y: 1300 + nod * 0.3, look: [0, nod * 0.6] });
 });
 // 4. Le gilet furtif
-shot("furtif", [["Sur les photos, il était parfait.", 0.25], ["En vrai, le camo était tellement bon…", 0.55], ["que je l'ai jamais vu.", 0.8]], (t, c) => {
+shot("furtif", [["Sur les photos, il était parfait.", 0.25], ["En vrai, le camo était tellement bon…", 0.55], ["que je l'ai jamais vu.", 0.35]], (t, c) => {
   let g = P("M540 230 V1260", { w: 5, dash: "18 16" });
   g += T("sur les photos", 270, 300, { size: 62 }) + G(vest(), { x: 270, y: 780, s: 0.95 });
   for (let i = 0; i < 5; i++) {
@@ -620,13 +620,13 @@ shot("furtif", [["Sur les photos, il était parfait.", 0.25], ["En vrai, le camo
   }
   return g;
 });
-shot("bip", [["… Bon. Je me suis fait enculer.", 0.6, "… Bon. Je me suis fait ████."]], (t, c) => {
+shot("bip", [["… Bon. Je me suis fait enculer.", 0.35, "… Bon. Je me suis fait ████."]], (t, c) => {
   const bip = cueEnd("bip") - 0.6; // « enculer » est le dernier mot (≈ 0,6 s)
   let g = bigFace(540, 700, 250);
   if (t > bip) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
   return g;
 });
-shot("pasleseul", [["Et j'étais pas le seul.", 1.3]], (t, c) => {
+shot("pasleseul", [["Et j'étais pas le seul.", 0.5]], (t, c) => {
   const k = ease.inOut(prog(t, 0.35, 1.4));
   const s = lerp(1.25, 0.45, k);
   const fx = lerp(0, 820, k), fy = lerp(-140, -330, k);
@@ -643,14 +643,14 @@ shot("pasleseul", [["Et j'étais pas le seul.", 1.3]], (t, c) => {
   world += P("M-900 0 H3000", { w: 6 });
   return G(G(world, { x: -fx, y: -fy }), { x: 540, y: 1030, s });
 });
-shot("arrete", [["Je touche encore des poêles.", 0.2], ["Mais ça… même moi, j'ai arrêté.", 0.8]], (t, c) => {
+shot("arrete", [["Je touche encore des poêles.", 0.2], ["Mais ça… même moi, j'ai arrêté.", 0.4]], (t, c) => {
   return tallyGraph(t, {
     poele: 90 * ease.out(prog(t, 0.2, 1.8)), inf: pop(t, c[0] + 0.9),
     one: t > c[1] + 0.3, circle: prog(t, c[1] + 0.8, 0.5), meme: c[1] + 1.4,
   });
 });
 // 5. « Nico, t'es con »
-shot("tescon", [["Et là, vous allez me dire : « Nico, t'es con. Va sur Vinted. »", 0.5]], (t, c) => {
+shot("tescon", [["Et là, vous allez me dire : « Nico, t'es con. Va sur Vinted. »", 0.25]], (t, c) => {
   const crossed = { la: [30, -150], ra: [-30, -160] };
   let g = stick({ x: 620, y: 1200, s: 1.2, mouth: t > 0.3 && t < 1.5 && Math.sin(t * 20) > 0 ? "o" : "flat" });
   g += stick({ x: 140, y: 1220, s: 0.85, ...crossed, eyes: "flat" }) + stick({ x: 300, y: 1250, s: 0.8, ...crossed, eyes: "flat" }) + stick({ x: 850, y: 1230, s: 0.85, ...crossed, eyes: "flat" });
@@ -665,7 +665,7 @@ const WINS = [
   ["Marketplace", "Tondeuse"], ["Discord · #vente", "…"], ["Vinted", "Treillis\n2 ans"], ["Groupe privé", "Demande\nenvoyée"],
   ["eBay", "Gilet jaune"], ["Telegram #3", "Photo floue"], ["Facebook", "VENDU"], ["Marketplace", "Porte-plaques\n400 €"],
 ];
-shot("ordi", [["Sauf que là-bas, ton porte-plaques, il est rangé dans « Déguisements ».", 0.25], ["Alors trouver du matos, c'est une chasse au trésor.", 0.25], ["Et si tu tombes enfin sur le bon truc… t'as de la chance.", 0.5]], (t, c, d) => {
+shot("ordi", [["Sauf que là-bas, ton porte-plaques, il est rangé dans « Déguisements ».", 0.25], ["Alors trouver du matos, c'est une chasse au trésor.", 0.25], ["Et si tu tombes enfin sur le bon truc… t'as de la chance.", 0.3]], (t, c, d) => {
   let g = Rect(60, 320, 960, 640, { fill: "#f4f6f8", sw: 10, rx: 18 }) + P("M540 960 V1020 M430 1020 H650", { w: 10 });
   const R = rng(11);
   const pos = WINS.map((_, i) => (i === 0 ? [540, 610, 0] : i === WINS.length - 1 ? [540, 620, 0] : [lerp(300, 780, R()), lerp(450, 800, R()), lerp(-8, 8, R())]));
@@ -685,7 +685,7 @@ shot("ordi", [["Sauf que là-bas, ton porte-plaques, il est rangé dans « Dégu
   g += Circ(540, 1090, 64, { fill: PAPER, w: 8 }) + P("M540 1154 V1300 M540 1190 L430 1120 M540 1190 L650 1120", { w: 9 });
   return g;
 });
-shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.", 1.3]], (t, c) => {
+shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.", 1.0]], (t, c) => {
   const t1 = t - c[1], D = SHOTS.find((x) => x.key === "algo").cues[1].dur; // calé sur la vraie durée de la réplique
   const panic = t1 > 0.3 * D, bag = t1 > 0.45 * D && t1 < 0.72 * D, tel = t1 > 0.66 * D;
   let g = "";
@@ -721,7 +721,7 @@ shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un
   g += label(t, c[0] + 0.3, "l'algorithme", 800, 560, 745, 690, { size: 60 });
   return Z(g, 1.15, 560, 1000);
 });
-shot("poche", [["… C'est une poche.", 0.9]], (t) => {
+shot("poche", [["… C'est une poche.", 0.5]], (t) => {
   return stick({ x: 540, y: 1220, s: 1.45, ra: [60, -250, 70, -320] }) + G(pouch(), { x: 540 + 70 * 1.45, y: 1220 - 350 * 1.45, s: 1.1 }) +
     label(t, 0.5, "une poche", 860, 480, 700, 640, { size: 58 });
 });
@@ -730,7 +730,7 @@ function modDesk(o = {}) {
   let g = Rect(170, 1040, 740, 200, { fill: PAPER, sw: 7 }) + T("MODÉRATION", 540, 1140, { size: 56, font: SANS, weight: 800 });
   return g;
 }
-shot("couilles", [["Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles.", 1.7]], (t, c, d) => {
+shot("couilles", [["Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles.", 0.6]], (t, c, d) => {
   const walk = ease.out(prog(t, 0.2, 1.0));
   const bx = lerp(-250, 380, walk);
   const grab = t > 1.35, thr = prog(t, 2.0, 0.9);
@@ -750,7 +750,7 @@ shot("couilles", [["Ce qu'il nous fallait, c'est un Vinted avec deux paires de c
   return Z(g, 1.3, 600, 1000);
 });
 const LISTINGS = [["Porte-chargeur", "15 €", true, "… c'est une poche."], ["Porte-plaques", "400 €", true, null], ["Grenade (vraie)", "30 €", false, "non."]];
-shot("moderation", [["Des gars du milieu, à la place d'un algorithme qui panique.", 1.6]], (t) => {
+shot("moderation", [["Des gars du milieu, à la place d'un algorithme qui panique.", 1.1]], (t) => {
   let g = buffStick({ x: 540, y: 1150, s: 1.1, k: 1, glasses: true, cap: true, la: [-110, -150, -60, -170], ra: [130, -200, 170, -300] });
   g += Rect(470, 950, 46, 54, { fill: PAPER, sw: 5, rx: 5 }) + modDesk();
   LISTINGS.forEach(([name, price, ok, say], i) => {
@@ -766,7 +766,7 @@ shot("moderation", [["Des gars du milieu, à la place d'un algorithme qui paniqu
   });
   return g;
 });
-shot("verifient", [["Et eux, ils vérifient.", 0.3], ["… ok.", 1.1]], (t, c) => {
+shot("verifient", [["Et eux, ils vérifient.", 0.8], ["… ok.", 0.5]], (t, c) => {
   const ride = ease.out(prog(t, 0, 0.8));
   const bx = lerp(-400, 300, ride);
   let g = buffStick({ x: 800, y: 1150, s: 0.95, k: 1, glasses: true, cap: true, glassesDy: 22 * prog(t, 0.9, 0.3), la: [-110, -130], ra: [110, -130] });
@@ -782,7 +782,7 @@ shot("verifient", [["Et eux, ils vérifient.", 0.3], ["… ok.", 1.1]], (t, c) =
   g += bubble(bx + 260, 880, 170, 100, bx + 120, 1000, T("… ok.", bx + 260, 880, { size: 50 }), { s: pop(t, c[1]) });
   return g;
 });
-shot("garantie", [["Et chaque transaction garantie.", 2.9]], (t) => {
+shot("garantie", [["Et chaque transaction garantie.", 1.2]], (t) => {
   let g = stick({ x: 170, y: 1220, s: 0.9 }) + T("toi", 170, 1290, { size: 44 });
   g += stick({ x: 860, y: 1220, s: 0.9, acc: ["cap"] }) + T("vendeur", 860, 1290, { size: 44 });
   // coffre-fort
@@ -798,7 +798,7 @@ shot("garantie", [["Et chaque transaction garantie.", 2.9]], (t) => {
   if (t > 3.2) g += G(vest(), { x: 260, y: 1000, s: 0.45 * pop(t, 3.2) }) + label(t, 3.6, "pas de mouche", 330, 700, 280, 900, { size: 52 });
   return Z(g, 1.12, 540, 950);
 });
-shot("cree", [["Alors oui, je touche encore des poêles.", 0.2], ["Mais ça, c'est moi qui l'ai créé.", 0.2], ["Ça s'appelle Second Armor.", 0.5]], (t, c) => {
+shot("cree", [["Alors oui, je touche encore des poêles.", 0.2], ["Mais ça, c'est moi qui l'ai créé.", 0.2], ["Ça s'appelle Second Armor.", 0.3]], (t, c) => {
   const point = t > c[1];
   let g = stick({ x: 220, y: 1220, s: 1.25, ra: point ? [110, -230] : [60, -250, 70, -320] });
   if (!point) g += Dot(220 + 70 * 1.25, 1220 - 320 * 1.25, 12, RED);
@@ -810,7 +810,7 @@ shot("cree", [["Alors oui, je touche encore des poêles.", 0.2], ["Mais ça, c'e
   if (t > c[2]) g += G(T("SECOND ARMOR", 0, 0, { size: 82, font: SANS, weight: 800, c: NAVY }), { x: 690, y: 1000, s: pop(t, c[2]) });
   return g;
 });
-shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est déjà 10 000,", 0.15], ["avec plus de 300 transactions notées cinq étoiles.", 0.8]], (t, c) => {
+shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est déjà 10 000,", 0.15], ["avec plus de 300 transactions notées cinq étoiles.", 0.4]], (t, c) => {
   const x0 = 140, y0 = 1120, w = 800, h = 640;
   let g = arrow(x0, y0, x0, y0 - h - 40, { bend: 0 }) + arrow(x0, y0, x0 + w + 20, y0, { bend: 0 }) + T("membres", x0 + 20, y0 - h - 70, { size: 46, anchor: "start" });
   const k = ease.inOut(prog(t, 0.2, c[1] + 1.0));
@@ -841,7 +841,7 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
 });
 // 6 bis. Rendre à la communauté
 const AMAZONIE_COMPTE = "@son.compte"; // À REMPLACER : le compte de l'ancien des forces spéciales
-shot("rendre", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3], ["Pour l'instant, on est encore en perte.", 1.3]], (t, c) => {
+shot("rendre", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3], ["Pour l'instant, on est encore en perte.", 0.5]], (t, c) => {
   let g = "";
   if (t < c[1]) {
     // Nico tend des cartons à la section
@@ -869,7 +869,7 @@ shot("rendre", [["Et le but, c'est de rendre à la communauté au fur et à mesu
   g += label(t, c[1] + 1.4, "c'est un\ninvestissement", 820, 1080, 900, 970, { size: 50 });
   return g;
 });
-shot("hockey", [["Mais on a déjà sponsorisé les Frères d'Armes :", 0.15], ["un match de hockey à Caen, pour le D-Day,", 0.15], ["au profit du Bleuet de France.", 1.0]], (t, c) => {
+shot("hockey", [["Mais on a déjà sponsorisé les Frères d'Armes :", 0.15], ["un match de hockey à Caen, pour le D-Day,", 0.15], ["au profit du Bleuet de France.", 0.4]], (t, c) => {
   const k = ease.out(prog(t, 0.1, 0.5));
   let g = T("LES FRÈRES D'ARMES", 540, 190, { size: 76, font: STENCIL, c: NAVY, op: clamp(t * 3) });
   g += T("Forces alliées vs Drakkars de Caen", 540, 265, { size: 46, op: clamp(t * 3 - 1) });
@@ -886,7 +886,7 @@ shot("hockey", [["Mais on a déjà sponsorisé les Frères d'Armes :", 0.15], ["
   }
   return g;
 });
-shot("amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1], ["qui part dix jours en autonomie en Amazonie.", 0.3], ["Allez le suivre. Il va en avoir besoin.", 1.3]], (t, c) => {
+shot("amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1], ["qui part dix jours en autonomie en Amazonie.", 0.3], ["Allez le suivre. Il va en avoir besoin.", 0.5]], (t, c) => {
   const k = ease.out(prog(t, 0.1, 0.5));
   let g = "";
   // feuillage dessiné autour
@@ -908,11 +908,11 @@ shot("amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1], ["qu
   return g;
 });
 // 7. Fin
-shot("continuez", [["Alors continuez à prendre des risques. Même des inutiles.", 0.4]], (t, c, d) => {
+shot("continuez", [["Alors continuez à prendre des risques. Même des inutiles.", 0.25]], (t, c, d) => {
   return tallyGraph(t, { poele: 90, inf: 1, one: true, circle: 1, meme: -1, plus: prog(t, d * 0.5, 0.3) }) +
     (t > d * 0.5 ? P("M370 560 v-56", { w: 6, c: ACC }) : "");
 });
-shot("belote", [["Mais si vous devez perdre 400 balles…", 0.3], ["perdez-les à la belote avec la section.", 1.9]], (t, c) => {
+shot("belote", [["Mais si vous devez perdre 400 balles…", 0.3], ["perdez-les à la belote avec la section.", 1.3]], (t, c) => {
   const t1 = t - c[1];
   let g = "";
   const soldier = (x, y, s, o = {}) => stick({ x, y, s, acc: ["helmet"], ...o });
@@ -925,7 +925,7 @@ shot("belote", [["Mais si vous devez perdre 400 balles…", 0.3], ["perdez-les �
   g += soldier(250, 1240, 1.0, { la: shrug ? [-60, -200, -70, -260] : [60, -160], ra: shrug ? [60, -200, 80, -250] : [80, -170], eyes: "dot" });
   g += soldier(830, 1240, 1.0, { la: t1 > 0.9 ? [-60, -220, -40, -290] : [-80, -160], ra: t1 > 0.9 ? [60, -220, 40, -290] : [-60, -150], mouth: t1 > 0.9 ? "smile" : null });
   if (t1 > 0.9) g += T("belote !", 800, 830, { size: 50, op: clamp((t1 - 0.9) * 4) });
-  g += label(t, c[1] + 2.4, "au moins, je les\nai vus partir", 540, 620, 250, 900, { size: 54 });
+  g += label(t, c[1] + 2.0, "au moins, je les\nai vus partir", 540, 620, 250, 900, { size: 54 });
   return Z(g, 1.2, 540, 1050);
 });
 shot("fin", [], (t) => {
