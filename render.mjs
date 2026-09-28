@@ -30,32 +30,32 @@ await page.evaluate(() => window.videoReady);
 const { FPS, DURATION } = await page.evaluate(() => ({ FPS: window.VIDEO.FPS, DURATION: window.VIDEO.DURATION }));
 
 if (vo) {
-  // Génère VOICEOVER.md à partir des textes `vo` de COPY et du minutage réel des scènes.
-  const { COPY, scenes } = await page.evaluate(() => ({ COPY: window.VIDEO.COPY, scenes: window.VIDEO.scenes }));
+  // Génère VOICEOVER.md : chaque réplique avec son minutage (celui utilisé par les sous-titres).
+  const { shots } = await page.evaluate(() => ({ shots: window.VIDEO.shots }));
   const fmt = (t) => `${Math.floor(t / 60)}:${(t % 60).toFixed(1).padStart(4, "0")}`.replace(".", ",");
   let total = 0;
-  const rows = scenes.map(([a, b, key]) => {
-    const text = COPY[key].vo;
-    const n = text.match(/[\p{L}\d']+/gu).length;
+  const rows = shots.flatMap((s) => s.cues.map((c) => {
+    const n = (c.text.match(/[\p{L}\d]+/gu) || []).length;
     total += n;
-    return `| ${fmt(a)} – ${fmt(b)} | ${key} | ${text} | ${n} (${(n / (b - a)).toFixed(1).replace(".", ",")}/s) |`;
-  });
+    return `| ${fmt(c.at)} – ${fmt(c.at + c.dur)} | ${s.key} | ${c.text.replace(/\|/g, "/")} |`;
+  }));
   const md = [
     `# Voix off : Second Armor, founder story (${Math.round(DURATION)} s)`, "",
-    "Texte à lire par Nico, calé sur les scènes. Rythme visé : 2 à 3 mots par seconde, ton posé, comme s'il parlait à un pote.",
-    "Fichier généré par `npm run vo` à partir de `COPY` dans `video.js` : modifier les textes là-bas, pas ici.", "",
-    "| Temps | Scène | Texte | Mots |", "|---|---|---|---|", ...rows, "",
+    "Texte à lire par Nico, avec le minutage utilisé par les sous-titres et l'animation.",
+    "Ton : monotone, pince-sans-rire. Nico ne joue pas, il constate. Les pauses comptent autant que les mots.",
+    "Fichier généré par `npm run vo` à partir des plans de `video.js` : modifier les textes là-bas, pas ici.", "",
+    "| Temps | Plan | Texte |", "|---|---|---|", ...rows, "",
     `Total : ${total} mots en ${DURATION.toFixed(1).replace(".", ",")} s.`, "",
     "## Conseils d'enregistrement", "",
-    "- Enregistrer au téléphone, dans une pièce calme ; une prise par phrase, c'est plus simple à caler.",
-    "- Laisser une demi-seconde de silence avant « Aujourd'hui » : c'est le moment de bascule de la vidéo.",
-    "- Si la voix change, modifier aussi `vo` et `caption` dans `COPY` pour que l'écran dise la même chose.", "",
+    "- Enregistrer au téléphone, dans une pièce calme ; une prise par réplique, c'est plus simple à caler.",
+    "- Garder les silences : après « sur internet » (le « frère ? »), avant « que je l'ai jamais vu », avant « … ok. ».",
+    "- « enculer » est couvert par un bip et une barre noire à l'image : le dire quand même, le bip se pose au montage.", "",
   ].join("\n");
   (await import("node:fs")).writeFileSync(path.join(root, "VOICEOVER.md"), md);
   console.log("VOICEOVER.md mis à jour");
 } else if (stills) {
   mkdirSync(path.join(out, "stills"), { recursive: true });
-  const ranges = await page.evaluate(() => window.VIDEO.scenes);
+  const ranges = await page.evaluate(() => window.VIDEO.shots.map((s) => [s.from, s.to]));
   for (const t of ranges.map(([a, b]) => Math.min(b - 0.3, a + (b - a) * 0.85))) {
     await page.evaluate((t) => window.VIDEO.seek(t), t);
     await page.screenshot({ path: path.join(out, "stills", `t${t.toFixed(1)}.png`) });

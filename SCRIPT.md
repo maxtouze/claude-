@@ -86,7 +86,7 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 — Un menu de catégories dessiné : Femme › Robes, Homme › Jeans… Le porte-plaques est rangé dans « Déguisements », entre un costume de pirate et une tenue d'infirmière sexy.
 — Coupe sèche : Nico dans son lit, dans le noir, le visage éclairé par son téléphone. Réveil : 3h12. Son pouce tire l'écran vers le bas pour rafraîchir, encore et encore. Compteur de rafraîchissements à côté de lui, comme les bâtons du graphique. À l'écran : « 0 nouveau résultat ». Des cernes qui s'agrandissent.
 
-**« Et encore, faut que ton annonce passe. Parce que pour l'algorithme bien-pensant, "porte-chargeur", c'est de l'apologie du terrorisme. »**
+**« Si tu t'es pas fait bannir. Parce que pour un algorithme bien-pensant, "porte-chargeur", c'est de l'apologie du terrorisme. »**
 — L'algorithme est un personnage (voir la note plus bas). Il lit l'annonce « Porte-chargeur, bon état, 15 € ». Il blêmit, se couvre les yeux, pose un panneau « ⚠ contenu choquant » sur l'annonce, respire dans un sac en papier, puis décroche un téléphone rouge. Gyrophare. Tampon rouge : **FICHÉ S**. Le compte de Nico tombe dans une trappe.
 
 **« … C'est une poche. »**

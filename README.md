@@ -1,36 +1,24 @@
-# Second Armor — founder story (TikTok, 30 s)
+# Second Armor — founder story (TikTok)
 
-Vidéo animée 9:16 (1080×1920) en JavaScript pur, sans framework vidéo.
+Vidéo animée 9:16 (1080×1920) en JavaScript pur, sans framework vidéo, dans le style « Casually Explained » : bonshommes bâtons sur fond blanc, faux graphiques, coupes sèches, voix off pince-sans-rire. Le script complet (voix off + visuels) est dans `SCRIPT.md`.
 
 - `index.html` + `video.js` + `style.css` : l'animation. Ouvrir `index.html` dans un navigateur pour la prévisualiser (lecture, pause, barre de défilement).
-- `video.js` → objet `COPY` en haut du fichier : tous les textes et la photo optionnelle. C'est le seul endroit à toucher pour changer le script.
+- `video.js` : un plan = `shot(clé, répliques, dessin)`. Les répliques de la voix off servent à la fois aux sous-titres, au minutage des plans et à `VOICEOVER.md`.
 - `render.mjs` : export MP4 image par image.
 
 ```bash
 npm install
 npm run render   # -> out/second-armor.mp4
-npm run stills   # -> quelques captures PNG dans out/stills
+npm run stills   # -> une capture par plan dans out/stills
+npm run vo       # -> VOICEOVER.md (texte de la voix off avec le minutage)
 ```
 
 Si Chromium ou ffmpeg sont déjà installés ailleurs : `CHROMIUM=/chemin FFMPEG=/chemin npm run render`.
 
-## Découpage
+## Minutage et voix off
 
-Fil rouge : **le risque**. Risquer sa vie en mission pour une cause, ok. Se faire arnaquer sur un gilet à 400 balles, non.
+Tant que la voix n'est pas enregistrée, la durée de chaque réplique est estimée à partir d'un débit posé (`WORDS_PER_SEC` en haut de `video.js`), plus les pauses notées après chaque réplique. La vidéo sort sans son, avec les sous-titres calés sur ce minutage.
 
-Le texte de la voix off et son minutage sont dans `VOICEOVER.md`, généré par `npm run vo`. La durée totale se calcule à partir des scènes (environ 47 s ; plus si on ajoute des avis).
+Quand Nico aura enregistré la voix, on recale les durées sur la vraie prise, puis on ajoute la piste audio (et le bip sur « enculer ») au montage.
 
-| Scène | Contenu |
-|---|---|
-| intro | « Salut, moi c'est Nico. J'ai créé Second Armor. » |
-| riskOk | Risquer ma vie en mission ? Le petit Nico se transforme (nuage de fumée) en Nico « mission » : costaud, casque, kalach. Tampon vert « OK » |
-| riskNo | Me faire arnaquer sur un gilet à 400 balles ? Tampon rouge « NON » |
-| channels | Facebook, Telegram… 15 onglets qui s'empilent → « 15 CANAUX » |
-| ban | Annonce signalée (photo suspecte, mot interdit) → « COMPTE BANNI » |
-| turn | « Alors j'ai fait un truc. » : l'unité de départ (en orange) |
-| app | Vendeurs vérifiés, argent bloqué jusqu'à réception, entre nous |
-| growth | Compteur 1 → 10 000 membres actifs (l'unité de départ reste en orange) |
-| reviews | Avis d'utilisateurs : `COPY.reviews.items`, scène sautée tant que la liste est vide |
-| end | « Des risques, on en prend déjà assez en mission. » : logo, le Vinted militaire, lien en bio |
-
-Couleurs : bleu marine `#192230` et bleu-gris `#5b8990`, repris du site secondarmor.eu. Logo vectorisé d'après l'icône officielle de l'app.
+Couleurs : bleu marine `#192230` et bleu-gris `#5b8990`, repris du site secondarmor.eu, plus un orange d'accent. Logo vectorisé d'après l'icône officielle de l'app.
