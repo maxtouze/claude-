@@ -80,7 +80,7 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 **« Et faut recommencer ça sur chaque plateforme. Bref : le bordel. Aucun endroit à nous, juste des solutions bricolées un peu partout. »**
 — Nico jongle avec six icônes d'appli, puis une septième qu'on lui lance. Il les fait toutes tomber. Étiquette sur le tas : « l'écosystème ».
 
-### 6. La solution (0:62)
+### 6. La solution (1:02)
 
 **« C'est pour ça que j'ai créé Second Armor. Le Vinted qui a deux paires de couilles. »**
 — Coupe sèche sur le logo Second Armor, qui se pose avec un « BOUM » de basse. Nico à côté, lunettes de soleil, hoche la tête une fois.
