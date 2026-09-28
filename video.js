@@ -252,22 +252,6 @@ function boom(t, x, y, r, seed = 3) {
   const inner = pts.map((p) => p.split(" ").map(Number)).map(([px, py]) => `${n2(x + (px - x) * 0.6)} ${n2(y + (py - y) * 0.6)}`);
   return P(`M${pts.join(" L")} Z`, { fill: ACC, w: 6 }) + P(`M${inner.join(" L")} Z`, { fill: "#ffd24a", w: 4 });
 }
-// Moto, centrée sur (0,0) au niveau des moyeux
-function moto() {
-  return Circ(-230, 0, 92, { w: 12, fill: PAPER }) + Circ(-230, 0, 24, { w: 8 }) +
-    Circ(230, 0, 92, { w: 12, fill: PAPER }) + Circ(230, 0, 24, { w: 8 }) +
-    P("M-230 0 L-120 -110 L90 -110 L230 0", { w: 12 }) +
-    P("M-150 -110 Q-150 -170 -60 -170 L110 -165 Q150 -150 140 -110 Z", { fill: "#2b2f36", w: 8 }) +
-    P("M-130 -150 Q-40 -200 60 -170", { w: 8, fill: "none" }) +
-    P("M150 -120 L200 -210 L250 -215", { w: 12 }) +
-    P("M-260 -40 L-120 -60", { w: 10 }) + P("M-150 -40 h-70", { w: 14, c: "#666" });
-}
-// Caddie
-function cart() {
-  return P("M-90 -130 L90 -130 L70 -40 L-70 -40 Z", { w: 6, fill: PAPER }) +
-    P("M-50 -130 L-40 -40 M0 -130 V-40 M50 -130 L40 -40 M-82 -95 H84", { w: 3, op: 0.6 }) +
-    P("M90 -130 L120 -170 H150", { w: 6 }) + P("M-70 -40 L-80 -12 H80", { w: 6 }) + Circ(-60, 0, 12, { w: 5 }) + Circ(60, 0, 12, { w: 5 });
-}
 // Logo Second Armor (le « A » entre quatre carrés), centré sur (0,0), largeur ~ w
 function logoMark(w, color = NAVY) {
   const k = w / 857;
@@ -275,45 +259,121 @@ function logoMark(w, color = NAVY) {
   return `<g transform="scale(${n2(k)}) translate(-511 -511)" fill="${color}">${sq(83, 255)}${sq(850, 255)}${sq(83, 680)}${sq(850, 680)}` +
     `<path fill-rule="evenodd" d="M272 768 L422 255 L595 255 L752 768 L652 768 L618 652 L395 652 L361 768 Z M469 357 L541 357 L551 418 L598 574 L413 574 L459 418 Z"/></g>`;
 }
-// Nico « comme il se voit » : costaud, casque, lunettes, gilet, kalach — boîte 300x420, origine en haut à gauche
-function buffNico() {
-  const limb = (d, c, wOut = 40, wIn = 27) =>
-    `<path d="${d}" fill="none" stroke="${INK}" stroke-width="${wOut}" stroke-linecap="round" stroke-linejoin="round"/>` +
-    `<path d="${d}" fill="none" stroke="${c}" stroke-width="${wIn}" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const line = (d, sw = 7, c = INK, fill = "none") => `<path fill="${fill}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" d="${d}"/>`;
-  const WOOD = "#8a5a2b", GUN = "#2a2f38", VST = "#b9ad86", SK = "#f6efe0";
-  return limb("M124 290 L114 392", "#3d4f5c") + limb("M176 290 L186 392", "#3d4f5c") +
-    `<path d="M92 392 h40 v16 h-46 Z M168 392 h40 l6 16 h-46 Z" fill="${INK}"/>` +
-    line("M84 150 Q150 134 216 150 L206 294 L94 294 Z", 7, INK, VST) +
-    line("M100 200 H200", 5) + line("M98 222 H202", 5) +
-    line("M104 240 h28 v40 h-28 Z M136 240 h28 v40 h-28 Z M168 240 h28 v40 h-28 Z", 5, INK, "#a39570") +
-    line("M134 118 h32 v28 h-32 Z", 6, INK, SK) +
-    line("M112 76 Q112 40 150 40 Q188 40 188 76 L186 104 Q172 128 150 128 Q128 128 114 104 Z", 7, INK, SK) +
-    line("M104 82 Q102 22 150 22 Q198 22 196 82 L208 86 Q150 74 92 86 Z", 7, INK, "#8d9478") +
-    `<path d="M118 82 h28 l-3 13 h-23 Z M154 82 h28 l-3 13 h-23 Z" fill="${INK}"/>` + line("M144 86 H156", 4) +
-    line("M138 111 Q150 107 164 110", 5) +
-    limb("M82 162 Q54 200 70 234 L132 257", "#8d9478", 44, 31) +
-    limb("M218 162 Q252 190 238 216 L207 192", "#8d9478", 44, 31) +
-    `<g transform="rotate(-30 165 220)">` +
-    line("M40 214 L90 207 L90 233 L46 245 Z", 5, INK, WOOD) + line("M88 205 H192 V231 H88 Z", 5, INK, GUN) +
-    line("M190 208 H242 V227 H190 Z", 5, INK, WOOD) + line("M190 205 H252", 5) + line("M242 216 H296", 7) +
-    line("M288 216 V203", 5) + line("M150 231 Q151 262 132 290 L113 281 Q130 257 129 231 Z", 5, INK, GUN) +
-    line("M112 231 L104 258 L119 260 L125 231 Z", 5, INK, GUN) + `</g>` +
-    `<circle cx="132" cy="257" r="15" fill="${SK}" stroke="${INK}" stroke-width="6"/>` +
-    `<circle cx="207" cy="192" r="15" fill="${SK}" stroke="${INK}" stroke-width="6"/>`;
+// ---------------------------------------------------------------------------
+// Vraies images découpées (style collage), dans img/ — domaine public (CC0, rawpixel)
+// ---------------------------------------------------------------------------
+const IMG = { moto: [900, 398], ak: [900, 258], flammes: [700, 245], velo: [900, 555] };
+function Img(name, cx, cy, w, o = {}) {
+  const { r = 0, op = 1, flip = false } = o;
+  const [iw, ih] = IMG[name];
+  const h = (w * ih) / iw;
+  return G(`<image href="img/${name}.png" x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" preserveAspectRatio="none"${flip ? ' transform="scale(-1 1)"' : ""}/>`, { x: cx, y: cy, r, o: op });
 }
-// Le « décor en carton » : Nico version moto, centré sur (0,0), 1000 x 1780
-function fantasyBoard(t) {
-  let g = Rect(-500, -890, 1000, 1780, { fill: CARD, sw: 10, c: "#b89a66" });
-  g += boom(t, 230, -170, 320, 5);
-  // lignes de vitesse
-  g += P("M-480 290 h160 M-470 350 h120 M-480 410 h170", { w: 6, op: 0.5 });
-  // la femme derrière, cheveux au vent
-  g += stick({ x: -215, y: 270, s: 1.1, acc: ["blonde", "hairwind"], la: [60, -150], ra: [90, -140], ll: [30, -60, 10, 0], rl: [60, -60, 40, 0], mouth: "smile" });
-  g += G(moto(), { x: 0, y: 410, s: 1.05 });
-  g += G(buffNico(), { x: -150, y: -190, s: 1.13 });
-  g += T("VROOOM", 0, -560, { font: MARK, size: 160, c: ACC, r: -6, stroke: [10, INK] });
+// Clope au bec : à placer dans le repère d'un bonhomme (bouche vers (8, -226))
+function clope(t, o = {}) {
+  const { smoke = true } = o;
+  let g = G(Rect(0, -7, 62, 14, { fill: PAPER, sw: 4 }) + Rect(0, -7, 18, 14, { fill: "#e0a04a", sw: 4 }) + Dot(64, 0, 7, "#e0402a"), { x: 10, y: -226, r: 8 });
+  if (smoke) for (let i = 0; i < 2; i++) {
+    const k = (t * 0.8 + i * 0.5) % 1;
+    g += P(`M${76 + k * 10} ${-222 - k * 90} q14 -14 0 -28 q-14 -14 0 -28`, { w: 4, c: "#9a9a9a", op: 1 - k });
+  }
   return g;
+}
+// Nico « baraqué » : même tête que le bonhomme, torse en V et gros bras. k = 0 (bâton) à 1 (baraqué)
+function buffStick(o = {}) {
+  const { x = 0, y = 0, s = 1, k = 1, la = [-120, -120], ra = [120, -120], ll = [-40, 0], rl = [40, 0], look = [0, 0], glasses = false, glassesDy = 0, cig = false, t = 0, cap = false } = o;
+  const sw = lerp(0, 100, k), ww = lerp(0, 48, k), aw = lerp(0, 30, k), lw = lerp(0, 22, k);
+  const thick = (d, wi) => (wi < 2 ? P(d, { w: 7 }) : P(d, { w: wi + 14 }) + P(d, { w: wi, c: PAPER }));
+  const lim = (fx, fy, p) => (p.length === 4 ? `M${fx} ${fy} L${p[0]} ${p[1]} L${p[2]} ${p[3]}` : `M${fx} ${fy} L${p[0]} ${p[1]}`);
+  let g = "";
+  g += thick(lim(-ww * 0.5, -110, ll), lw) + thick(lim(ww * 0.5, -110, rl), lw);
+  if (k > 0.05) {
+    g += P(`M${-sw} -200 Q0 -214 ${sw} -200 L${ww} -106 L${-ww} -106 Z`, { fill: PAPER, w: 7 });
+    g += P(`M${-sw * 0.65} -168 Q${-sw * 0.32} -150 0 -166 Q${sw * 0.32} -150 ${sw * 0.65} -168`, { w: 5 });
+    g += P(`M0 -160 V-114 M${-ww * 0.55} -142 H${ww * 0.55} M${-ww * 0.45} -125 H${ww * 0.45}`, { w: 4, op: 0.8 });
+  } else g += P("M0 -208 L0 -110");
+  const shx = sw * 0.92;
+  g += thick(lim(-shx, -192, la), aw) + thick(lim(shx, -192, ra), aw);
+  if (k > 0.3) {
+    const bic = (sx, p) => { const ex = p.length === 4 ? p[0] : (sx + p[0]) / 2, ey = p.length === 4 ? p[1] : (-192 + p[1]) / 2; return `<ellipse cx="${n2((sx + ex) / 2)}" cy="${n2((-192 + ey) / 2)}" rx="${n2(aw * 1.05)}" ry="${n2(aw * 0.8)}" fill="${PAPER}" stroke="${INK}" stroke-width="6"/>`; };
+    g += bic(-shx, la) + bic(shx, ra);
+  }
+  if (k > 0.05) g += P(`M-18 -212 V-196 M18 -212 V-196`, { w: 7 });
+  g += Circ(0, -250, 42, { fill: PAPER });
+  const [lx, ly] = look;
+  g += Dot(-14 + lx, -254 + ly, 5.5) + Dot(14 + lx, -254 + ly, 5.5);
+  if (cap) g += P(`M-42 -266 Q-40 -300 0 -300 Q40 -300 42 -266 Z`, { fill: GREY, w: 6 }) + P(`M40 -266 L80 -262`, { w: 8 });
+  if (glasses) g += G(P(`M-38 -266 h32 v16 q-16 8 -32 0 Z M6 -266 h32 v16 q-16 8 -32 0 Z`, { fill: INK, w: 3 }) + P(`M-8 -261 h14 M-38 -262 l-8 -4 M38 -262 l8 -4`, { w: 4 }), { y: glassesDy });
+  if (cig) g += clope(t);
+  g += P(`M-10 -226 h20`, { w: 4 });
+  return G(g, { x, y, s });
+}
+// La meuf caricaturale du fantasme : cheveux blonds raides (traits droits), haut de bikini triangle
+function bikiniGirl(o = {}) {
+  const { x = 0, y = 0, s = 1, la = [-70, -150], ra = [80, -280], ll = [-40, 0], rl = [40, 0] } = o;
+  let g = P(`M-44 -270 Q-46 -300 0 -302 Q46 -300 44 -270 L50 -150 L-50 -150 Z`, { fill: BLONDE, w: 5 });
+  for (let i = -4; i <= 4; i++) g += P(`M${i * 11} -290 L${i * 12.5} -152`, { w: 2.5, c: "#c9a22e" });
+  g += stick({ la, ra, ll, rl, mouth: "smile", acc: ["fringe", "blonde"] });
+  g += P("M-30 -186 L-8 -186 L-19 -166 Z M8 -186 L30 -186 L19 -166 Z", { fill: RED, w: 4 }) + P("M-8 -184 H8 M-30 -186 L-44 -196 M30 -186 L44 -196", { w: 3 });
+  return G(g, { x, y, s });
+}
+// Nuage de pensée centré sur (cx, cy)
+function cloud(cx, cy, w, h, inner = "") {
+  const n = 14, pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2;
+    pts.push([cx + Math.cos(a) * w / 2, cy + Math.sin(a) * h / 2]);
+  }
+  let d = `M${n2(pts[0][0])} ${n2(pts[0][1])}`;
+  for (let i = 1; i <= n; i++) {
+    const p = pts[i % n], q = pts[i - 1];
+    const mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2, ox = (mx - cx) * 0.22, oy = (my - cy) * 0.22;
+    d += ` Q${n2(mx + ox)} ${n2(my + oy)} ${n2(p[0])} ${n2(p[1])}`;
+  }
+  return P(d + " Z", { fill: PAPER, w: 7 }) + inner;
+}
+// Le fantasme complet (lunettes, clope, baraqué, kalach, bécane, meuf, flammes), en coordonnées écran.
+// st : k (baraqué 0-1), glasses, cig, ak, moto (0-1 arrivée), girl, fire
+function fantasy(t, st) {
+  const mk = ease.out(clamp(st.moto ?? 0));
+  const nx = lerp(540, 500, mk), ny = lerp(1180, 1150, mk), ns = lerp(1.6, 1.3, mk);
+  let g = "";
+  if (st.fire) g += Img("flammes", 1010, 1195, 470, { op: clamp(st.fire * 3) }) + Img("flammes", 1040, 1120, 320, { op: clamp(st.fire * 3) * 0.9 });
+  if (mk > 0) g += Img("moto", lerp(-600, 560, mk), 1195, 860);
+  if (st.girl) g += bikiniGirl({ x: 700, y: 1150, s: 1.05 * st.girl, ll: [-30, -60, -40, 0], rl: [30, -60, 40, 0] });
+  const legs = mk > 0.5 ? { ll: [-50, -60, -70, 0], rl: [50, -60, 70, 0] } : {};
+  const arms = st.ak ? { la: [-80, -150, -40, -150], ra: [110, -120, 60, -160] } : { la: [-110, -110], ra: [110, -110] };
+  g += buffStick({ x: nx + jit(t, st.shake ? 4 : 0), y: ny, s: ns, k: st.k ?? 0, glasses: st.glasses, cig: st.cig, t, ...arms, ...legs });
+  if (st.ak) g += Img("ak", nx + 10, ny - 150 * ns, 470 * st.ak, { r: -18 });
+  if (st.vroom) g += T("VROOOM", 540, 520, { font: MARK, size: 170, c: ACC, r: -6, stroke: [10, INK], op: clamp(st.vroom * 3) });
+  return g;
+}
+// Le vrai Nico : petit bonhomme sur un vélo, clope au bec
+function nicoBike(t, x, y, o = {}) {
+  const { s = 1, pedal = true } = o;
+  const a = pedal ? t * 5 : 0;
+  const fx = Math.cos(a) * 34, fy = Math.sin(a) * 34;
+  let g = Img("velo", 0, 0, 520);
+  g += G(stick({ la: [150, -170, 250, -145], ra: [150, -160, 255, -140], ll: [30, -50, 60 + fx, 80 + fy], rl: [20, -40, 60 - fx, 80 - fy] }) + clope(t), { x: -104, y: -45 + 110 * 0.95, s: 0.95 });
+  return G(g, { x, y: y + Math.abs(Math.sin(t * 5)) * 3, s });
+}
+// La fenêtre de navigateur d'une annonce
+function win(x, y, title, text, o = {}) {
+  const { s = 1, r = 0, hl = false } = o;
+  let g = Rect(-230, -115, 460, 230, { fill: PAPER, sw: 6, rx: 14 }) + Rect(-230, -115, 460, 50, { fill: "#e6e6e6", sw: 6, rx: 14 });
+  g += Dot(-200, -90, 7, "#bbb") + Dot(-178, -90, 7, "#bbb") + T(title, -150, -90, { size: 26, anchor: "start", font: SANS, weight: 600, c: "#555" });
+  g += Rect(-205, -45, 120, 120, { fill: "#f0ece2", sw: 4, rx: 8 });
+  g += T(text, -65, 10, { size: 36, anchor: "start", c: hl ? RED : INK });
+  return G(g, { x, y, s, r });
+}
+// L'algorithme : cheveux longs, lunettes rondes, gros pull beige
+function algoGirl(t, x, y, s, o = {}) {
+  const { panic = false, bag = false, r = 0 } = o;
+  const sweater = P("M-58 -205 Q0 -222 58 -205 L74 -100 H-74 Z", { fill: BEIGE, w: 6 });
+  const arms = panic ? { la: [-60, -170, -30, -240], ra: [60, -170, 30, -240] } : { la: [-70, -150, -40, -110], ra: [70, -150, 40, -110] };
+  let g = stick({ acc: ["longhair", "roundglasses", "fringe"], body: sweater, ...arms, eyes: panic ? "wide" : "dot", mouth: panic ? "o" : null, face: panic ? "#eef3ff" : SKIN });
+  if (bag) { const b = 1 + Math.sin(t * 14) * 0.18; g += G(P("M-40 -50 L40 -50 L50 50 L-50 50 Z", { fill: "#cda46b", w: 5 }), { y: -225, s: b * 0.55 }); }
+  return G(g, { x, y, s, r });
 }
 
 // ---------------------------------------------------------------------------
@@ -389,25 +449,30 @@ shot("salut", [["Salut, moi c'est Nico.", 0.35]], (t, c) => {
   return stick({ x: 540, y: 1180, s: 1.6, q, ra: t > 0.9 ? [70 + wave, -300] : [48, -118] }) +
     label(t, 1.0, "moi", 830, 560, 640, 700, { size: 64 });
 });
-shot("respect", [["… Euh. Un peu de respect.", 1.1]], (t) => {
-  const zoom = lerp(1.14, 1.08, ease.out(prog(t, 0, 2)));
-  return G(fantasyBoard(t), { x: 540, y: 860 + jit(t, 1), s: zoom }) +
-    label(t, 1.1, "moi (réel)", 230, 470, 470, 690, { size: 68, c: INK, from: [300, 520] });
+// Le fantasme se construit sur le même bonhomme, fond blanc : lunettes, clope, muscles, kalach, bécane, meuf, flammes.
+const FANTASY = { k: 1, glasses: 1, cig: 1, ak: 1, moto: 1, girl: 1, fire: 1, vroom: 1 };
+const bam = (t, at, x, y, txt = "BAM") => (t > at && t < at + 0.45 ? T(txt, x, y, { font: MARK, size: 70, c: ACC, r: -10, stroke: [8, INK], op: clamp((at + 0.45 - t) * 4) }) : "");
+shot("respect", [["… Euh. Un peu de respect.", 2.3]], (t) => {
+  const st = {
+    glasses: t > 0.9, cig: t > 1.2, k: ease.back(prog(t, 1.45, 0.4)), shake: t > 1.45 && t < 1.9,
+    ak: pop(t, 2.1), moto: prog(t, 2.5, 0.45), girl: pop(t, 3.05), fire: prog(t, 3.35, 0.2), vroom: prog(t, 3.45, 0.2),
+  };
+  let g = fantasy(t, st);
+  g += bam(t, 0.9, 780, 640) + bam(t, 1.45, 300, 700) + bam(t, 2.1, 820, 820);
+  if (t < 3.6) g += T("moi", 830, 560, { size: 64, r: -3 }) + arrow(830, 610, t > 1.45 ? 610 : 640, 730);
+  else g += label(t, 3.6, "moi (réel)", 190, 760, 390, 820, { size: 66, from: [220, 810] });
+  return g;
 });
-shot("carton", [["Voilà. Je préfère.", 0.35], ["Tant que personne vérifie, c'est bon.", 0.9]], (t, c) => {
-  const k = ease.inOut(prog(t, 0.15, 2.2));
-  const s = lerp(1.14, 0.42, k), cy = lerp(860, 560, k);
+shot("bulle", [["Voilà. Je préfère.", 0.3], ["Tant que personne vérifie, c'est bon.", 1.3]], (t, c) => {
+  const k = ease.inOut(prog(t, c[1] - 0.15, 0.9));
+  const s = lerp(1, 0.46, k), cx = lerp(560, 640, k), cy = lerp(890, 560, k);
   let g = "";
-  // parking de supermarché
-  g += Rect(40, 820, 330, 200, { fill: PAPER, sw: 6 }) + Rect(70, 780, 270, 60, { fill: PAPER, sw: 6 }) + T("SUPERMARCHÉ", 205, 810, { size: 34, font: SANS, weight: 800 });
-  g += P("M0 1270 H1080", { w: 6 }) + P("M120 1270 l-40 60 M330 1270 l-40 60 M750 1270 l40 60 M960 1270 l40 60", { w: 5, c: "#999" });
-  const cx = lerp(1250, -250, prog(t, c[1] - 0.2, 3.2));
-  g += G(cart(), { x: cx, y: 1260, s: 0.9 });
-  // le petit Nico qui tient le carton, sur la pointe des pieds, en tremblant
-  const tr = jit(t, 2.5);
-  g += stick({ x: 540 + tr, y: 1262, s: 0.95, la: [-40, -290], ra: [40, -290], ll: [-18, -8], rl: [18, -8], eyes: "dot" });
-  g += G(fantasyBoard(t), { x: 540 + tr * (1 - k), y: cy + tr * 0.5, s });
-  g += label(t, c[1] + 0.2, "personne\nne vérifie", 880, 1080, 770, 870, { size: 50 });
+  if (k > 0) {
+    g += nicoBike(t, lerp(-300, 330, k), 1180);
+    g += G(cloud(0, 0, 900, 820), { x: cx, y: cy, s: s * clamp(k * 1.5), o: clamp(k * 2) });
+    [[440, 1000, 14], [490, 930, 20], [540, 850, 28]].forEach(([x, y, r], i) => { if (k > 0.6 + i * 0.1) g += Circ(x, y, r, { w: 6, fill: PAPER }); });
+  }
+  g += G(G(fantasy(t, FANTASY), { x: -560, y: -890 }), { x: cx, y: cy, s });
   return g;
 });
 // 2. Le métier
@@ -426,18 +491,12 @@ shot("militaire", [["Dans la vie, je suis militaire.", 0.25], ["Des risques, j'e
   const vil = (i, x) => {
     const tf = shots[i] + 0.15;
     let r = 0, dy = 0;
-    if (i < 2) r = 88 * ease.in(prog(t, tf, 0.3));
-    else {
-      const fq = prog(t, tf, 0.75);
-      dy = -Math.sin(fq * Math.PI) * 260;
-      r = -360 * ease.inOut(fq) + 88 * ease.in(prog(t, tf + 0.75, 0.25));
-    }
+    r = 88 * ease.in(prog(t, tf, 0.3));
     const sign = Rect(-46, -186, 92, 50, { fill: PAPER, sw: 4 }) + T("MÉCHANT", 0, -161, { size: 22, font: SANS, weight: 800 }) + P("M-30 -186 L0 -206 L30 -186", { w: 3 });
     const man = stick({ acc: ["mask", "mustache"], la: [-60, -150], ra: [60, -150], eyes: "dot" }) + sign;
     return G(G(man, { y: dy }), { x, y: 1150, s: 0.85, r });
   };
   g += vil(0, 660) + vil(1, 780) + vil(2, 900);
-  if (t > 1.3) g += label(t, 1.55, "salto\n(inutile)", 820, 560, 890, 760, { size: 50 });
   return Z(g, 1.18, 560, 1000);
 });
 // 3. Les risques inutiles
@@ -445,42 +504,51 @@ shot("graphe", [["Mais il m'arrive aussi d'en prendre des inutiles.", 0.3]], (t,
   const cz = c[0] + 1.6;
   return risksGraph(t, { mission: pop(t, 0.3), zero: prog(t, cz, 0.4) }) + spectator(t);
 });
-shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 0.2]], (t, c, d) => {
+shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 2.7]], (t, c, d) => {
+  const vo = c[0] + speakDur("Toucher une poêle pour voir si elle est chaude.");
   const g0 = d - 0.9;
   if (t >= g0) return risksGraph(t, { zero: 1, poele: pop(t, g0 + 0.15) }) + spectator(t);
-  if (t < 1.7) {
-    const k = ease.inOut(prog(t, 0.1, 1.0));
-    const tx = lerp(420, 505, k), ty = lerp(700, 890, k);
-    let g = Rect(80, 960, 920, 120, { fill: PAPER, sw: 7 }) + Circ(300, 1020, 40, { w: 5 }) + Circ(780, 1020, 40, { w: 5 });
-    g += `<ellipse cx="540" cy="930" rx="230" ry="58" fill="${DARK}" stroke="${INK}" stroke-width="7"/>` + P("M765 925 L1010 890", { w: 18 });
-    for (let i = 0; i < 4; i++) g += P(`M${400 + i * 90} ${860 - ((t * 60 + i * 30) % 90)} q12 -18 0 -36 q-12 -18 0 -36`, { w: 4, op: 0.45 });
-    g += P(`M-40 520 L${tx - 60} ${ty - 120}`, { w: 16 }) + Circ(tx - 60, ty - 120, 36, { w: 7, fill: SKIN }) + P(`M${tx - 40} ${ty - 95} L${tx} ${ty}`, { w: 12 });
-    if (t > 1.1) g += Dot(tx, ty, 13, RED) + T("TSSS", 760, 700, { size: 90, font: MARK, r: 8, op: clamp((t - 1.1) * 5) });
+  if (t < vo + 0.35) {
+    // gros plan : feu vif, la main arrive, touche
+    const k = ease.inOut(prog(t, 0.2, vo - 0.7));
+    const tx = lerp(400, 520, k), ty = lerp(640, 905, k);
+    let g = Rect(80, 990, 920, 110, { fill: PAPER, sw: 7 });
+    const fl = 1 + Math.sin(t * 23) * 0.06;
+    g += Img("flammes", 420, 950, 260 * fl, { r: -90 }) + Img("flammes", 640, 950, 260 / fl, { r: -90 }) + Img("flammes", 540, 960, 220 * fl, { r: -90 });
+    g += `<ellipse cx="540" cy="900" rx="250" ry="62" fill="${DARK}" stroke="${INK}" stroke-width="7"/>` + P("M785 895 L1030 860", { w: 20 });
+    for (let i = 0; i < 4; i++) g += P(`M${410 + i * 85} ${820 - ((t * 70 + i * 30) % 90)} q12 -18 0 -36 q-12 -18 0 -36`, { w: 4, op: 0.5 });
+    g += P(`M-60 420 L${tx} ${ty}`, { w: 13 });
+    if (t > vo - 0.5) g += Dot(tx, ty, 14, RED) + T("TSSS", 790, 700, { size: 100, font: MARK, r: 8, c: ACC, stroke: [8, INK], op: clamp((t - vo + 0.5) * 6) });
     return g;
   }
-  return stick({ x: 540, y: 1200, s: 1.45, ra: [60, -250, 70, -330], eyes: "dot" }) + Dot(540 + 70 * 1.45, 1200 - 330 * 1.45, 13, RED) +
-    label(t, 2.0, "elle était\nchaude", 850, 560, 660, 700, { size: 54 });
-}, { min: 3.9 });
-shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écoute.", 0.35]], (t, c, d) => {
+  // presque rien : il lève la main, le doigt en feu
+  const hx = 540 + 60 * 1.5, hy = 1230 - 360 * 1.5;
+  const fl = 1 + Math.sin(t * 25) * 0.08;
+  return stick({ x: 540, y: 1230, s: 1.5, ra: [70, -290, 60, -360] }) + Img("flammes", hx, hy - 50, 170 * fl, { r: -90 }) +
+    label(t, vo + 0.9, "elle était\nchaude", 250, 560, 470, 650, { size: 60 });
+}, { min: 4 });
+shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écoute.", 5.3]], (t, c, d) => {
+  const e = c[0] + speakDur("Répondre « oui oui » quand ma meuf me demande si je l'écoute.");
   const g0 = d - 0.9;
   if (t >= g0) return risksGraph(t, { zero: 1, poele: 1, ouioui: pop(t, g0 + 0.15) }) + spectator(t);
+  const turn = t > e + 2.9 && t < e + 4.0;
   let g = "";
-  // canapé
   g += P("M150 1150 V930 Q150 880 200 880 H880 Q930 880 930 930 V1150", { fill: "#e9e4dc", w: 7 }) + P("M150 1040 H930", { w: 6 }) + P("M150 1150 H930 M180 1150 v40 M900 1150 v40", { w: 7 });
-  const stare = t > 2.9;
-  g += stick({ x: 360, y: 1150, s: 1.0, acc: ["blonde", "fringe"], look: [8, 0], eyes: stare ? "flat" : "dot", la: [-40, -120], ra: [50, -130], ll: [-40, -60, -40, 0], rl: [0, -60, 0, 0] });
-  g += stick({ x: 700, y: 1150, s: 1.0, look: [4, 9], la: [-20, -140], ra: [20, -140], ll: [-20, -60, -30, 0], rl: [20, -60, 30, 0], acc: t > 3.2 ? ["sweat"] : [] });
+  g += stick({ x: 360, y: 1150, s: 1.0, acc: ["blonde", "fringe"], look: [9, 0], eyes: t > e + 0.5 ? "flat" : "dot", la: [-40, -120], ra: [50, -130], ll: [-40, -60, -40, 0], rl: [0, -60, 0, 0], mouth: t < e ? (Math.sin(t * 22) > 0 ? "o" : "flat") : "flat" });
+  g += stick({ x: 700, y: 1150, s: 1.0, look: turn ? [-11, 0] : [3, 11], la: [-20, -140], ra: [20, -140], ll: [-20, -60, -30, 0], rl: [20, -60, 30, 0] });
   g += Rect(678, 990, 44, 70, { fill: "#cfe8ff", sw: 5, rx: 8 });
-  // bulles
+  // elle parle, parle… puis s'arrête
   let inner = "";
-  if (t < 1.6) {
-    const n = Math.floor(t * 9);
+  if (t < e) {
+    const n = Math.floor(t * 8);
     for (let i = 0; i < Math.min(n, 9); i++) inner += P(`M${190 + (i % 3) * 120} ${520 + Math.floor(i / 3) * 55} q20 -20 40 0 t40 0 t40 0`, { w: 5 });
   } else inner += T("Tu m'écoutes ?", 390, 580, { size: 58 });
   g += bubble(390, 580, 440, 230, 380, 760, inner, { s: pop(t, 0.1) });
-  g += bubble(790, 700, 260, 120, 720, 800, T("oui oui", 790, 700, { size: 54 }), { s: pop(t, 2.1) });
-  return Z(g, 1.3, 540, 880);
-}, { min: 4.6 });
+  if (t > e + 3.2) g += bubble(790, 700, 260, 120, 720, 800, T("oui oui", 790, 700, { size: 54 }), { s: pop(t, e + 3.2) });
+  // le blanc : on se rapproche lentement de Nico, qui fixe son téléphone
+  const z = lerp(1.3, 2.1, ease.inOut(prog(t, e + 0.5, 2.3)));
+  return Z(g, z, lerp(540, 700, prog(t, e + 0.5, 2.3)), lerp(880, 930, prog(t, e + 0.5, 2.3)));
+}, { min: 6 });
 shot("inconnu", [["Envoyer 400 balles à un inconnu sur internet.", 1.4]], (t, c, d) => {
   const talk = c[0] + 2.7; // fin de la phrase (approx.)
   if (t < talk) {
@@ -568,46 +636,33 @@ shot("tescon", [["Et là, vous allez me dire : « Nico, t'es con. Va sur Vinted.
   g += bubble(890, 780, 290, 110, 930, 930, T("bah eBay ?", 890, 780, { size: 50 }), { s: pop(t, c[0] + 3.0) });
   return Z(g, 1.12, 540, 1000);
 });
-shot("deguis", [["Sauf que là-bas, ton porte-plaques, il est rangé dans « Déguisements ».", 0.6]], (t, c, d) => {
-  let g = P("M130 480 H950 M170 480 V1250 M910 480 V1250 M120 1250 H220 M860 1250 H960", { w: 8 });
-  const hanger = (x) => P(`M${x} 480 q0 -30 20 -30 M${x} 480 L${x - 90} 540 H${x + 90} Z`, { w: 5 });
-  // pirate
-  g += hanger(300) + P("M225 545 H375 L390 800 H210 Z", { fill: PAPER, w: 6 }) + P("M218 600 H382 M214 660 H386 M212 720 H388", { w: 10, c: RED, op: 0.8 });
-  g += P("M220 440 Q300 380 380 440 Q300 420 220 440 Z", { fill: INK, w: 4 });
-  g += T("pirate", 300, 860, { size: 44 });
-  // porte-plaques
-  g += hanger(540) + G(vest(), { x: 540, y: 700, s: 0.8 });
-  // infirmière
-  g += hanger(780) + P("M720 545 H840 L890 860 H670 Z", { fill: PAPER, w: 6 }) + P("M765 620 h30 M780 605 v30", { w: 9, c: RED });
-  g += T("infirmière\nsexy", 780, 930, { size: 44 });
-  const kc = prog(t, c[0] + 1.3, 0.5);
-  if (kc > 0) g += P("M540 505 C700 505 700 900 540 900 C380 900 380 505 560 500", { c: RED, w: 7, q: kc }) + label(t, c[0] + 1.6, "ton\nporte-plaques", 540, 1060, 540, 915, { c: RED, size: 50 });
-  g += stamp("DÉGUISEMENTS", 540, 300, t, d - 1.8, { c: INK, r: -3, size: 78 });
+const WINS = [
+  ["Marketplace · Déguisements", "Porte-plaques\n(déguisement)"], ["Groupe Facebook · Matos", "Plaque de\ncuisson"], ["Telegram · Occaz", "« dispo ? »\n(vu)"],
+  ["Vinted", "Costume\nde pirate"], ["eBay", "Plaquettes\nde frein"], ["Groupe Facebook #2", "Annonce\nsupprimée"], ["Telegram #2", "Lien mort"],
+  ["Marketplace", "Tondeuse"], ["Discord · #vente", "…"], ["Vinted", "Treillis\n2 ans"], ["Groupe privé", "Demande\nenvoyée"],
+  ["eBay", "Gilet jaune"], ["Telegram #3", "Photo floue"], ["Facebook", "VENDU"], ["Marketplace", "Porte-plaques\n400 €"],
+];
+shot("ordi", [["Sauf que là-bas, ton porte-plaques, il est rangé dans « Déguisements ».", 0.25], ["Alors trouver du matos, c'est une chasse au trésor.", 0.25], ["Et si tu tombes enfin sur le bon truc… t'as de la chance.", 0.5]], (t, c, d) => {
+  let g = Rect(60, 320, 960, 640, { fill: "#f4f6f8", sw: 10, rx: 18 }) + P("M540 960 V1020 M430 1020 H650", { w: 10 });
+  const R = rng(11);
+  const pos = WINS.map((_, i) => (i === 0 ? [540, 610, 0] : i === WINS.length - 1 ? [540, 620, 0] : [lerp(300, 780, R()), lerp(450, 800, R()), lerp(-8, 8, R())]));
+  const t0 = c[0] + 0.3, t1 = c[1] + 0.2, step = (c[2] - t1) / (WINS.length - 2);
+  WINS.forEach(([title, text], i) => {
+    const at = i === 0 ? t0 : i === WINS.length - 1 ? c[2] + 0.9 : t1 + (i - 1) * step;
+    const k = pop(t, at, 0.22);
+    if (k > 0) g += win(pos[i][0], pos[i][1], title, text, { s: k * (i === WINS.length - 1 ? 1.6 : 1.3), r: pos[i][2] });
+  });
+  if (t > t0 + 1.4 && t < t1) g += P("M250 490 C520 440 800 450 790 505 C780 550 470 560 250 535 C210 530 210 500 280 485", { c: RED, w: 7, q: prog(t, t0 + 1.4, 0.4) });
+  const n = WINS.filter((_, i) => t > (i === 0 ? t0 : i === WINS.length - 1 ? c[2] + 0.9 : t1 + (i - 1) * step)).length;
+  if (n > 1) g += T(`onglet ${n}/${WINS.length}`, 540, 260, { size: 60, c: n >= WINS.length ? ACC : INK });
+  if (t > c[1] + 0.8 && t < c[2] + 0.9) g += T("chasse au trésor", 540, 190, { size: 64, r: -3, c: ACC });
+  if (t > c[2] + 1.2) g += P("M200 560 C520 470 900 490 890 620 C880 760 520 780 190 700 C120 680 130 590 260 550", { c: ACC, w: 9, q: prog(t, c[2] + 1.2, 0.4) }) + T("enfin !", 860, 400, { size: 70, c: ACC, r: 8 });
+  // Nico, de dos, devant l'écran
+  g += P("M400 1330 V1210 Q400 1180 430 1180 H650 Q680 1180 680 1210 V1330", { fill: "#d9d9d9", w: 7 });
+  g += Circ(540, 1090, 64, { fill: PAPER, w: 8 }) + P("M540 1154 V1300 M540 1190 L430 1120 M540 1190 L650 1120", { w: 9 });
   return g;
 });
-shot("refresh", [["Alors pour trouver du matos, tu rafraîchis la page.", 0.25], ["Toute la nuit.", 1.0]], (t, c) => {
-  const L = "#eaeaea";
-  let g = Rect(-10, -10, 1100, 1940, { fill: "#10151f", sw: 0, c: "none" });
-  const mins = 3 * 60 + 12 + Math.floor(t * 9) + (t > c[1] ? 150 : 0);
-  const hh = Math.floor(mins / 60) % 24, mm = mins % 60;
-  let z = Rect(120, 1000, 190, 100, { fill: "#000", sw: 5, c: L, rx: 10 }) + T(`${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`, 215, 1052, { size: 58, font: SANS, weight: 800, c: "#ff5b4a" });
-  // lit
-  z += P("M330 1250 V1080 H1000 V1250 M330 1150 H1000", { w: 7, c: L });
-  z += `<polygon points="560,1010 640,860 700,860 660,1010" fill="#9fd3ff" opacity="0.18"/>`;
-  z += stick({ x: 640, y: 1150, s: 1.0, c: L, face: "#1b2230", look: [6, 10], la: [-10, -130, 20, -175], ra: [70, -140, 40, -175] });
-  const bags = Math.min(1, t / 4);
-  z += P(`M${640 - 26} ${1150 - 236} q12 ${8 + bags * 8} 24 0 M${640 + 6} ${1150 - 236} q12 ${8 + bags * 8} 24 0`, { c: "#8aa", w: 3 + bags * 3 });
-  z += P("M420 1080 Q640 1020 980 1080", { w: 7, c: L, fill: "#2a3244" });
-  z += Rect(655, 975, 50, 80, { fill: "#cfe8ff", sw: 4, c: L, rx: 8 });
-  g += Z(z, 1.3, 560, 1100);
-  const n = Math.floor(t * 7) + 1;
-  g += T(`rafraîchissements : ${n}`, 540, 360, { size: 70, c: L });
-  g += T("0 nouveau résultat", 540, 460, { size: 52, c: "#8aa" });
-  const ang = (t * 720) % 360;
-  g += G(P("M0 -30 A30 30 0 1 1 -28 10", { c: L, w: 6 }) + P("M-38 0 L-28 12 L-16 0", { c: L, w: 6 }), { x: 540, y: 620, r: ang, s: 1.4 });
-  return g;
-}, { dark: true });
-shot("algo", [["Si tu t'es pas fait bannir.", 0.2], ["Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.", 0.9]], (t, c) => {
+shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.", 0.9]], (t, c) => {
   const t1 = t - c[1];
   const panic = t1 > 2.0, bag = t1 > 3.1 && t1 < 4.3, tel = t1 > 4.1;
   let g = "";
@@ -648,60 +703,60 @@ shot("poche", [["… C'est une poche.", 0.9]], (t) => {
     label(t, 0.5, "une poche", 860, 480, 700, 640, { size: 58 });
 });
 // 6. La solution
-shot("couilles", [["Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles.", 0.6]], (t, c) => {
-  let g = "";
-  const ox = lerp(540, -400, ease.in(prog(t, 0.1, 0.8)));
-  if (ox > -300) g += stick({ x: ox, y: 1180, s: 1.0, acc: ["longhair", "roundglasses", "fringe"], body: P("M-58 -205 Q0 -222 58 -205 L74 -100 H-74 Z", { fill: BEIGE, w: 6 }), eyes: "wide", r: -8 }) +
-    G(P("M-40 -50 L40 -50 L50 50 L-50 50 Z", { fill: "#cda46b", w: 5 }), { x: ox, y: 1180 - 225, s: 0.5 });
-  const k = pop(t, 1.0, 0.4);
-  if (k > 0) {
-    const flex = Math.sin(t * 6) * 8;
-    let icon = P("M-70 180 L-80 330 M70 180 L80 330", { w: 12 });
-    icon += Rect(-180, -180, 360, 360, { rx: 70, fill: PAPER, sw: 10 }) + Dot(-55, -40, 12) + Dot(55, -40, 12);
-    const arm = (k) => P(`M${k * 180} 40 L${k * 300} 20 L${k * 290} ${-120 - flex}`, { w: 14 }) + `<ellipse cx="${k * 262}" cy="${n2(-5 - flex * 0.5)}" rx="${n2(38 + flex)}" ry="30" fill="${PAPER}" stroke="${INK}" stroke-width="8"/>` + Circ(k * 290, -135 - flex, 20, { w: 7, fill: PAPER });
-    icon += arm(-1) + arm(1);
-    icon += P("M-90 40 Q-45 5 0 30 Q45 5 90 40 Q100 70 125 55 M-90 40 Q-100 70 -125 55", { w: 12 });
-    g += G(icon, { x: 540, y: 820, s: k });
-  }
-  g += label(t, c[0] + 2.4, "le Vinted qu'il\nnous fallait", 540, 390, 540, 600, { size: 70 });
-  return g;
-});
-function modDesk(t, o = {}) {
-  const { glasses = 0 } = o;
-  let g = "";
-  g += stick({ x: 360, y: 1130, s: 1.05, acc: ["cap"], la: [-40, -150, 10, -170], ra: [48, -118] }) + Rect(365, 925, 36, 44, { fill: PAPER, sw: 5, rx: 4 });
-  g += stick({ x: 720, y: 1130, s: 1.05, acc: ["cap"], la: [-48, -118], ra: [40, -150, -10, -170] });
-  g += Rect(676, 925, 36, 44, { fill: PAPER, sw: 5, rx: 4 });
-  g += P(`M${720 - 36} ${1130 - 262 * 1.05 + glasses * 22} h26 v14 q-13 6 -26 0 Z M${720 + 9} ${1130 - 262 * 1.05 + glasses * 22} h26 v14 q-13 6 -26 0 Z`, { fill: INK, w: 3 });
-  g += Rect(170, 1040, 740, 200, { fill: PAPER, sw: 7 }) + T("MODÉRATION", 540, 1140, { size: 56, font: SANS, weight: 800 });
+function modDesk(o = {}) {
+  let g = Rect(170, 1040, 740, 200, { fill: PAPER, sw: 7 }) + T("MODÉRATION", 540, 1140, { size: 56, font: SANS, weight: 800 });
   return g;
 }
-shot("moderation", [["Des gars du milieu, à la place d'un algorithme qui panique.", 0.5]], (t, c) => {
-  let g = modDesk(t);
-  const cardK = pop(t, 0.3);
-  if (cardK > 0) {
-    let card = Rect(-230, -110, 460, 220, { fill: PAPER, sw: 6, rx: 14 }) + G(pouch(), { x: -150, y: 0, s: 0.8 }) +
-      T("Porte-chargeur", -80, -40, { size: 36, anchor: "start", font: SANS, weight: 800 }) + T("bon état · 15 €", -80, 10, { size: 32, anchor: "start" });
-    if (t > c[0] + 3.0) card += T("catégorie : porte-plaques ✓", -80, 58, { size: 26, anchor: "start", c: GREEN });
-    g += G(card, { x: 540, y: 470, s: cardK });
-  }
-  g += bubble(250, 700, 330, 110, 330, 820, T("… c'est une poche.", 250, 700, { size: 44 }), { s: pop(t, c[0] + 1.0) });
-  g += stamp("VALIDÉ", 700, 330, t, c[0] + 2.2, { c: GREEN, size: 76, r: -10 });
-  return Z(g, 1.2, 540, 800);
+shot("couilles", [["Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles.", 1.7]], (t, c, d) => {
+  const walk = ease.out(prog(t, 0.2, 1.0));
+  const bx = lerp(-250, 380, walk);
+  const grab = t > 1.35, thr = prog(t, 2.0, 0.9);
+  let g = "";
+  g += Rect(470, 1040, 440, 30, { fill: PAPER, sw: 7 }) + P("M500 1070 V1240 M880 1070 V1240", { w: 7 });
+  // l'algorithme, qui panique dans son sac en papier… puis s'envole
+  if (thr < 1) {
+    const ax = grab ? lerp(bx + 150, 1000, ease.out(thr)) : 690, ay = grab ? lerp(760, 150, ease.out(thr)) - (thr > 0 ? 0 : 0) : 1180;
+    g += algoGirl(t, ax, ay, grab ? lerp(0.9, 0.05, thr) : 1, { panic: true, bag: !grab, r: grab ? thr * 900 : 0 });
+  } else if (t < 3.3) g += G(P("M0 -30 L8 -8 L30 0 L8 8 L0 30 L-8 8 L-30 0 L-8 -8 Z", { fill: "#ffd24a", w: 4 }), { x: 1000, y: 150, s: 1 + Math.sin(t * 30) * 0.3 }) + T("ting", 1000, 220, { size: 44 });
+  // le gars du milieu : baraqué, calme
+  const sit = t > 3.1;
+  const arms = grab && thr < 0.3 ? { la: [-120, -140], ra: [110, -330] } : sit ? { la: [-110, -150, -60, -170], ra: [120, -120] } : { la: [-120, -120], ra: [120, -120] };
+  g += buffStick({ x: sit ? 690 : bx, y: 1180, s: 1.05, k: 1, glasses: true, cap: true, ...arms });
+  if (sit) g += Rect(620, 990, 46, 54, { fill: PAPER, sw: 5, rx: 5 }) + P("M635 975 q8 -12 0 -24", { w: 3, op: 0.5 });
+  g += label(t, d - 1.3, "deux paires\nde couilles", 330, 700, 600, 830, { size: 56 });
+  return Z(g, 1.3, 600, 1000);
 });
-shot("verifient", [["Et eux, ils vérifient.", 0.3], ["… ok.", 0.9]], (t, c) => {
-  const sl = ease.out(prog(t, 0.1, 0.7));
-  const fall = ease.in(prog(t, 1.75, 0.3));
-  let g = G(modDesk(t, { glasses: prog(t, 0.9, 0.3) }), { x: 330, y: 230, s: 0.72 });
-  // le petit Nico, caché derrière le carton
-  const nx = lerp(-300, 270, sl), ny = 1260;
-  const down = fall >= 1 && t > c[1] - 0.1;
-  g += stick({ x: nx, y: ny, s: 0.8, la: down ? [-48, -118] : [-40, -290], ra: down ? [48, -118] : [40, -290], eyes: "dot" });
-  const top = ny - 0.8 * 290, bh = 1780 * 0.36;
-  if (fall < 1) g += G(G(fantasyBoard(t), { y: -890 }), { x: nx, y: top + 10, s: 0.36, sy: 0.36 * (1 - fall) });
-  else g += P(`M${nx - 190} ${ny + 4} H${nx + 190}`, { w: 14, c: "#b89a66" });
-  if (fall < 1) g += stamp("REFUSÉ", nx, top - bh / 2, t, 1.3, { size: 80, r: -12 });
-  g += bubble(nx + 150, ny - 330, 170, 100, nx + 40, ny - 250, T("… ok.", nx + 150, ny - 330, { size: 50 }), { s: pop(t, c[1]) });
+const LISTINGS = [["Porte-chargeur", "15 €", true, "… c'est une poche."], ["Porte-plaques", "400 €", true, null], ["Grenade (vraie)", "30 €", false, "non."]];
+shot("moderation", [["Des gars du milieu, à la place d'un algorithme qui panique.", 1.6]], (t) => {
+  let g = buffStick({ x: 540, y: 1150, s: 1.1, k: 1, glasses: true, cap: true, la: [-110, -150, -60, -170], ra: [130, -200, 170, -300] });
+  g += Rect(470, 950, 46, 54, { fill: PAPER, sw: 5, rx: 5 }) + modDesk();
+  LISTINGS.forEach(([name, price, ok, say], i) => {
+    const t0 = 0.3 + i * 1.45;
+    const inK = ease.out(prog(t, t0, 0.35)), outK = ease.in(prog(t, t0 + 1.15, 0.3));
+    if (inK <= 0 || outK >= 1) return;
+    const x = lerp(-300, 540, inK) + outK * (ok ? 900 : 0), y = 560 + (ok ? 0 : outK * 900), r = ok ? 0 : outK * 200;
+    let card = Rect(-240, -95, 480, 190, { fill: PAPER, sw: 6, rx: 14 }) + G(ok && i === 0 ? pouch() : i === 1 ? vest() : Circ(0, 0, 60, { fill: "#6c7556" }) + P("M0 -60 v-20 h20", { w: 6 }), { x: -160, y: 0, s: i === 1 ? 0.45 : 0.8 });
+    card += T(name, -70, -30, { size: 40, anchor: "start", font: SANS, weight: 800 }) + T(price, -70, 30, { size: 40, anchor: "start" });
+    card += stamp(ok ? "VALIDÉ" : "REFUSÉ", 60, 0, t, t0 + 0.55, { c: ok ? GREEN : RED, size: 64, r: -10 });
+    g += G(card, { x, y, r });
+    if (say && t > t0 + 0.3 && t < t0 + 1.2) g += bubble(820, 820, 380, 100, 640, 890, T(say, 820, 820, { size: 44 }));
+  });
+  return g;
+});
+shot("verifient", [["Et eux, ils vérifient.", 0.3], ["… ok.", 1.1]], (t, c) => {
+  const ride = ease.out(prog(t, 0, 0.8));
+  const bx = lerp(-400, 300, ride);
+  let g = buffStick({ x: 800, y: 1150, s: 0.95, k: 1, glasses: true, cap: true, glassesDy: 22 * prog(t, 0.9, 0.3), la: [-110, -130], ra: [110, -130] });
+  g += Rect(620, 1060, 420, 200, { fill: PAPER, sw: 7 }) + T("MODÉRATION", 830, 1160, { size: 46, font: SANS, weight: 800 });
+  g += nicoBike(t, bx, 1200, { pedal: t < 0.8 || t > c[1] + 0.6 });
+  const popK = prog(t, 1.9, 0.25);
+  if (popK < 1) {
+    const cx = bx + 150, cy = 560;
+    g += [[bx - 30, 1000, 14], [bx + 20, 930, 20], [bx + 70, 850, 28]].map(([x, y, r]) => Circ(x, y, r, { w: 6, fill: PAPER })).join("");
+    g += G(cloud(0, 0, 900, 820) + G(fantasy(t, FANTASY), { x: -560, y: -890 }), { x: cx, y: cy, s: 0.42 * (1 + popK * 0.3), o: 1 - popK });
+    g += stamp("REFUSÉ", cx, cy, t, 1.35, { size: 76, r: -12 });
+  } else if (t < 2.6) g += T("POP", bx + 150, 560, { font: MARK, size: 110, c: ACC, stroke: [8, INK], op: clamp((2.6 - t) * 2) });
+  g += bubble(bx + 260, 880, 170, 100, bx + 120, 1000, T("… ok.", bx + 260, 880, { size: 50 }), { s: pop(t, c[1]) });
   return g;
 });
 shot("garantie", [["Et chaque transaction garantie.", 2.9]], (t) => {
@@ -863,7 +918,7 @@ window.VIDEO = {
   shots: SHOTS.map((s) => ({ key: s.key, from: s.from, to: s.from + s.dur, cues: s.cues.map((c) => ({ text: c.text, at: s.from + c.at, dur: c.dur })) })),
   subs: SUBS,
 };
-window.videoReady = document.fonts.ready;
+window.videoReady = Promise.all([document.fonts.ready, ...Object.keys(IMG).map((n) => { const im = new Image(); im.src = `img/${n}.png`; return im.decode(); })]);
 
 if (params.has("render")) {
   document.body.classList.add("render");

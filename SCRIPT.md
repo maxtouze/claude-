@@ -1,4 +1,4 @@
-# Second Armor : founder story, script v5.5
+# Second Armor : founder story, script v6
 
 Format TikTok vertical, environ 85 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
 
@@ -27,15 +27,18 @@ Les visuels des versions précédentes (fond papier, tampons pochoir, fenêtres 
 — Fond blanc. Un bonhomme bâton se dessine trait par trait : tête, corps, bras, jambes. Il fait un petit coucou. Une flèche manuscrite pointe vers lui : « moi ».
 
 **« … Euh. Un peu de respect. »**
-— Coupe sèche. Le même Nico, version « comme il se voit » : torse en V absurde, bras plus gros que sa tête, lunettes de soleil, fusil dans le dos, sur une grosse moto. Une femme bâton est assise derrière lui, cheveux au vent. Une explosion en arrière-plan, sans raison. Un « VROOOM » écrit en gros. La flèche dit maintenant « moi (réel) ».
+— Pas de coupe : même fond blanc, même bonhomme. Il se transforme sous nos yeux, un élément à la fois, chacun avec un petit « BAM » : lunettes de soleil, clope au bec, il devient dix fois plus baraqué, une vraie kalach (image découpée) dans les mains, une vraie bécane (image découpée) qui glisse sous lui, une nana caricaturale derrière (cheveux blonds raides, haut de bikini triangle), des flammes à l'arrière, « VROOOM ». La flèche dit maintenant « moi (réel) ».
 
-**« Voilà. Je préfère. Tant que personne vérifie, c'est bon. »**
-— Dézoom lent : la moto, la femme et l'explosion sont un décor en carton sur un parking de supermarché. Le petit Nico bâton le tient à bout de bras, sur la pointe des pieds, en tremblant. Un caddie passe. Étiquette sur le carton : « personne ne vérifie ».
+**« Voilà. Je préfère. »**
+— On reste sur le fantasme.
+
+**« Tant que personne vérifie, c'est bon. »**
+— Dézoom : tout ça est dans une bulle de pensée. Le vrai Nico, petit bonhomme bâton, pédale sur un vélo (image découpée), clope au bec.
 
 ### 2. Le métier (0:12)
 
 **« Dans la vie, je suis militaire. Des risques, j'en prends. »**
-— Nico bâton, casqué, derrière un muret, tire une rafale : « PEW PEW PEW ». En face, des méchants caricaturaux : cagoule noire, moustache de méchant de dessin animé, et une pancarte « MÉCHANT » autour du cou pour qu'il n'y ait pas de doute. Ils tombent comme des quilles. Le dernier fait un salto arrière totalement inutile avant de tomber.
+— Nico bâton, casqué, derrière un muret, tire une rafale : « PEW PEW PEW ». En face, des méchants caricaturaux : cagoule noire, moustache de méchant de dessin animé, et une pancarte « MÉCHANT » autour du cou pour qu'il n'y ait pas de doute. Ils tombent comme des quilles.
 
 ### 3. Les risques inutiles (0:17)
 
@@ -47,10 +50,12 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 — Faux graphique très sérieux, titre « Mes risques ». Axe horizontal : « utilité ». Axe vertical : « risque ». Un point « mission » en haut à droite. Tout le côté gauche est marqué « zéro utilité ».
 
 **« Toucher une poêle pour voir si elle est chaude. »**
-— Une main bâton, l'index sur une poêle. « Tsss. » Le bout du doigt devient rouge. Nico, aucune expression. Un point « poêle » se pose sur le graphique.
+— Gros plan : la poêle sur un vrai feu (flammes découpées). Le bras arrive pendant la phrase et touche à la fin : « TSSS ».
+— Puis, dans le silence : fond presque vide, Nico lève la main, le doigt en feu, sans expression. Étiquette : « elle était chaude ». Un point « poêle » se pose sur le graphique.
 
 **« Répondre "oui oui" quand ma meuf me demande si je l'écoute. »**
-— Canapé. La copine bâton, cheveux blonds, parle, avec une grosse bulle pleine de gribouillis. Puis : « Tu m'écoutes ? » Nico, les yeux baissés sur son téléphone, sans lever la tête : « oui oui ». Elle le fixe. Une goutte de sueur apparaît sur la tête de Nico. Un point « oui oui » se pose sur le graphique.
+— Pendant la phrase : canapé, la copine blonde parle sans s'arrêter (bulle pleine de gribouillis), Nico a les yeux fixés sur son téléphone.
+— Après la phrase, en silence : la bulle devient « Tu m'écoutes ? ». Un gros blanc. On se rapproche lentement de Nico, qui fixe toujours son téléphone. Trois secondes plus tard, il lève les yeux vers elle : « oui oui ». Et retourne à son téléphone. Un point « oui oui » se pose sur le graphique.
 — *Option : la copine a le même dessin que la femme sur la moto de la section 1. Le spectateur attentif comprend que la « vraie » est moins glamour, et beaucoup moins impressionnée.*
 
 **« Envoyer 400 balles à un inconnu sur internet. »**
@@ -82,11 +87,16 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 **« Et là, vous allez me dire : "Nico, t'es con. Va sur Vinted." »**
 — Nico face caméra. Le spectateur de la section 3 est revenu avec deux copains, bras croisés, avec des bulles : « t'es con », « Vinted », « bah eBay ? ».
 
-**« Sauf que là-bas, ton porte-plaques, il est rangé dans "Déguisements". Alors pour trouver du matos, tu rafraîchis la page. Toute la nuit. »**
-— Un menu de catégories dessiné : Femme › Robes, Homme › Jeans… Le porte-plaques est rangé dans « Déguisements », entre un costume de pirate et une tenue d'infirmière sexy.
-— Coupe sèche : Nico dans son lit, dans le noir, le visage éclairé par son téléphone. Réveil : 3h12. Son pouce tire l'écran vers le bas pour rafraîchir, encore et encore. Compteur de rafraîchissements à côté de lui, comme les bâtons du graphique. À l'écran : « 0 nouveau résultat ». Des cernes qui s'agrandissent.
+**« Sauf que là-bas, ton porte-plaques, il est rangé dans "Déguisements". »**
+— Nico de dos devant son ordi. Une fenêtre « Marketplace · Déguisements » : « Porte-plaques (déguisement) », entouré en rouge.
 
-**« Si tu t'es pas fait bannir. Parce que pour un algorithme bien-pensant, "porte-chargeur", c'est de l'apologie du terrorisme. »**
+**« Alors trouver du matos, c'est une chasse au trésor. »**
+— Les fenêtres s'empilent, jusqu'à 15 onglets : groupes Facebook, Telegram, Vinted, eBay… Des annonces qui n'ont rien à voir : plaque de cuisson, costume de pirate, tondeuse, « lien mort », « VENDU ».
+
+**« Et si tu tombes enfin sur le bon truc… t'as de la chance. »**
+— Le 15e onglet : le bon porte-plaques, entouré en orange. « enfin ! »
+
+**« Enfin… si tu t'es pas fait bannir. Parce que pour un algorithme bien-pensant, "porte-chargeur", c'est de l'apologie du terrorisme. »**
 — L'algorithme est un personnage (voir la note plus bas). Il lit l'annonce « Porte-chargeur, bon état, 15 € ». Il blêmit, se couvre les yeux, pose un panneau « ⚠ contenu choquant » sur l'annonce, respire dans un sac en papier, puis décroche un téléphone rouge. Gyrophare. Tampon rouge : **FICHÉ S**. Le compte de Nico tombe dans une trappe.
 
 **« … C'est une poche. »**
@@ -101,13 +111,13 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 ### 6. La solution (1:02)
 
 **« Ce qu'il nous fallait, c'est un Vinted avec deux paires de couilles. »**
-— Coupe sèche. L'algorithme, toujours dans son sac en papier, est poussé hors du cadre avec son tote bag.
+— L'algorithme panique dans son sac en papier. Un gars baraqué (casquette, lunettes de soleil) entre, l'attrape et la balance : elle s'envole au loin, « ting ». Il s'assoit calmement à sa place, avec son café. Étiquette : « deux paires de couilles ».
 
 **« Des gars du milieu à la place d'un algorithme qui panique. »**
-— À sa place, deux bonshommes calmes, casquette et café, derrière un bureau « Modération ». Ils regardent l'annonce du porte-chargeur : « … c'est une poche. » Tampon vert : **VALIDÉ**. Le porte-plaques, lui, est rangé dans la bonne catégorie : « Porte-plaques ». Nico dort, et son téléphone s'allume tout seul : « 🔔 nouveau porte-plaques dispo ».
+— Bureau « Modération ». Les annonces arrivent une par une et il fait le tri : « Porte-chargeur » (« … c'est une poche. ») **VALIDÉ**, « Porte-plaques » **VALIDÉ**, « Grenade (vraie) » **REFUSÉ**, balancée.
 
 **« Et eux, ils vérifient. »**
-— Rappel de la section 1 : le Nico en carton (torse en V, lunettes, moto) passe devant le bureau. Un des deux gars baisse ses lunettes et le regarde. Tampon rouge : **REFUSÉ**. Le carton tombe à plat. Derrière, le petit Nico bâton, pris la main dans le sac : « … ok. »
+— Rappel de la section 1 : le petit Nico passe à vélo devant le bureau, avec sa bulle de fantasme au-dessus de la tête. Le modérateur baisse ses lunettes. Tampon **REFUSÉ** sur la bulle, qui éclate : « POP ». Nico : « … ok. »
 
 **« Et chaque transaction garantie. »**
 — Schéma simple : Nico → coffre-fort → vendeur. Le colis arrive, la case « reçu ? » se coche, et seulement ensuite l'argent part au vendeur. Le colis est ouvert : cette fois, il y a un vrai gilet dedans. Pas de mouche.
