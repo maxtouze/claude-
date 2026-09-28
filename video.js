@@ -1012,47 +1012,11 @@ function seek(t) {
   subEl.classList.toggle("dark", s.dark);
 }
 
-// Bruitages : [instant dans le plan, son]. Les sons sont synthétisés par audio.mjs (aucun fichier externe).
-const SFX = {
-  respect: () => [[0.9, "bam"], [1.45, "bam"], [1.45, "whoosh"], [2.1, "clack"], [2.5, "moto"], [3.05, "ding"], [3.35, "fire"], [3.45, "vroom"]],
-  bulle: (c) => [[c[1] - 0.15, "whoosh"], [c[1] + 0.8, "bell"]],
-  militaire: () => [0.45, 0.85, 1.25].flatMap((x) => [[x, "pew"], [x + 0.4, "thud"]]),
-  graphe: (c) => [[0.3, "pop"], [c[0] + 1.6, "pop"]],
-  poele: (c, d) => { const vo = cueEnd("poele"); return [[0.2, "crackle", vo + 0.15], [vo - 0.5, "tsss"], [vo + 0.4, "fire"], [d - 0.75, "pop"]]; },
-  ouioui: (c, d) => { const e = cueEnd("ouioui"); return [[e + 0.6, "tick"], [e + 1.4, "tick"], [e + 2.2, "tick"], [e + 3.0, "tick"], [d - 0.75, "pop"]]; },
-  inconnu: () => { const talk = cueEnd("inconnu") + 0.13; return [[talk - 0.5, "crack"], [talk + 0.45, "pop"]]; },
-  justif: (c) => [[c[1] + 0.8, "pop"], [c[1] + 1.1, "pop"], [c[1] + 1.8, "pop"], [c[2], "ding"], [c[2] + 0.2, "ding"], [c[2] + 0.4, "ding"]],
-  furtif: (c) => [[0.3, "sparkle"], [c[1], "buzz", 2.5]],
-  bip: () => [[cueEnd("bip") - 0.18, "bip"]],
-  pasleseul: () => [[0.35, "whoosh"], [0.5, "buzz", 2.2]],
-  arrete: (c) => [[c[0] + 0.9, "pop"], [c[1] + 0.8, "scribble"]],
-  tescon: (c) => [[c[0] + 1.6, "pop"], [c[0] + 2.4, "pop"], [c[0] + 3.0, "pop"]],
-  ordi: (c) => {
-    const t0 = c[0] + 0.3, t1 = c[1] + 0.2, n = WINS.length, step = (c[2] - t1) / (n - 2);
-    return [[t0, "click"], ...Array.from({ length: n - 2 }, (_, i) => [t1 + i * step, "click"]), [c[2] + 0.9, "ding"], [c[2] + 1.2, "scribble"]];
-  },
-  algo: (c) => [[c[1] + 2.0, "gasp"], [c[1] + 2.6, "pop"], [c[1] + 4.1, "alarm", 1.5], [c[1] + 5.0, "stamp"], [c[1] + 5.6, "whoosh"]],
-  poche: () => [[0.5, "pop"]],
-  couilles: () => [[1.35, "grab"], [2.0, "whoosh"], [2.85, "ting"]],
-  moderation: () => [0, 1, 2].flatMap((i) => [[0.3 + i * 1.45, "whoosh"], [0.85 + i * 1.45, "stamp"]]),
-  verifient: (c) => [[0.1, "bell"], [1.35, "stamp"], [1.9, "pop"]],
-  garantie: () => [[0.3, "whoosh"], [1.1, "whoosh"], [2.05, "ding"]],
-  cree: (c) => [[c[1] + 0.2, "whoosh"], [c[1] + 0.55, "boum"], [c[2], "pop"]],
-  dixmille: (c) => [[c[1], "count", 1.0], ...[0, 1, 2, 3, 4].map((i) => [c[2] + 1.0 + i * 0.15, "star"])],
-  rendre: (c) => [[c[1] + 0.2, "sad"]],
-  hockey: () => [[0.1, "whoosh"]],
-  amazonie: (c) => [[0.1, "whoosh"], [c[1] + 0.3, "buzz", 3.0], [c[2] + 1.1, "click"]],
-  continuez: (c, d) => [[d * 0.5, "scribble"]],
-  belote: (c) => [[c[1] + 0.2, "cards"], [c[1] + 1.4, "cards"]],
-  fin: () => [[0.1, "boum"], [0.4, "pop"], [1.4, "pop"]],
-};
-
 window.VIDEO = {
   W, H, FPS, DURATION, seek,
   shots: SHOTS.map((s) => ({ key: s.key, from: s.from, to: s.from + s.dur, cues: s.cues.map((c) => ({ n: c.n, text: c.text, at: s.from + c.at, dur: c.dur })) })),
   subs: SUBS,
   cues: SHOTS.flatMap((s) => s.cues.map((c) => ({ n: c.n, text: c.text, at: s.from + c.at, dur: c.dur, bip: s.key === "bip" }))),
-  sfx: SHOTS.flatMap((s) => (SFX[s.key] ? SFX[s.key](s.cues.map((q) => q.at), s.dur) : []).map(([t, name, len]) => ({ t: s.from + t, name, len }))),
 };
 window.videoReady = Promise.all([document.fonts.ready, ...Object.keys(IMG).map((n) => { const im = new Image(); im.src = `img/${n}.png`; return im.decode(); }),
   ...Object.entries(PHOTOS).map(([n, src]) => { const im = new Image(); im.src = src; return im.decode().then(() => { PHOTO_OK[n] = true; }, () => {}); })]);

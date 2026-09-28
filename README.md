@@ -5,7 +5,7 @@ Vidéo animée 9:16 (1080×1920) en JavaScript pur, sans framework vidéo, dans 
 - `index.html` + `video.js` + `style.css` : l'animation. Ouvrir `index.html` dans un navigateur pour la prévisualiser (lecture, pause, barre de défilement).
 - `video.js` : un plan = `shot(clé, répliques, dessin)`. Les répliques de la voix off servent à la fois aux sous-titres, au minutage des plans et à `VOICEOVER.md`.
 - `render.mjs` : export MP4 image par image.
-- `audio.mjs` : piste son (voix + bruitages synthétisés), posée sur la vidéo déjà rendue.
+- `audio.mjs` : piste son (les prises de voix + le bip), posée sur la vidéo déjà rendue.
 - `voice.mjs` : prépare les prises de Nico et recale l'animation sur leur vraie durée.
 
 ```bash
@@ -34,7 +34,7 @@ Une réplique sans prise garde sa durée estimée : on peut enregistrer au fur e
 
 ## Son
 
-Les bruitages (BAM, VROOOM, PEW, TSSS, POP, tampons, trombone triste…) sont calculés dans `audio.mjs`, sans fichier externe, donc sans droits à gérer. Leurs instants sont dans la table `SFX` de `video.js`, à côté des plans. Pas de musique : sur TikTok, mieux vaut ajouter un son de la bibliothèque dans l'app (volume bas sous la voix).
+Pas de bruitages (essayés, retirés). `audio.mjs` ne pose que la voix, plus le bip sur « enculer ». Pour la musique, mieux vaut ajouter un son de la bibliothèque TikTok dans l'app (volume bas sous la voix).
 
 ## Versions
 
