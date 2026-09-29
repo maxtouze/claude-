@@ -70,15 +70,16 @@ if (!wavOnly) {
   const video = path.join(out, `${base}.mp4`);
   if (!existsSync(video)) { console.error(`Pas de vidéo : lancer d'abord npm run render${cut ? ` -- --cut=${cut}` : ""}`); process.exit(1); }
   const dst = path.join(out, `${base}-son.mp4`);
-  // -14 LUFS : le niveau des vidéos TikTok / Reels. Deux passes : une passe seule s'arrête vers -16 sur de la voix hachée.
-  const LN = "loudnorm=I=-14:TP=-1.5:LRA=11";
+  // -14 LUFS : le niveau des vidéos TikTok / Reels. loudnorm seul plafonne vers -16 sur une voix aux crêtes marquées :
+  // on mesure, on monte le gain qu'il faut, et un limiteur tient les crêtes sous -1,5 dBTP après encodage.
   const m = await new Promise((r) => {
     let err = "";
-    const p = spawn(ffmpegPath, ["-hide_banner", "-i", wav, "-af", LN + ":print_format=json", "-f", "null", "-"]);
+    const p = spawn(ffmpegPath, ["-hide_banner", "-i", wav, "-af", "loudnorm=I=-14:TP=-1.5:print_format=json", "-f", "null", "-"]);
     p.stderr.on("data", (d) => (err += d));
-    p.on("close", () => { try { r(JSON.parse(err.slice(err.lastIndexOf("{")))); } catch { r(null); } });
+    p.on("close", () => { try { r(JSON.parse(err.slice(err.lastIndexOf("{"), err.lastIndexOf("}") + 1))); } catch { r(null); } });
   });
-  const af = m ? `${LN}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true` : LN;
+  const gain = m ? -14 - parseFloat(m.input_i) + 2.5 : 0; // +2,5 dB : ce que le limiteur reprend sur ces prises
+  const af = m ? `volume=${gain.toFixed(2)}dB,alimiter=limit=0.8:attack=2:release=60:level=disabled` : "loudnorm=I=-14:TP=-1.5:LRA=11";
   const ff = spawn(ffmpegPath, ["-y", "-loglevel", "error", "-i", video, "-i", wav, "-map", "0:v", "-map", "1:a", "-c:v", "copy",
     "-af", af, "-ar", "48000", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", dst], { stdio: "inherit" });
   await new Promise((r) => ff.on("close", r));
