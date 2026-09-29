@@ -20,14 +20,16 @@ if (!ffmpegPath) { try { ffmpegPath = (await import("ffmpeg-static")).default; }
 const trim = "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.04";
 const af = `highpass=f=80,${trim},areverse,${trim},areverse,afade=t=in:d=0.01`;
 const timing = {};
-const files = readdirSync(src).filter((f) => /^\d{1,2}\b.*\.(wav|m4a|mp3|aac|caf|ogg|flac|opus|aif|aiff)$/i.test(f)).sort();
+const files = readdirSync(src).filter((f) => /^\d{1,2}[a-z]?\b.*\.(wav|m4a|mp3|aac|caf|ogg|flac|opus|aif|aiff)$/i.test(f)).sort((a, b) => parseInt(a, 10) - parseInt(b, 10) || a.localeCompare(b));
 for (const f of files) {
-  const n = parseInt(f, 10);
-  const o = path.join(dst, `${String(n).padStart(2, "0")}.f32`);
+  // « 09a » : réplique ajoutée entre la 9 et la 10, sans renuméroter la suite
+  const [, num, suf] = f.match(/^(\d{1,2})([a-z]?)/);
+  const n = String(parseInt(num, 10)) + suf, id = num.padStart(2, "0") + suf;
+  const o = path.join(dst, `${id}.f32`);
   const r = spawnSync(ffmpegPath, ["-y", "-loglevel", "error", "-i", path.join(src, f), "-ac", "1", "-ar", "48000", "-af", af, "-f", "f32le", o]);
   if (r.status !== 0) { console.error(`${f} : illisible`, r.stderr.toString()); continue; }
   timing[n] = Math.round((statSync(o).size / 4 / 48000) * 100) / 100;
-  console.log(`${String(n).padStart(2, "0")}  ${timing[n].toFixed(2)} s  ${f}`);
+  console.log(`${id}  ${timing[n].toFixed(2)} s  ${f}`);
 }
 writeFileSync(path.join(src, "timing.js"),
   "// Généré par `npm run voice` : durée réelle (s) de chaque prise, par numéro de réplique.\nwindow.VOICE_TIMING = " + JSON.stringify(timing, null, 1) + ";\n");

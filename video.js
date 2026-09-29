@@ -452,8 +452,8 @@ let CUE_N = 0;
 function shot(key, cues, draw, opt = {}) {
   const { lead = 0.05, min = 0, dark = false, subs = true } = opt;
   let t = lead;
-  const cs = cues.map(([text, pause = 0.25, sub]) => {
-    const n = ++CUE_N;
+  const cs = cues.map(([text, pause = 0.25, sub, id]) => {
+    const n = id ?? ++CUE_N; // réplique ajoutée après coup : id « 9a » (prise voice/09a.mp3) sans renuméroter la suite
     const c = { n, text, sub: sub ?? text, at: t, dur: VOICE_TIMING[n] ?? speakDur(text) };
     t += c.dur + pause;
     return c;
@@ -475,7 +475,7 @@ shot("salut", [["Salut, moi c'est Nico.", 0.25]], (t, c) => {
 // Le fantasme se construit sur le même bonhomme, fond blanc : lunettes, clope, muscles, kalach, bécane, meuf, flammes.
 const FANTASY = { k: 1, glasses: 1, cig: 1, ak: 1, moto: 1, girl: 1, fire: 1, vroom: 1 };
 const bam = (t, at, x, y, txt = "BAM") => (t > at && t < at + 0.45 ? T(txt, x, y, { font: MARK, size: 70, c: ACC, r: -10, stroke: [8, INK], op: clamp((at + 0.45 - t) * 4) }) : "");
-shot("respect", [["… Euh. Un peu de respect.", 1.0]], (t) => {
+shot("respect", [["… Euh. Un peu de respect.", 0.7]], (t) => {
   const st = {
     glasses: t > 0.5, cig: t > 0.75, k: ease.back(prog(t, 0.95, 0.35)), shake: t > 0.95 && t < 1.3,
     ak: pop(t, 1.35), moto: prog(t, 1.6, 0.35), girl: pop(t, 1.95), fire: prog(t, 2.15, 0.2), vroom: prog(t, 2.2, 0.2),
@@ -527,7 +527,7 @@ shot("graphe", [["Mais il m'arrive aussi d'en prendre des inutiles.", 0.25]], (t
   const cz = c[0] + 1.6;
   return risksGraph(t, { mission: pop(t, 0.3), zero: prog(t, cz, 0.4) }) + spectator(t);
 });
-shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 1.6]], (t, c, d) => {
+shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 0.35], ["Elle l'était.", 0.5, undefined, "9a"]], (t, c, d) => {
   const vo = cueEnd("poele");
   const g0 = d - 0.7;
   if (t >= g0) return risksGraph(t, { zero: 1, poele: pop(t, g0 + 0.15) }) + spectator(t);
@@ -548,7 +548,7 @@ shot("poele", [["Toucher une poêle pour voir si elle est chaude.", 1.6]], (t, c
   const hx = 540 + 60 * 1.5, hy = 1230 - 360 * 1.5;
   const fl = 1 + Math.sin(t * 25) * 0.08;
   return stick({ x: 540, y: 1230, s: 1.5, ra: [70, -290, 60, -360] }) + Img("flammes", hx, hy - 50, 170 * fl, { r: -90 }) +
-    label(t, vo + 0.6, "elle était\nchaude", 250, 560, 470, 650, { size: 60 });
+    label(t, vo + 0.4, "elle était\nchaude", 250, 560, 470, 650, { size: 60 });
 }, { min: 4 });
 shot("ouioui", [["Répondre « oui oui » quand ma meuf me demande si je l'écoute.", 3.4]], (t, c, d) => {
   const e = cueEnd("ouioui");
@@ -749,18 +749,19 @@ shot("couilles", [["Ce qu'il nous fallait, c'est un Vinted avec deux paires de c
   g += label(t, d - 1.3, "deux paires\nde couilles", 330, 700, 600, 830, { size: 56 });
   return Z(g, 1.3, 600, 1000);
 });
-const LISTINGS = [["Porte-chargeur", "15 €", true, "… c'est une poche."], ["Porte-plaques", "400 €", true, null], ["Grenade (vraie)", "30 €", false, "non."]];
-shot("moderation", [["Des gars du milieu, à la place d'un algorithme qui panique.", 1.1]], (t) => {
+const LISTINGS = [["Porte-chargeur", "15 €", true, "… c'est une poche."], ["Porte-plaques", "400 €", true, null], ["Grenade (vraie)", "30 €", false, null]];
+shot("moderation", [["Des gars du milieu, à la place d'un algorithme qui panique.", 0.2], ["Une vraie grenade, par contre… non.", 0.5, undefined, "30a"]], (t, c) => {
   let g = buffStick({ x: 540, y: 1150, s: 1.1, k: 1, glasses: true, cap: true, la: [-110, -150, -60, -170], ra: [130, -200, 170, -300] });
   g += Rect(470, 950, 46, 54, { fill: PAPER, sw: 5, rx: 5 }) + modDesk();
   LISTINGS.forEach(([name, price, ok, say], i) => {
-    const t0 = 0.3 + i * 1.45;
-    const inK = ease.out(prog(t, t0, 0.35)), outK = ease.in(prog(t, t0 + 1.15, 0.3));
+    // la grenade arrive sur sa réplique et prend son tampon sur « non »
+    const t0 = i < 2 ? 0.3 + i * 1.45 : c[1] - 0.2, ts = i < 2 ? t0 + 0.55 : cueEnd("moderation", 1) - 0.35;
+    const inK = ease.out(prog(t, t0, 0.35)), outK = ease.in(prog(t, ts + 0.6, 0.3));
     if (inK <= 0 || outK >= 1) return;
     const x = lerp(-300, 540, inK) + outK * (ok ? 900 : 0), y = 560 + (ok ? 0 : outK * 900), r = ok ? 0 : outK * 200;
     let card = Rect(-240, -95, 480, 190, { fill: PAPER, sw: 6, rx: 14 }) + G(ok && i === 0 ? pouch() : i === 1 ? vest() : Circ(0, 0, 60, { fill: "#6c7556" }) + P("M0 -60 v-20 h20", { w: 6 }), { x: -160, y: 0, s: i === 1 ? 0.45 : 0.8 });
     card += T(name, -70, -30, { size: 40, anchor: "start", font: SANS, weight: 800 }) + T(price, -70, 30, { size: 40, anchor: "start" });
-    card += stamp(ok ? "VALIDÉ" : "REFUSÉ", 60, 0, t, t0 + 0.55, { c: ok ? GREEN : RED, size: 64, r: -10 });
+    card += stamp(ok ? "VALIDÉ" : "REFUSÉ", 60, 0, t, ts, { c: ok ? GREEN : RED, size: 64, r: -10 });
     g += G(card, { x, y, r });
     if (say && t > t0 + 0.3 && t < t0 + 1.2) g += bubble(820, 820, 380, 100, 640, 890, T(say, 820, 820, { size: 44 }));
   });
@@ -782,20 +783,22 @@ shot("verifient", [["Et eux, ils vérifient.", 0.8], ["… ok.", 0.5]], (t, c) =
   g += bubble(bx + 260, 880, 170, 100, bx + 120, 1000, T("… ok.", bx + 260, 880, { size: 50 }), { s: pop(t, c[1]) });
   return g;
 });
-shot("garantie", [["Et chaque transaction garantie.", 1.2]], (t) => {
+shot("garantie", [["Et chaque transaction garantie.", 0.2], ["Ton argent reste au coffre tant que t'as pas reçu ton colis.", 0.3, undefined, "33a"], ["Et cette fois, le gilet, tu le vois.", 0.6, undefined, "33b"]], (t, c) => {
   let g = stick({ x: 170, y: 1220, s: 0.9 }) + T("toi", 170, 1290, { size: 44 });
   g += stick({ x: 860, y: 1220, s: 0.9, acc: ["cap"] }) + T("vendeur", 860, 1290, { size: 44 });
   // coffre-fort
   g += Rect(400, 820, 280, 260, { fill: "#d9dde3", sw: 8, rx: 14 }) + Circ(540, 950, 60, { w: 7, fill: PAPER }) + P("M540 950 l30 -30 M600 950 h40", { w: 7 }) + T("Second Armor", 540, 1130, { size: 44 });
+  // l'argent part au coffre pendant la 1re réplique, le colis voyage pendant la 2e, le vendeur est payé à la fin de la 2e
+  const e1 = cueEnd("garantie", 1), tBox = c[1] + 0.9, tOk = e1 - 0.6, tPay = e1 - 0.2;
   const bx1 = lerp(230, 540, ease.inOut(prog(t, 0.3, 0.7))), by1 = lerp(1000, 950, ease.inOut(prog(t, 0.3, 0.7)));
   if (t < 1.05) g += bill(bx1, by1);
-  else if (t < 2.5) g += bill(540, 740 + jit(t, 2), { s: 0.8 });
-  const bk = ease.inOut(prog(t, 1.1, 0.8));
-  if (t > 1.1) g += G(box({ w: 120, h: 90 }), { x: lerp(860, 260, bk), y: 1225 });
+  else if (t < tPay) g += bill(540, 740 + jit(t, 2), { s: 0.8 });
+  const bk = ease.inOut(prog(t, tBox, tOk - tBox - 0.1));
+  if (t > tBox) g += G(box({ w: 120, h: 90 }), { x: lerp(860, 260, bk), y: 1225 });
   g += Rect(430, 520, 60, 60, { fill: PAPER, sw: 6 }) + T("reçu ?", 600, 550, { size: 52 });
-  if (t > 2.05) g += P("M440 550 l18 20 l32 -44", { w: 9, c: GREEN, q: prog(t, 2.05, 0.25) });
-  if (t > 2.5) g += bill(lerp(540, 860, ease.inOut(prog(t, 2.5, 0.6))), lerp(740, 1000, ease.inOut(prog(t, 2.5, 0.6))));
-  if (t > 3.2) g += G(vest(), { x: 260, y: 1000, s: 0.45 * pop(t, 3.2) }) + label(t, 3.6, "pas de mouche", 330, 700, 280, 900, { size: 52 });
+  if (t > tOk) g += P("M440 550 l18 20 l32 -44", { w: 9, c: GREEN, q: prog(t, tOk, 0.25) });
+  if (t > tPay) g += bill(lerp(540, 860, ease.inOut(prog(t, tPay, 0.6))), lerp(740, 1000, ease.inOut(prog(t, tPay, 0.6))));
+  if (t > c[2]) g += G(vest(), { x: 260, y: 1000, s: 0.45 * pop(t, c[2]) }) + label(t, c[2] + 0.5, "pas de mouche", 330, 700, 280, 900, { size: 52 });
   return Z(g, 1.12, 540, 950);
 });
 shot("cree", [["Alors oui, je touche encore des poêles.", 0.2], ["Mais ça, c'est moi qui l'ai créé.", 0.2], ["Ça s'appelle Second Armor.", 0.3]], (t, c) => {

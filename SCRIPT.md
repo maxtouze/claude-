@@ -1,4 +1,4 @@
-# Second Armor : founder story, script v7
+# Second Armor : founder story, script v8
 
 Format TikTok vertical, environ 85 s. Chaque réplique de voix off est suivie, après le tiret, de ce qu'on voit à l'écran.
 
@@ -51,7 +51,8 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 
 **« Toucher une poêle pour voir si elle est chaude. »**
 — Gros plan : la poêle sur un vrai feu (flammes découpées). Le bras arrive pendant la phrase et touche à la fin : « TSSS ».
-— Puis, dans le silence : fond presque vide, Nico lève la main, le doigt en feu, sans expression. Étiquette : « elle était chaude ». Un point « poêle » se pose sur le graphique.
+**« Elle l'était. »** *(ajout v8 : le blanc est rempli par la voix)*
+— Fond presque vide, Nico lève la main, le doigt en feu, sans expression. Étiquette : « elle était chaude ». Un point « poêle » se pose sur le graphique.
 
 **« Répondre "oui oui" quand ma meuf me demande si je l'écoute. »**
 — Pendant la phrase : canapé, la copine blonde parle sans s'arrêter (bulle pleine de gribouillis), Nico a les yeux fixés sur son téléphone.
@@ -114,13 +115,22 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 — L'algorithme panique dans son sac en papier. Un gars baraqué (casquette, lunettes de soleil) entre, l'attrape et la balance : elle s'envole au loin, « ting ». Il s'assoit calmement à sa place, avec son café. Étiquette : « deux paires de couilles ».
 
 **« Des gars du milieu à la place d'un algorithme qui panique. »**
-— Bureau « Modération ». Les annonces arrivent une par une et il fait le tri : « Porte-chargeur » (« … c'est une poche. ») **VALIDÉ**, « Porte-plaques » **VALIDÉ**, « Grenade (vraie) » **REFUSÉ**, balancée.
+— Bureau « Modération ». Les annonces arrivent une par une et il fait le tri : « Porte-chargeur » (« … c'est une poche. ») **VALIDÉ**, « Porte-plaques » **VALIDÉ**.
+
+**« Une vraie grenade, par contre… non. »** *(ajout v8)*
+— « Grenade (vraie) » arrive ; tampon **REFUSÉ** sur le « non », balancée.
 
 **« Et eux, ils vérifient. »**
 — Rappel de la section 1 : le petit Nico passe à vélo devant le bureau, avec sa bulle de fantasme au-dessus de la tête. Le modérateur baisse ses lunettes. Tampon **REFUSÉ** sur la bulle, qui éclate : « POP ». Nico : « … ok. »
 
 **« Et chaque transaction garantie. »**
-— Schéma simple : Nico → coffre-fort → vendeur. Le colis arrive, la case « reçu ? » se coche, et seulement ensuite l'argent part au vendeur. Le colis est ouvert : cette fois, il y a un vrai gilet dedans. Pas de mouche.
+— Schéma simple : Nico → coffre-fort → vendeur. L'argent part au coffre.
+
+**« Ton argent reste au coffre tant que t'as pas reçu ton colis. »** *(ajout v8, à valider : est-ce bien le fonctionnement de Second Armor ?)*
+— Le colis voyage vers Nico, la case « reçu ? » se coche, et seulement ensuite l'argent part au vendeur.
+
+**« Et cette fois, le gilet, tu le vois. »** *(ajout v8, rappel du gilet furtif)*
+— Le colis est ouvert : cette fois, il y a un vrai gilet dedans. Étiquette : « pas de mouche ».
 
 **« Alors oui, je touche encore des poêles. Mais ça, c'est moi qui l'ai créé. Ça s'appelle Second Armor. Et faut croire que c'est pas trop con : on est déjà 10 000, avec plus de 300 transactions notées cinq étoiles. »**
 — Nico, le doigt encore rouge, pose à côté du logo Second Armor qui tombe avec un « BOUM » de basse. Coupe sèche : faux graphique « Membres ». Il commence avec quelques bonhommes (étiquette : « au début : mon unité »), la courbe monte, les bonhommes remplissent l'écran. Compteur : 10 000. Juste en dessous, des étoiles tombent une à une : « 300+ transactions ★★★★★ ».
@@ -162,6 +172,7 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 - **Les alertes** : le plan où Nico dort pendant qu'une notification « nouveau porte-plaques » arrive suppose que Second Armor envoie des alertes. Si ce n'est pas le cas, on coupe ce plan.
 - **L'algorithme « bien-pensant »** : il faut que ce soit son comportement qui fasse rire (il panique pour une poche), pas le fait que ce soit une femme. Beaucoup de militaires et de clientes sont des femmes. Les accessoires (tote bag, gourde, « safe space ») suffisent à faire passer la blague.
 - **Déguisements** : c'est une blague, pas un fait vérifié sur une plateforme précise. À l'écran, pas de vrai logo, et « là-bas » plutôt que le nom de la plateforme.
+- **Le coffre-fort** : « Ton argent reste au coffre tant que t'as pas reçu ton colis. » décrit un paiement bloqué jusqu'à la réception. À confirmer : c'est bien comme ça que Second Armor garantit les transactions ? Sinon on adapte la phrase.
 - **300+ transactions cinq étoiles** : chiffre à confirmer avant publication.
 - **L'unité de départ** : elle n'est plus dite à l'oral, seulement écrite sur le graphique (« au début : mon unité »). On peut la remettre à l'oral si tu y tiens.
 - **Durée** : environ 2:40 avec la partie « rendre à la communauté ». Long pour TikTok : à couper ailleurs si on garde tout.

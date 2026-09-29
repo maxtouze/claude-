@@ -38,7 +38,7 @@ const add = (buf, t, gain = 1) => { const o = Math.round(t * SR); for (let i = 0
 const voiceDir = path.join(out, "voice");
 let voiced = 0, bipWin = null;
 for (const c of cues) {
-  const f = path.join(voiceDir, `${String(c.n).padStart(2, "0")}.f32`);
+  const f = path.join(voiceDir, `${String(c.n).replace(/^\d+/, (d) => d.padStart(2, "0"))}.f32`);
   if (c.bip) bipWin = [c.at + c.dur - 0.6, c.at + c.dur + 0.1];
   if (!existsSync(f)) continue;
   const raw = readFileSync(f);
@@ -70,9 +70,17 @@ if (!wavOnly) {
   const video = path.join(out, `${base}.mp4`);
   if (!existsSync(video)) { console.error(`Pas de vidéo : lancer d'abord npm run render${cut ? ` -- --cut=${cut}` : ""}`); process.exit(1); }
   const dst = path.join(out, `${base}-son.mp4`);
-  // -14 LUFS : le niveau des vidéos TikTok / Reels
+  // -14 LUFS : le niveau des vidéos TikTok / Reels. Deux passes : une passe seule s'arrête vers -16 sur de la voix hachée.
+  const LN = "loudnorm=I=-14:TP=-1.5:LRA=11";
+  const m = await new Promise((r) => {
+    let err = "";
+    const p = spawn(ffmpegPath, ["-hide_banner", "-i", wav, "-af", LN + ":print_format=json", "-f", "null", "-"]);
+    p.stderr.on("data", (d) => (err += d));
+    p.on("close", () => { try { r(JSON.parse(err.slice(err.lastIndexOf("{")))); } catch { r(null); } });
+  });
+  const af = m ? `${LN}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true` : LN;
   const ff = spawn(ffmpegPath, ["-y", "-loglevel", "error", "-i", video, "-i", wav, "-map", "0:v", "-map", "1:a", "-c:v", "copy",
-    "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-ar", "48000", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", dst], { stdio: "inherit" });
+    "-af", af, "-ar", "48000", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", dst], { stdio: "inherit" });
   await new Promise((r) => ff.on("close", r));
   console.log(`OK -> ${path.relative(root, dst)}`);
 }
