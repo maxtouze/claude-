@@ -164,6 +164,31 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 
 ---
 
+## Version « hook » (`?cut=hook`, environ 2:28)
+
+On ouvre direct sur la chute, et l'histoire vient après pour l'expliquer. La version longue ne change pas.
+
+**Accroche (0:00), nouveau plan :**
+> Un jour, je me suis fait arnaquer de 400 balles.
+> Alors j'ai créé la solution, pour que ça arrive plus à personne.
+> *(temps)* Pour l'instant, j'en ai perdu 50 000.
+
+*À l'écran : « compte en banque −400 € », le carton vide avec la mouche. Le logo Second Armor tombe, Nico le présente, fier. Puis le compteur dévisse jusqu'à −50 000 €, la courbe plonge, Nico retourne ses poches, et « rentable » est barré.*
+
+**Ensuite :** Salut, moi c'est Nico. Militaire, les risques, la poêle, les 400 balles à un inconnu, le gilet furtif, « je me suis fait enculer », pas le seul, « Nico t'es con », la chasse au trésor, l'algorithme, la poche, les deux paires de couilles, la modération, le coffre, Second Armor, 10 000 membres.
+
+**Rendre à la communauté (rappel de l'accroche) :**
+> Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.
+> Les 50 000 ? C'est un investissement.
+
+*(la courbe qui plonge, « promis »)*
+
+Puis les Frères d'Armes, l'Amazonie et la chute de la belote.
+
+**On coupe :** « Un peu de respect », « Voilà, je préfère », « oui oui », le pointage « même moi j'ai arrêté », « continuez à prendre des risques ».
+
+---
+
 ## À valider
 
 - **Le gilet jamais reçu** : est-ce que c'est vraiment arrivé à Nico ? Si oui, parfait. Sinon, on peut le raconter comme « un pote à moi », mais ça perd de la force.
@@ -173,6 +198,7 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 - **L'algorithme « bien-pensant »** : il faut que ce soit son comportement qui fasse rire (il panique pour une poche), pas le fait que ce soit une femme. Beaucoup de militaires et de clientes sont des femmes. Les accessoires (tote bag, gourde, « safe space ») suffisent à faire passer la blague.
 - **Déguisements** : c'est une blague, pas un fait vérifié sur une plateforme précise. À l'écran, pas de vrai logo, et « là-bas » plutôt que le nom de la plateforme.
 - **Le coffre-fort** : « Ton argent reste au coffre tant que t'as pas reçu ton colis. » décrit un paiement bloqué jusqu'à la réception. À confirmer : c'est bien comme ça que Second Armor garantit les transactions ? Sinon on adapte la phrase.
+- **Les 50 000 € (version « hook »)** : c'est le vrai chiffre ? Toute l'accroche repose dessus. Si c'est plus ou moins, on change juste le chiffre.
 - **300+ transactions cinq étoiles** : chiffre à confirmer avant publication.
 - **L'unité de départ** : elle n'est plus dite à l'oral, seulement écrite sur le graphique (« au début : mon unité »). On peut la remettre à l'oral si tu y tiens.
 - **Durée** : environ 2:40 avec la partie « rendre à la communauté ». Long pour TikTok : à couper ailleurs si on garde tout.

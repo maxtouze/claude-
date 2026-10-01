@@ -450,7 +450,7 @@ const speakDur = (s) => {
 const VOICE_TIMING = window.VOICE_TIMING || {};
 let CUE_N = 0;
 function shot(key, cues, draw, opt = {}) {
-  const { lead = 0.05, min = 0, dark = false, subs = true } = opt;
+  const { lead = 0.05, min = 0, dark = false, subs = true, only = false } = opt;
   let t = lead;
   const cs = cues.map(([text, pause = 0.25, sub, id]) => {
     const n = id ?? ++CUE_N; // réplique ajoutée après coup : id « 9a » (prise voice/09a.mp3) sans renuméroter la suite
@@ -458,7 +458,7 @@ function shot(key, cues, draw, opt = {}) {
     t += c.dur + pause;
     return c;
   });
-  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs });
+  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs, only }); // only : plan réservé à une version (CUTS)
 }
 // Fin d'une réplique (en temps local du plan) : suit la vraie prise quand elle existe
 const cueEnd = (key, i = 0) => { const c = SHOTS.find((s) => s.key === key).cues[i]; return c.at + c.dur; };
@@ -844,7 +844,7 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
 });
 // 6 bis. Rendre à la communauté
 const AMAZONIE_COMPTE = "@son.compte"; // À REMPLACER : le compte de l'ancien des forces spéciales
-shot("rendre", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3], ["Pour l'instant, on est encore en perte.", 0.5]], (t, c) => {
+const rendreDraw = (tag) => (t, c) => {
   let g = "";
   if (t < c[1]) {
     // Nico tend des cartons à la section
@@ -869,9 +869,10 @@ shot("rendre", [["Et le but, c'est de rendre à la communauté au fur et à mesu
   g += stick({ x: 540, y: 1290, s: 0.95, la: [-60, -60], ra: [60, -60], eyes: "dot" });
   g += P("M515 1180 q-30 5 -40 30 q25 10 45 -10 Z M565 1180 q30 5 40 30 q-25 10 -45 -10 Z", { fill: PAPER, w: 5 });
   if (t1 > 0.8) g += fly(t1, 540, 1060, { s: 0.8, rad: 50 });
-  g += label(t, c[1] + 1.4, "c'est un\ninvestissement", 820, 1080, 900, 970, { size: 50 });
+  g += label(t, c[1] + 1.4, tag, 820, 1080, 900, 970, { size: 50 });
   return g;
-});
+};
+shot("rendre", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3], ["Pour l'instant, on est encore en perte.", 0.5]], rendreDraw("c'est un\ninvestissement"));
 shot("hockey", [["Mais on a déjà sponsorisé les Frères d'Armes :", 0.15], ["un match de hockey à Caen, pour le D-Day,", 0.15], ["au profit du Bleuet de France.", 0.4]], (t, c) => {
   const k = ease.out(prog(t, 0.1, 0.5));
   let g = T("LES FRÈRES D'ARMES", 540, 190, { size: 76, font: STENCIL, c: NAVY, op: clamp(t * 3) });
@@ -943,17 +944,69 @@ shot("fin", [], (t) => {
 }, { min: 4.0, subs: false });
 
 // ---------------------------------------------------------------------------
+// Version « hook » (?cut=hook) : on ouvre direct sur la chute.
+// 400 balles perdues -> j'ai créé la solution -> j'en ai perdu 50 000. Puis l'histoire, resserrée.
+// ---------------------------------------------------------------------------
+const euros = (v) => "−" + String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202f") + " €";
+shot("hook", [["Un jour, je me suis fait arnaquer de 400 balles.", 0.3, undefined, "h1"], ["Alors j'ai créé la solution, pour que ça arrive plus à personne.", 0.6, undefined, "h2"], ["Pour l'instant, j'en ai perdu 50 000.", 1.3, undefined, "h3"]], (t, c) => {
+  let g = T("compte en banque", 540, 200, { size: 54 });
+  // le compteur : -400, puis il dévisse jusqu'à -50 000
+  const roll = ease.inOut(prog(t, c[2] + 0.5, 1.3));
+  const v = t < c[2] + 0.5 ? 400 : lerp(400, 50000, roll);
+  const ck = pop(t, c[0] + 1.0, 0.35);
+  if (ck > 0) g += G(T(euros(v), 0, 0, { size: lerp(150, 175, roll), font: SANS, weight: 800, c: RED }), { x: 540 + (roll > 0 && roll < 1 ? jit(t, 5) : 0), y: 380, s: ck });
+  if (t < c[1]) {
+    // le carton vide, la mouche, Nico qui regarde dedans
+    g += G(box({ w: 220, h: 150 }), { x: 640, y: 1170 });
+    g += fly(t, 640, 1000, { seed: 4, rad: 45 });
+    g += stick({ x: 330, y: 1240, s: 1.25, la: [-40, -120], ra: [60, -150, 110, -110], look: [6, 4], mouth: t > c[0] + 1.6 ? "flat" : null });
+    g += label(t, c[0] + 1.8, "le gilet", 830, 820, 680, 1060, { size: 54 });
+    return g;
+  }
+  if (t < c[2]) {
+    // la solution : le logo tombe, Nico le présente, très fier
+    const t1 = t - c[1];
+    const drop = ease.in(prog(t1, 0.3, 0.35)), sh = t1 > 0.65 && t1 < 1.0 ? jit(t * 3, 10) : 0;
+    g += G(logoMark(360, NAVY), { x: 680 + sh, y: lerp(-300, 820, drop) + sh });
+    if (t1 > 0.65) g += T("SECOND ARMOR", 680, 1080, { size: 64, font: SANS, weight: 800, c: NAVY, op: clamp((t1 - 0.65) * 4) });
+    g += stick({ x: 250, y: 1260, s: 1.2, la: [-40, -120], ra: [100, -220], mouth: t1 > 0.8 ? "smile" : null });
+    g += label(t, c[1] + 1.6, "la solution", 330, 640, 560, 760, { size: 58, c: ACC });
+    return g;
+  }
+  // le bilan : la courbe plonge, Nico retourne ses poches
+  const t2 = t - c[2];
+  const x0 = 140, y0 = 560, w = 800, k = ease.inOut(prog(t2, 0.5, 1.3));
+  g += P(`M${x0} ${y0} H${x0 + w}`, { w: 5, op: 0.4 });
+  const pts = [];
+  for (let i = 0; i <= 40; i++) { const u = (i / 40) * Math.max(k, 0.02); pts.push([x0 + u * w, y0 + 20 + Math.pow(u, 1.8) * 420]); }
+  g += P("M" + pts.map((p) => `${n2(p[0])} ${n2(p[1])}`).join(" L"), { w: 8, c: RED });
+  g += stick({ x: 540, y: 1330, s: 1.0, la: [-60, -60], ra: [60, -60], eyes: "dot", mouth: t2 > 1.8 ? "flat" : null });
+  g += P("M515 1220 q-30 5 -40 30 q25 10 45 -10 Z M565 1220 q30 5 40 30 q-25 10 -45 -10 Z", { fill: PAPER, w: 5 });
+  if (t2 > 0.9) g += fly(t2, 540, 1090, { s: 0.8, rad: 50 });
+  g += label(t, c[2] + 2.0, "rentable", 830, 1150, 700, 1010, { size: 54 });
+  if (t2 > 2.3) g += P("M760 1135 L900 1165", { w: 7, c: RED });
+  return g;
+}, { only: true });
+// le retour à la communauté : les 50 000, c'est un investissement
+shot("rendre2", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3, undefined, SHOTS.find((s) => s.key === "rendre").cues[0].n], ["Les 50 000 ? C'est un investissement.", 0.6, undefined, "h4"]], rendreDraw("promis"), { only: true });
+
+// ---------------------------------------------------------------------------
 // Moteur : seek(t), sous-titres, lecteur, mode export
 // ---------------------------------------------------------------------------
 // Versions : ?cut=court ne garde qu'une partie des plans (voir CUTS). Sans paramètre : la version complète.
 const CUTS = {
+  // l'accroche d'abord (400 balles -> la solution -> 50 000 de perte), puis l'histoire sans « respect », « oui oui » ni le pointage
+  hook: ["hook", "salut", "militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "pasleseul", "tescon", "ordi", "algo", "poche",
+    "couilles", "moderation", "verifient", "garantie", "cree", "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"],
   // sans « oui oui », « pas le seul », la file de modération ni le coffre-fort : environ 2:20 au lieu de 2:41
   court: ["salut", "respect", "bulle", "militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "arrete",
     "tescon", "ordi", "algo", "poche", "couilles", "verifient", "cree", "dixmille", "rendre", "hockey", "amazonie", "continuez", "belote", "fin"],
 };
 const params = new URLSearchParams(location.search);
 const CUT = CUTS[params.get("cut")];
-if (CUT) SHOTS.splice(0, SHOTS.length, ...SHOTS.filter((s) => CUT.includes(s.key)));
+// les plans sont joués dans l'ordre de la liste : une version peut remonter un plan (ex. l'accroche de « hook »)
+if (CUT) SHOTS.splice(0, SHOTS.length, ...CUT.map((k) => SHOTS.find((s) => s.key === k)).filter(Boolean));
+else SHOTS.splice(0, SHOTS.length, ...SHOTS.filter((s) => !s.only));
 let DURATION = 0;
 for (const s of SHOTS) { s.from = DURATION; DURATION += s.dur; }
 DURATION = Math.round(DURATION * FPS) / FPS;
