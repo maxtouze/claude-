@@ -948,7 +948,8 @@ shot("fin", [], (t) => {
 // 400 balles perdues -> j'ai créé la solution -> j'en ai perdu 50 000. Puis l'histoire, resserrée.
 // ---------------------------------------------------------------------------
 const euros = (v) => "−" + String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202f") + " €";
-shot("hook", [["Un jour, je me suis fait arnaquer de 400 balles.", 0.3, undefined, "h1"], ["Alors j'ai créé la solution, pour que ça arrive plus à personne.", 0.6, undefined, "h2"], ["Pour l'instant, j'en ai perdu 50 000.", 1.3, undefined, "h3"]], (t, c) => {
+// c = [arnaque, solution, bilan] ; ok : moment du tampon « RÉGLÉ » (version « bref »)
+function hookArt(t, c, ok) {
   let g = T("compte en banque", 540, 200, { size: 54 });
   // le compteur : -400, puis il dévisse jusqu'à -50 000
   const roll = ease.inOut(prog(t, c[2] + 0.5, 1.3));
@@ -971,6 +972,7 @@ shot("hook", [["Un jour, je me suis fait arnaquer de 400 balles.", 0.3, undefine
     if (t1 > 0.65) g += T("SECOND ARMOR", 680, 1080, { size: 64, font: SANS, weight: 800, c: NAVY, op: clamp((t1 - 0.65) * 4) });
     g += stick({ x: 250, y: 1260, s: 1.2, la: [-40, -120], ra: [100, -220], mouth: t1 > 0.8 ? "smile" : null });
     g += label(t, c[1] + 1.6, "la solution", 330, 640, 560, 760, { size: 58, c: ACC });
+    if (ok != null) g += stamp("RÉGLÉ", 680, 1230, t, ok, { c: GREEN, size: 90, r: -8 });
     return g;
   }
   // le bilan : la courbe plonge, Nico retourne ses poches
@@ -986,7 +988,83 @@ shot("hook", [["Un jour, je me suis fait arnaquer de 400 balles.", 0.3, undefine
   g += label(t, c[2] + 2.0, "rentable", 830, 1150, 700, 1010, { size: 54 });
   if (t2 > 2.3) g += P("M760 1135 L900 1165", { w: 7, c: RED });
   return g;
+}
+shot("hook", [["Un jour, je me suis fait arnaquer de 400 balles.", 0.3, undefined, "h1"], ["Alors j'ai créé la solution, pour que ça arrive plus à personne.", 0.6, undefined, "h2"], ["Pour l'instant, j'en ai perdu 50 000.", 1.3, undefined, "h3"]], (t, c) => hookArt(t, c), { only: true });
+
+// Accroche « bref » : la fierté d'abord, la facture en dernier
+shot("bref", [["Je me suis fait arnaquer de 400 balles sur un gilet tactique.", 0.3, undefined, "b1"], ["Alors j'ai créé un site pour que ça arrive plus.", 0.25, undefined, "b2"], ["Ça arrive plus.", 0.7, undefined, "b3"], ["Il m'a coûté 50 000.", 1.3, undefined, "b4"]],
+  (t, c) => hookArt(t, [c[0], c[1], c[3]], c[2]), { only: true });
+
+// Accroche « prix » : l'étiquette absurde d'abord, l'explication après
+shot("prix", [["Un gilet tactique d'occasion, ça coûte combien ?", 0.3, undefined, "p1"], ["Moi, il m'a coûté 50 400 €.", 0.6, "Moi, il m'a coûté 50 400 balles.", "p2"], ["400 pour celui que j'ai jamais reçu.", 0.25, undefined, "p3"], ["Et 50 000 pour être sûr que ça m'arrive plus jamais.", 1.1, undefined, "p4"]], (t, c) => {
+  let g = "";
+  const tag = (x, y, txt, r, s = 1, col = INK) => G(P("M-210 -60 H150 L200 0 L150 60 H-210 Z", { fill: PAPER, w: 6 }) + Circ(165, 0, 9, { w: 4 }) + T(txt, -25, 4, { size: 60, font: SANS, weight: 800, c: col }), { x, y, r, s });
+  if (t < c[2]) {
+    // le gilet sur son cintre, l'étiquette qui pend
+    g += P("M540 200 V250 M440 300 Q540 240 640 300", { w: 7 }) + G(vest(), { x: 540, y: 620, s: 1.25 });
+    const sw = Math.sin(t * 3) * 4;
+    g += P(`M640 420 Q700 520 ${690 + sw} 640`, { w: 4 });
+    const big = t > c[1] + 1.0;
+    const sh = t > c[1] + 1.0 && t < c[1] + 1.4 ? jit(t * 3, 8) : 0;
+    g += tag(760 + sw + sh, 720 + sh, big ? "50 400 €" : "? €", -8 + sw, big ? pop(t, c[1] + 1.0, 0.35) * 1.15 : 1, big ? RED : INK);
+    if (t < c[1]) g += T("?", 300, 420, { size: 160, font: MARK, c: ACC, op: clamp((t - 0.8) * 3) });
+    return g;
+  }
+  // l'étiquette se déchire en deux : 400 (le carton vide) + 50 000 (le site)
+  const k = ease.out(prog(t, c[2], 0.4));
+  g += tag(lerp(540, 290, k), 430, "400 €", -6, 0.85);
+  g += G(box({ w: 200, h: 140 }), { x: 290, y: 820 }) + fly(t, 290, 660, { seed: 6, rad: 40 });
+  g += T("jamais reçu", 290, 990, { size: 50 });
+  if (t > c[3] - 0.1) {
+    g += tag(800, 430, "50 000 €", 6, pop(t, c[3] - 0.1) * 0.85, RED);
+    g += G(logoMark(260, NAVY), { x: 800, y: 790, s: pop(t, c[3] + 0.4) });
+    if (t > c[3] + 0.8) g += T("plus jamais", 800, 990, { size: 50, c: ACC });
+  }
+  g += stick({ x: 540, y: 1300, s: 0.9, la: [-60, -140, -80, -200], ra: [60, -140, 80, -200], mouth: t > c[3] + 1.2 ? "smile" : null });
+  return g;
 }, { only: true });
+
+// Accroche « jeu télé » : la question, quatre réponses, et Nico qui écrase son buzzer sur la D
+shot("quiz", [["Vous vous faites arnaquer de 400 balles sur un gilet tactique. Que faites-vous ?", 2.6, "", "q1"], ["Ça, c'est moi. Nico.", 0.25, undefined, "q2"], ["J'ai pris la D.", 1.2, undefined, "q3"]], (t, c) => {
+  let g = Rect(-10, -10, 1100, 1940, { fill: NAVY, sw: 0, c: "none" });
+  // projecteurs
+  g += P("M140 0 L-40 900 L320 900 Z M940 0 L760 900 L1120 900 Z", { fill: "#22304a", w: 0, c: "none" });
+  // la question
+  g += G(Rect(-460, -150, 920, 300, { fill: "#2b3d5e", c: "#a9c6cb", sw: 6, rx: 30 }) +
+    T("Vous vous faites arnaquer de 400 €\nsur un gilet tactique.\nQue faites-vous ?", 0, 0, { size: 52, c: PAPER, lh: 1.25 }), { x: 540, y: 320, s: pop(t, 0.05, 0.4) });
+  const tD = c[0] + 3.4; // la D apparaît pendant la lecture de la question
+  const buzz = tD + 0.35, mash = t > buzz && t < c[1] + 1.2;
+  const ans = [["A", "Porter plainte"], ["B", "Laisser un avis 1 étoile"], ["C", "Passer à autre chose"], ["D", "Dépenser 50 000 € pour\ncréer votre propre site"]];
+  ans.forEach(([l, txt], i) => {
+    const at = tD - (3 - i) * 0.75, k = pop(t, at, 0.25);
+    if (k <= 0) return;
+    const d = i === 3, h = d ? 140 : 88, y = 545 + i * 105 + (d ? 26 : 0);
+    const lit = d && t > buzz && Math.floor(t * 8) % 2 === 0 || d && t > c[1] + 1.2;
+    const dim = !d && t > c[2];
+    g += G(Rect(-440, -h / 2, 880, h, { fill: lit ? ACC : "#1d2a40", c: d ? ACC : "#a9c6cb", sw: 5, rx: h / 2 }) +
+      T(l, -380, 2, { size: 54, font: SANS, weight: 800, c: lit ? PAPER : ACC }) + T(txt, -320, 2, { size: 46, anchor: "start", c: PAPER, op: dim ? 0.35 : 1 }), { x: 540, y, s: k });
+  });
+  // les trois candidats ; Nico à droite
+  const podium = (x, lab) => Rect(x - 135, 1250, 270, 150, { fill: "#2b3d5e", c: "#a9c6cb", sw: 5, rx: 10 }) + T(lab, x, 1340, { size: 46, font: SANS, weight: 800, c: PAPER });
+  const turned = t > buzz + 0.6;
+  for (const [x, lab] of [[200, "Gérard"], [540, "Sylvie"]]) {
+    g += stick({ x, y: 1330, s: 1.05, la: [-40, -110], ra: [40, -110], look: turned ? [8, 0] : [0, 0], eyes: turned ? "flat" : "dot" });
+    g += Circ(x, 1240, 26, { fill: RED, w: 4 }) + podium(x, lab);
+  }
+  // Nico martèle son buzzer
+  const down = mash && Math.floor(t * 14) % 2 === 0;
+  g += stick({ x: 880, y: 1330, s: 1.05, la: [-40, -110], ra: down ? [-20, -80] : [10, -170, -10, -200], eyes: mash ? "wide" : "dot", mouth: t > c[2] ? "smile" : null });
+  g += G(Circ(0, 0, 26, { fill: mash && down ? "#ff7a5c" : RED, w: 4 }), { x: 862, y: down ? 1246 : 1238 });
+  g += podium(880, "Nico");
+  if (t > buzz) {
+    const n = Math.min(15, Math.floor((t - buzz) * 7) + 1);
+    for (let i = 0; i < n; i++) { const R = rng(i + 3); if (t - buzz - i / 7 < 0.5 || i === n - 1) g += T("BZZ", 700 + R() * 330, 1200 - R() * 130, { size: 44, font: MARK, c: ACC, r: lerp(-20, 20, R()), stroke: [6, NAVY] }); }
+    g += T("×" + n, 1030, 1215, { size: 48, font: SANS, weight: 800, c: PAPER });
+  }
+  // pas de sous-titres ici : la question est à l'écran, la réponse de Nico en légende sous les pupitres
+  if (t > c[1]) g += T(t < c[2] ? "Ça, c'est moi. Nico." : "J'ai pris la D.", 540, 1560, { size: 68, font: SANS, weight: 800, c: PAPER, op: clamp((t - (t < c[2] ? c[1] : c[2])) * 5) }) + arrow(830, 1500, 880, 1420, { c: PAPER, q: prog(t, c[1], 0.3) });
+  return g;
+}, { dark: true, subs: false, only: true });
 // le retour à la communauté : les 50 000, c'est un investissement
 shot("rendre2", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3, undefined, SHOTS.find((s) => s.key === "rendre").cues[0].n], ["Les 50 000 ? C'est un investissement.", 0.6, undefined, "h4"]], rendreDraw("promis"), { only: true });
 
@@ -994,16 +1072,19 @@ shot("rendre2", [["Et le but, c'est de rendre à la communauté au fur et à mes
 // Moteur : seek(t), sous-titres, lecteur, mode export
 // ---------------------------------------------------------------------------
 // Versions : ?cut=court ne garde qu'une partie des plans (voir CUTS). Sans paramètre : la version complète.
+const BODY = ["militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "pasleseul", "tescon", "ordi", "algo", "poche",
+  "couilles", "moderation", "verifient", "garantie", "cree", "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"];
 const CUTS = {
+  // accroches à tester (même suite) : bref, prix, jeu télé (« Ça, c'est moi. Nico. » remplace « Salut »)
+  "hook-bref": ["bref", "salut", ...BODY], "hook-prix": ["prix", "salut", ...BODY], "hook-quiz": ["quiz", ...BODY],
   // l'accroche d'abord (400 balles -> la solution -> 50 000 de perte), puis l'histoire sans « respect », « oui oui » ni le pointage
-  hook: ["hook", "salut", "militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "pasleseul", "tescon", "ordi", "algo", "poche",
-    "couilles", "moderation", "verifient", "garantie", "cree", "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"],
+  hook: ["hook", "salut", ...BODY],
   // sans « oui oui », « pas le seul », la file de modération ni le coffre-fort : environ 2:20 au lieu de 2:41
   court: ["salut", "respect", "bulle", "militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "arrete",
     "tescon", "ordi", "algo", "poche", "couilles", "verifient", "cree", "dixmille", "rendre", "hockey", "amazonie", "continuez", "belote", "fin"],
 };
 const params = new URLSearchParams(location.search);
-const CUT = CUTS[params.get("cut")];
+const CUT = CUTS[params.get("cut")] ?? (SHOTS.some((s) => s.key === params.get("cut")) ? [params.get("cut")] : undefined); // ?cut=quiz : un plan seul
 // les plans sont joués dans l'ordre de la liste : une version peut remonter un plan (ex. l'accroche de « hook »)
 if (CUT) SHOTS.splice(0, SHOTS.length, ...CUT.map((k) => SHOTS.find((s) => s.key === k)).filter(Boolean));
 else SHOTS.splice(0, SHOTS.length, ...SHOTS.filter((s) => !s.only));
