@@ -784,7 +784,7 @@ shot("verifient", [["Et eux, ils vérifient.", 0.8], ["… ok.", 0.5]], (t, c) =
   } else if (t < 2.6) g += T("POP", bx + 150, 560, { font: MARK, size: 110, c: ACC, stroke: [8, INK], op: clamp((2.6 - t) * 2) });
   g += bubble(bx + 260, 880, 170, 100, bx + 120, 1000, T("… ok.", bx + 260, 880, { size: 50 }), { s: pop(t, c[1]) });
   return g;
-});
+}, { only: true }); // retiré de toutes les versions
 shot("garantie", [["Et chaque transaction garantie.", 0.2], ["Ton argent reste au coffre tant que t'as pas reçu ton colis.", 0.3, undefined, "33a"], ["Et cette fois, le gilet, tu le vois.", 0.6, undefined, "33b"]], (t, c) => {
   let g = stick({ x: 170, y: 1220, s: 0.9 }) + T("toi", 170, 1290, { size: 44 });
   g += stick({ x: 860, y: 1220, s: 0.9, acc: ["cap"] }) + T("vendeur", 860, 1290, { size: 44 });
@@ -1075,18 +1075,18 @@ shot("rendre2", [["Et le but, c'est de rendre à la communauté au fur et à mes
 // ---------------------------------------------------------------------------
 // Versions : ?cut=court ne garde qu'une partie des plans (voir CUTS). Sans paramètre : la version complète.
 const BODY = ["militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "pasleseul", "tescon", "ordi", "algo", "poche",
-  "couilles", "moderation", "verifient", "garantie", "cree", "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"];
+  "couilles", "moderation", "garantie", "cree", "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"];
 const CUTS = {
   // accroches à tester (même suite) : bref, prix, jeu télé (« Ça, c'est moi. Nico. » remplace « Salut »)
-  // sans voix, autour de 1:35 : accroche « prix », sans la file du SAV, les onglets, la modération, les 10 000 ni l'Amazonie
+  // sans voix, autour de 1:53 : accroche « prix », sans les 40 avis, la file du SAV, les onglets ni la modération
   "court-prix": ["prix", "salut", "militaire", "graphe", "poele", "furtif", "bip", "tescon", "algo", "poche", "couilles", "garantie", "cree",
-    "rendre2", "hockey", "belote", "fin"],
+    "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"],
   "hook-bref": ["bref", "salut", ...BODY], "hook-prix": ["prix", "salut", ...BODY], "hook-quiz": ["quiz", ...BODY],
   // l'accroche d'abord (400 balles -> la solution -> 50 000 de perte), puis l'histoire sans « respect », « oui oui » ni le pointage
   hook: ["hook", "salut", ...BODY],
   // sans « oui oui », « pas le seul », la file de modération ni le coffre-fort : environ 2:20 au lieu de 2:41
   court: ["salut", "respect", "bulle", "militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "arrete",
-    "tescon", "ordi", "algo", "poche", "couilles", "verifient", "cree", "dixmille", "rendre", "hockey", "amazonie", "continuez", "belote", "fin"],
+    "tescon", "ordi", "algo", "poche", "couilles", "cree", "dixmille", "rendre", "hockey", "amazonie", "continuez", "belote", "fin"],
 };
 const params = new URLSearchParams(location.search);
 const CUT = CUTS[params.get("cut")] ?? (SHOTS.some((s) => s.key === params.get("cut")) ? [params.get("cut")] : undefined); // ?cut=quiz : un plan seul
