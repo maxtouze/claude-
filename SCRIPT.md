@@ -202,10 +202,10 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > autour d'un match caritatif pour les blessés de guerre. *(la photo du match)*
 > Et on soutient un ancien des forces spéciales, qui part dix jours en autonomie en Amazonie. Allez le suivre.
 
-**5. La fin** *(les vraies captures de l'appli)*
-> Donc voilà : Second Armor, c'est tout l'équipement tactique au même endroit,
-> sur une plateforme sécurisée.
-> Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.
+**5. La fin** *(Nico montre l'appli : les vraies captures, la 2e se pose sur la 1re)*
+> Donc voilà : Second Armor,
+> *(liste à cocher, sans sous-titre)* ✓ Tout l'équipement tactique ✓ au même endroit ✓ Plateforme sécurisée
+> *(sur le carton de fin)* Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.
 
 *(carton : SECOND ARMOR · La première marketplace tactique · Par les pros, pour les pros. · Lien en bio)*
 

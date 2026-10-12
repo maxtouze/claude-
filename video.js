@@ -944,19 +944,21 @@ shot("belote", [["Mais si vous devez perdre 400 balles…", 0.3], ["perdez-les �
   g += label(t, c[1] + 2.0, "au moins, je les\nai vus partir", 540, 620, 250, 900, { size: 54 });
   return Z(g, 1.2, 540, 1050);
 });
-shot("fin", [], (t) => {
-  // aux couleurs de l'appli : fond noir, titre serré, barre verte, petites capitales espacées
+// Carton de fin aux couleurs de l'appli : fond noir, titre serré, barre verte, petites capitales espacées
+function finCard(t, o = {}) {
+  const { dy = 0, pillY = 1330, pillAt = 1.9 } = o;
   let g = Rect(-10, -10, 1100, 1940, { fill: "#0d0e10", sw: 0, c: "none" });
-  g += G(logoMark(380, PAPER), { x: 540, y: 640, s: pop(t, 0.1, 0.4) });
+  g += G(logoMark(380, PAPER), { x: 540, y: 640 + dy, s: pop(t, 0.1, 0.4) });
   const k = ease.out(prog(t, 0.4, 0.5));
-  g += G(T("SECOND ARMOR", 0, 0, { size: 112, font: SANS, weight: 800, c: PAPER, ls: -4 }), { x: 540, y: 930, o: k, s: lerp(1.1, 1, k) });
-  g += Rect(500, 1010, 80 * ease.out(prog(t, 0.9, 0.4)), 9, { fill: "#7a9a2e", sw: 0, c: "none" });
-  g += T("LA PREMIÈRE MARKETPLACE TACTIQUE", 540, 1090, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 5, op: clamp((t - 1.0) * 3) });
-  g += T("Par les pros, pour les pros.", 540, 1160, { size: 42, font: SANS, weight: 500, c: "#9aa3ab", op: clamp((t - 1.4) * 3) });
-  const pk = pop(t, 1.9);
-  if (pk > 0) g += G(Rect(-200, -54, 400, 108, { rx: 54, fill: "#5d8296", sw: 0, c: "none" }) + T("LIEN EN BIO", 0, 2, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 4 }), { x: 540, y: 1330, s: pk });
+  g += G(T("SECOND ARMOR", 0, 0, { size: 112, font: SANS, weight: 800, c: PAPER, ls: -4 }), { x: 540, y: 930 + dy, o: k, s: lerp(1.1, 1, k) });
+  g += Rect(500, 1010 + dy, 80 * ease.out(prog(t, 0.9, 0.4)), 9, { fill: "#7a9a2e", sw: 0, c: "none" });
+  g += T("LA PREMIÈRE MARKETPLACE TACTIQUE", 540, 1090 + dy, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 5, op: clamp((t - 1.0) * 3) });
+  g += T("Par les pros, pour les pros.", 540, 1160 + dy, { size: 42, font: SANS, weight: 500, c: "#9aa3ab", op: clamp((t - 1.4) * 3) });
+  const pk = pop(t, pillAt);
+  if (pk > 0) g += G(Rect(-200, -54, 400, 108, { rx: 54, fill: "#5d8296", sw: 0, c: "none" }) + T("LIEN EN BIO", 0, 2, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 4 }), { x: 540, y: pillY, s: pk });
   return g;
-}, { min: 4.5, subs: false, clean: true });
+}
+shot("fin", [], (t) => finCard(t), { min: 4.5, subs: false, clean: true });
 
 // ---------------------------------------------------------------------------
 // Version « hook » (?cut=hook) : on ouvre direct sur la chute.
@@ -1347,14 +1349,14 @@ function rink(t) {
   g += `<ellipse cx="540" cy="1080" rx="250" ry="80" fill="none" stroke="#d23a2a" stroke-width="6" opacity="0.7"/>`;
   return g;
 }
-shot("s-freres", [["Et notre mission : redonner à la communauté.", 0.4, "", "s25"], ["On a déjà sponsorisé les Frères d'Armes,", 0.15, undefined, "s26"], ["autour d'un match caritatif pour les blessés de guerre.", 1.9, undefined, "s27"]], (t, c) => {
+shot("s-freres", [["Et notre mission : redonner à la communauté.", 0.4, "", "s25"], ["On a déjà sponsorisé les Frères d'Armes,", 0.15, undefined, "s26"], ["autour d'un match caritatif pour les blessés de guerre.", 1.9, "autour d'un match caritatif||pour les blessés de guerre.", "s27"]], (t, c) => {
   let g = rink(t);
   // l'écran géant au-dessus de la glace : la mission s'y écrit (pas en sous-titre)
   const msg = ["NOTRE MISSION :", "REDONNER À LA", "COMMUNAUTÉ"], n = Math.floor(prog(t, 0.2, Math.max(0.6, c[1] - 0.9)) * msg.join("").length);
   let typed = 0;
   let board = Rect(150, 40, 780, 300, { fill: "#0d0e10", sw: 8, rx: 16 }) + P("M300 0 V40 M780 0 V40", { w: 8 });
   msg.forEach((line, i) => { const k = Math.max(0, Math.min(line.length, n - typed)); typed += line.length; board += T(line.slice(0, k), 540, 115 + i * 85, { size: 64, font: STENCIL, c: i === 0 ? ACC : "#ffd24a" }); });
-  g += board;
+  g += G(board, { y: -400 * ease.in(prog(t, c[1] - 0.2, 0.5)) }); // il remonte quand les personnages arrivent
   // le sticker en deux moitiés qui glissent l'une vers l'autre, après la mission
   const kS = 520 / 438, H = 604 * kS, wl = 212 * kS, wr = 226 * kS, y0 = 560, xl = 540 - (wl + wr) / 2;
   const tF = subAt("s-freres", "Frères"), meet = ease.out(prog(t, c[1] - 0.3, Math.max(0.8, tF - c[1] + 0.3)));
@@ -1382,42 +1384,41 @@ shot("s-freres", [["Et notre mission : redonner à la communauté.", 0.4, "", "s
 
 shot("s-amazonie", [["Et on soutient un ancien des forces spéciales,", 0.15, undefined, "s28"], ["qui part dix jours en autonomie en Amazonie.", 0.2, undefined, "s29"], ["Allez le suivre.", 0.9, undefined, "s30"]], drawOf("amazonie"), { only: true, cam: 0.05, as: "amazonie" });
 
-// La fin : les vraies captures de l'appli, puis le militaire et la mascotte réunis
+// La fin : Nico montre l'appli sur son téléphone (les vraies captures, la 2e se pose sur la 1re), et les points forts en liste
 function appPhone(name, x, y, h, o = {}) {
   const w = h * 924 / 2000;
-  return G(Rect(-w / 2 - 18, -h / 2 - 18, w + 36, h + 36, { fill: "#0d0e10", sw: 0, c: "none", rx: 56 }) +
-    `<clipPath id="ph${name}"><rect x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" rx="40"/></clipPath>` +
+  return G(Rect(-w / 2 - 16, -h / 2 - 16, w + 32, h + 32, { fill: "#0d0e10", sw: 6, rx: 50 }) +
+    `<clipPath id="ph${name}"><rect x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" rx="36"/></clipPath>` +
     `<g clip-path="url(#ph${name})">${Pic(name, 0, 0, w, h)}</g>`, { x, y, r: o.r ?? 0, s: o.s ?? 1, o: o.op ?? 1 });
 }
-shot("s-pro", [["Donc voilà : Second Armor, c'est tout l'équipement tactique au même endroit,", 0.2, undefined, "s31"], ["sur une plateforme sécurisée.", 0.6, undefined, "s32"],
-  ["Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.", 1.6, undefined, "s33"]], (t, c) => {
-  let g = Rect(-10, -10, 1100, 1940, { fill: "#e9eef2", sw: 0, c: "none" });
-  const H = 1150, W = H * 924 / 2000, cy = 680;
-  const up = ease.out(prog(t, 0.05, 0.6)), sw = ease.inOut(prog(t, c[1], 0.5)), away = ease.in(prog(t, c[2], 0.5));
-  if (away < 1) {
-    g += appPhone("appExplorer", lerp(540, -300, sw), lerp(1700, cy, up) + away * 900, H);
-    if (sw > 0) {
-      g += appPhone("appPP", lerp(1380, 540, sw), cy + away * 900, H);
-      // le filtre « Porte-plaques » (et pas « Déguisements ») : on l'entoure
-      const k = H / 2000, x0 = 540 - W / 2, y0 = cy - H / 2 + away * 900;
-      if (t > c[1] + 0.6) g += `<ellipse cx="${n2(x0 + 758 * k)}" cy="${n2(y0 + 398 * k)}" rx="105" ry="38" fill="none" stroke="${RED}" stroke-width="7" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${n2(1 - prog(t, c[1] + 0.6, 0.35))}"/>`;
-      // un cadenas vert : la plateforme sécurisée
-      g += G(Circ(0, 0, 62, { fill: GREEN, w: 0 }) + Rect(-26, -6, 52, 40, { fill: PAPER, sw: 0, c: "none", rx: 6 }) + P("M-16 -6 v-14 q16 -26 32 0 v14", { w: 8, c: PAPER }), { x: 540 + W / 2 + 10, y: cy + H / 2 - 40 + away * 900, s: pop(t, subAt("s-pro", "sécurisée")) });
-    }
+shot("s-pro", [["Donc voilà : Second Armor,", 0.2, undefined, "s31"], ["c'est tout l'équipement tactique au même endroit,", 0.25, "", "s31b"], ["sur une plateforme sécurisée.", 1.3, "", "s32"]], (t, c) => {
+  let g = floor(1260);
+  const H = 800, W = H * 924 / 2000;
+  // Nico, à droite, présente son téléphone
+  const up = ease.out(prog(t, 0.05, 0.6));
+  g += stick({ x: 860, y: 1260, s: 1.3, la: [-60, -170, -150, -200], ra: [60, -150], mouth: "smile", look: [-8, 0] });
+  // 1re capture (Explorer), puis la 2e (Porte-plaques) qui arrive par-dessus, un peu décalée
+  g += appPhone("appExplorer", 380, lerp(1500, 600, up), H, { r: -4 });
+  const k2 = ease.out(prog(t, c[1] + 0.2, 0.5));
+  if (k2 > 0) {
+    const x2 = lerp(1300, 470, k2), y2 = 660, r2 = lerp(15, 4, k2);
+    g += appPhone("appPP", x2, y2, H, { r: r2 });
+    // le filtre « Porte-plaques » (et pas « Déguisements ») : on l'entoure
+    const kk = H / 2000;
+    if (t > c[1] + 0.9) g += G(`<ellipse cx="${n2((758 - 462) * kk)}" cy="${n2((398 - 1000) * kk)}" rx="80" ry="30" fill="none" stroke="${RED}" stroke-width="6" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${n2(1 - prog(t, c[1] + 0.9, 0.35))}"/>`, { x: x2, y: y2, r: r2 });
   }
-  // merci : le militaire et la mascotte, réunis, et des cœurs
-  if (t > c[2]) {
-    const kS = 560 / 438, Hs = 604 * kS, wl = 212 * kS, wr = 226 * kS, xl = 540 - (wl + wr) / 2, k2 = pop(t, c[2] + 0.3, 0.45);
-    const img = (n, x, w) => PHOTO_OK[n] ? `<image href="${PHOTOS[n]}" x="${n2(x)}" y="0" width="${n2(w)}" height="${n2(Hs)}" preserveAspectRatio="none"/>` : "";
-    g += G(G(img("stickerL", -wl, wl) + img("stickerR", 0, wr), { x: 0, y: -Hs / 2 }), { x: xl + wl, y: 760, s: k2 });
-    for (let i = 0; i < 9; i++) {
-      const u = ((t - c[2] - 0.5) * 0.4 + i / 9) % 1;
-      if (t < c[2] + 0.5) break;
-      g += G(P("M0 12 C-26 -6 -18 -30 0 -16 C18 -30 26 -6 0 12 Z", { fill: i % 2 ? RED : ACC, w: 3 }), { x: (i % 2 ? 940 : 140) + Math.sin(u * 9 + i) * 30, y: lerp(1300, 300, u), s: 1.4, o: 1 - u });
-    }
-  }
+  // la liste à cocher (pas de sous-titre en même temps : c'est elle qu'on lit)
+  const items = [["Tout l'équipement tactique", c[1]], ["au même endroit", c[1] + 0.9], ["Plateforme sécurisée", c[2]]];
+  items.forEach(([txt, at], i) => {
+    const k = ease.out(prog(t, at, 0.3));
+    if (k <= 0) return;
+    g += G(Circ(0, 0, 30, { fill: GREEN, w: 0 }) + P("M-13 1 l9 10 l17 -21", { w: 7, c: PAPER }) + T(txt, 54, 3, { size: 50, anchor: "start", font: SANS, weight: 800, c: NAVY }), { x: 130 - (1 - k) * 60, y: 1340 + i * 95, o: k });
+  });
   return g;
-}, { only: true, clean: true });
+}, { only: true, clean: true, cam: 0.03 });
+
+// Le merci, sur le carton de fin
+shot("s-fin", [["Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.", 2.6, "Merci pour votre soutien,|qui nous permet de rendre à ceux qui le méritent aussi.", "s33"]], (t) => finCard(t, { dy: -110, pillY: 1640, pillAt: 3.2 }), { only: true, dark: true, clean: true });
 
 // ---------------------------------------------------------------------------
 // Moteur : seek(t), sous-titres, lecteur, mode export
@@ -1428,7 +1429,7 @@ const BODY = ["militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bi
 const CUTS = {
   // le gilet le plus cher du monde -> les deux options -> la mission -> la banquière -> rendre à la communauté
   histoire: ["s-hook", "s-bip", "s-apres", "s-options", "s-opt1", "s-algo", "poche", "s-opt2", "s-mission", "s-escrow", "s-tactique", "s-banquiere", "s-dixmille",
-    "s-freres", "s-amazonie", "s-pro", "fin"],
+    "s-freres", "s-amazonie", "s-pro", "s-fin"],
   // accroches à tester (même suite) : bref, prix, jeu télé (« Ça, c'est moi. Nico. » remplace « Salut »)
   // sans voix, autour de 1:53 : accroche « prix », sans les 40 avis, la file du SAV, les onglets ni la modération
   "court-prix": ["prix", "salut", "militaire", "graphe", "poele", "furtif", "bip", "tescon", "algo", "poche", "couilles", "garantie", "cree",
@@ -1469,6 +1470,12 @@ for (const s of SHOTS) {
   if (!s.subs) continue;
   for (const c of s.cues) {
     const txt = c.sub.replace(/« /g, "«\u00a0").replace(/ »/g, "\u00a0»").replace(/ ([:;?!])/g, "\u00a0$1");
+    if (txt.includes("||")) {
+      const parts = txt.split("||").map((x) => x.trim()), tot = parts.reduce((a, x) => a + x.length, 0);
+      let t = s.from + c.at, shown = [];
+      parts.forEach((ch, i) => { const d = (c.dur * ch.length) / tot; shown = [...shown, ch]; SUBS.push({ from: t, to: t + d + (i === parts.length - 1 ? 0.35 : 0), text: shown.join("\n") }); t += d; });
+      continue;
+    }
     if (txt.includes("|")) {
       const forced = txt.split("|").map((x) => x.trim()).filter(Boolean), tot = forced.reduce((a, x) => a + x.length, 0);
       let t = s.from + c.at;
@@ -1525,7 +1532,7 @@ function seek(t) {
   if (s.clean) drawLayer.removeAttribute("filter");
   else drawLayer.setAttribute("filter", `url(#boil${Math.floor(t * 8) % 3})`);
   const sub = SUBS.find((x) => t >= x.from && t < x.to && t >= s.from && x.from >= s.from - 0.01);
-  subEl.innerHTML = sub ? esc(sub.text).replace(/(\S*-\S*)/g, '<span style="white-space:nowrap">$1</span>') : "";
+  subEl.innerHTML = sub ? esc(sub.text).replace(/(\S*-\S*)/g, '<span style="white-space:nowrap">$1</span>').replace(/\n/g, "<br>") : "";
   subEl.style.display = sub ? "block" : "none";
   subEl.classList.toggle("dark", s.dark);
 }
