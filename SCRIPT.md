@@ -164,7 +164,9 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 
 ---
 
-## Version « histoire » (`?cut=histoire`, environ 1:48, sans voix)
+## Version « histoire » (`?cut=histoire`, environ 2:00, sans voix)
+
+Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvelle à la fois, un vrai décor par scène (musée, bureau du dev, page « Déguisements », conversation sans réponse, banque). Fin : l'appli (dessinée en attendant une vraie capture dans `img/photos/app.png`).
 
 Le script de Maxime (12 oct.), orthographe corrigée. C'est la version de référence.
 
@@ -189,12 +191,13 @@ Le script de Maxime (12 oct.), orthographe corrigée. C'est la version de réfé
 
 **3. La mission**
 > Donc j'ai fait ce qui paraissait évident : Second Armor. Le Vinted militaire.
-> 100 % tactique, plus d'algorithme qui panique.
 > Et le vendeur n'est payé que quand t'as validé ton colis.
+> 100 % tactique, plus d'algorithme qui panique.
 > Bon, maintenant, c'est ma banquière qui panique : les 50 000, ils sont pas encore remboursés.
-> Mais je lui ai dit de pas être rabat-joie : on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000, avec plus de 300 transactions notées cinq étoiles.
+> Mais je lui ai dit de pas être rabat-joie : *(Nico, devant elle, fait « non non, t'inquiète »)*
+> on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000, avec plus de 300 transactions notées cinq étoiles.
 
-**4. Rendre à la communauté**
+**4. Rendre à la communauté** *(sur le sticker, puis la photo du match, qui restent à l'écran)*
 > Et notre mission, c'est de continuer à rendre à la communauté.
 > On a déjà sponsorisé les Frères d'Armes, autour d'un match caritatif pour les blessés de guerre.
 > *(le sticker, puis la photo du match ; flèches rouges sur le drapeau et sur le A de la jambe gauche)*
