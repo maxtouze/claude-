@@ -62,18 +62,19 @@ const Circ = (cx, cy, r, o = {}) => {
 };
 const Dot = (cx, cy, r, c = INK) => `<circle cx="${n2(cx)}" cy="${n2(cy)}" r="${n2(r)}" fill="${c}"/>`;
 function T(str, x, y, o = {}) {
-  const { size = 52, anchor = "middle", c = INK, r = 0, font = HAND, weight = 400, op = 1, lh = 1.1, stroke } = o;
+  const { size = 52, anchor = "middle", c = INK, r = 0, font = HAND, weight = 400, op = 1, lh = 1.1, stroke, ls } = o;
   const lines = String(str).split("\n");
   const y0 = y - ((lines.length - 1) * size * lh) / 2;
   const tsp = lines.map((l, i) => `<tspan x="${n2(x)}" y="${n2(y0 + i * size * lh)}">${esc(l)}</tspan>`).join("");
   const st = stroke ? ` stroke="${stroke[1]}" stroke-width="${stroke[0]}" paint-order="stroke" stroke-linejoin="round"` : "";
-  return `<text font-family="${font}" font-size="${size}" font-weight="${weight}" fill="${c}" text-anchor="${anchor}" dominant-baseline="central"${st}${r ? ` transform="rotate(${r} ${n2(x)} ${n2(y)})"` : ""}${op < 1 ? ` opacity="${op}"` : ""}>${tsp}</text>`;
+  return `<text font-family="${font}" font-size="${size}" font-weight="${weight}" fill="${c}" text-anchor="${anchor}"${ls != null ? ` letter-spacing="${ls}"` : ""} dominant-baseline="central"${st}${r ? ` transform="rotate(${r} ${n2(x)} ${n2(y)})"` : ""}${op < 1 ? ` opacity="${op}"` : ""}>${tsp}</text>`;
 }
 function G(inner, o = {}) {
   const { x = 0, y = 0, s = 1, r = 0, o: op = 1, sx, sy } = o;
   if (op <= 0 || s === 0) return "";
-  const sc = sx != null || sy != null ? `scale(${n2(sx ?? s)} ${n2(sy ?? s)})` : `scale(${n2(s)})`;
-  return `<g transform="translate(${n2(x)} ${n2(y)}) rotate(${n2(r)}) ${sc}"${op < 1 ? ` opacity="${n2(op)}"` : ""}>${inner}</g>`;
+  const n4 = (v) => Math.round(v * 10000) / 10000; // au dix-millième : au centième, les zooms lents avançaient par à-coups
+  const sc = sx != null || sy != null ? `scale(${n4(sx ?? s)} ${n4(sy ?? s)})` : `scale(${n4(s)})`;
+  return `<g transform="translate(${n4(x)} ${n4(y)}) rotate(${n2(r)}) ${sc}"${op < 1 ? ` opacity="${n2(op)}"` : ""}>${inner}</g>`;
 }
 const Rect = (x, y, w, h, o = {}) => {
   const { rx = 0, c = INK, fill = "none", sw = 7 } = o;
@@ -450,7 +451,7 @@ const speakDur = (s) => {
 const VOICE_TIMING = window.VOICE_TIMING || {};
 let CUE_N = 0;
 function shot(key, cues, draw, opt = {}) {
-  const { lead = 0.05, min = 0, dark = false, subs = true, only = false, as, cam = 0 } = opt;
+  const { lead = 0.05, min = 0, dark = false, subs = true, only = false, as, cam = 0, clean = false } = opt;
   let t = lead;
   const cs = cues.map(([text, pause = 0.25, sub, id]) => {
     const n = id ?? ++CUE_N; // réplique ajoutée après coup : id « 9a » (prise voice/09a.mp3) sans renuméroter la suite
@@ -458,7 +459,7 @@ function shot(key, cues, draw, opt = {}) {
     t += c.dur + pause;
     return c;
   });
-  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs, only, as, cam }); // only : plan réservé à une version (CUTS)
+  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs, only, as, cam, clean }); // clean : sans le tremblement « dessiné main » (logo, captures) // only : plan réservé à une version (CUTS)
 }
 // Moment (en temps local du plan) où le sous-titre affiche ce mot : une image qui nomme une chose arrive avec le mot, jamais avant
 // Un plan peut reprendre le dessin d'un autre avec un nouveau texte (opt.as) : ses recherches par nom tombent alors sur lui
@@ -940,15 +941,18 @@ shot("belote", [["Mais si vous devez perdre 400 balles…", 0.3], ["perdez-les �
   return Z(g, 1.2, 540, 1050);
 });
 shot("fin", [], (t) => {
-  let g = Rect(-10, -10, 1100, 1940, { fill: NAVY, sw: 0, c: "none" });
-  g += G(logoMark(430, PAPER), { x: 540, y: 700, s: pop(t, 0.1, 0.4) });
-  g += G(T("SECOND ARMOR", 0, 0, { size: 100, font: SANS, weight: 800, c: PAPER }), { x: 540, y: 1000, s: pop(t, 0.4) });
-  g += G(T("Le Vinted militaire.", 0, 0, { size: 60, c: "#a9c6cb" }), { x: 540, y: 1110, s: pop(t, 0.9) });
-  const pk = pop(t, 1.4);
-  if (pk > 0) g += G(Rect(-210, -58, 420, 116, { rx: 58, fill: ACC, sw: 0, c: "none" }) + T("Lien en bio", 0, 2, { size: 54, font: SANS, weight: 800, c: PAPER }), { x: 540, y: 1270, s: pk * (t > 2 ? 1 + Math.sin((t - 2) * 7) * 0.03 : 1) });
-  if (t > 2.6) g += fly(t, lerp(1150, -100, prog(t, 2.6, 1.1)), 690, { rad: 20, s: 1.4 });
+  // aux couleurs de l'appli : fond noir, titre serré, barre verte, petites capitales espacées
+  let g = Rect(-10, -10, 1100, 1940, { fill: "#0d0e10", sw: 0, c: "none" });
+  g += G(logoMark(380, PAPER), { x: 540, y: 640, s: pop(t, 0.1, 0.4) });
+  const k = ease.out(prog(t, 0.4, 0.5));
+  g += G(T("SECOND ARMOR", 0, 0, { size: 112, font: SANS, weight: 800, c: PAPER, ls: -4 }), { x: 540, y: 930, o: k, s: lerp(1.1, 1, k) });
+  g += Rect(500, 1010, 80 * ease.out(prog(t, 0.9, 0.4)), 9, { fill: "#7a9a2e", sw: 0, c: "none" });
+  g += T("LA PREMIÈRE MARKETPLACE TACTIQUE", 540, 1090, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 5, op: clamp((t - 1.0) * 3) });
+  g += T("Par les pros, pour les pros.", 540, 1160, { size: 42, font: SANS, weight: 500, c: "#9aa3ab", op: clamp((t - 1.4) * 3) });
+  const pk = pop(t, 1.9);
+  if (pk > 0) g += G(Rect(-200, -54, 400, 108, { rx: 54, fill: "#5d8296", sw: 0, c: "none" }) + T("LIEN EN BIO", 0, 2, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 4 }), { x: 540, y: 1330, s: pk });
   return g;
-}, { min: 4.0, subs: false });
+}, { min: 4.0, subs: false, clean: true });
 
 // ---------------------------------------------------------------------------
 // Version « hook » (?cut=hook) : on ouvre direct sur la chute.
@@ -1464,7 +1468,8 @@ function seek(t) {
   // cam : la caméra avance doucement pendant tout le plan (ça évite les images figées)
   drawLayer.innerHTML = s.cam ? Z(art, 1 + s.cam * ease.inOut(clamp(lt / s.dur)), 540, 880) : art;
   // tremblement « dessin à la main » : 8 fois par seconde
-  drawLayer.setAttribute("filter", `url(#boil${Math.floor(t * 8) % 3})`);
+  if (s.clean) drawLayer.removeAttribute("filter");
+  else drawLayer.setAttribute("filter", `url(#boil${Math.floor(t * 8) % 3})`);
   const sub = SUBS.find((x) => t >= x.from && t < x.to && t >= s.from && x.from >= s.from - 0.01);
   subEl.textContent = sub ? sub.text : "";
   subEl.style.display = sub ? "block" : "none";
