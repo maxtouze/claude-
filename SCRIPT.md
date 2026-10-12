@@ -168,7 +168,7 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 
 Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvelle à la fois, un vrai décor par scène. Le texte de Maxime (12 oct.), avec ses retouches.
 
-**1. Le gilet le plus cher du monde** *(un musée, le gilet sous vitrine)*
+**1. Le gilet le plus cher du monde** *(un musée, le gilet sous vitrine ; Nico arrive de dos, du bas de l'écran : « Je le prends. »)*
 > J'ai acheté le gilet tactique d'occasion le plus cher du monde.
 > Il m'a coûté 50 400 €.
 > Et non, à ce prix-là, il faisait pas pare-missile. *(le missile frappe la vitrine, BOUM, fumée)*
@@ -202,9 +202,9 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > autour d'un match caritatif pour les blessés de guerre. *(la photo du match)*
 > Et on soutient un ancien des forces spéciales, qui part dix jours en autonomie en Amazonie. Allez le suivre.
 
-**5. La fin** *(Nico montre l'appli : les vraies captures, la 2e se pose sur la 1re)*
-> Donc voilà : Second Armor,
-> *(liste à cocher, sans sous-titre)* ✓ Tout l'équipement tactique ✓ au même endroit ✓ Plateforme sécurisée
+**5. La fin** *(les deux vraies captures de l'appli, côte à côte)*
+> Donc voilà : Second Armor, c'est tout l'équipement tactique.
+> Tout au même endroit, classé, et sécurisé. *(catégories en surbrillance, filtre « Porte-plaques » entouré, cadenas vert)*
 > *(sur le carton de fin)* Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.
 
 *(carton : SECOND ARMOR · La première marketplace tactique · Par les pros, pour les pros. · Lien en bio)*
