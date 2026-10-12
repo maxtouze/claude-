@@ -270,7 +270,7 @@ function Img(name, cx, cy, w, o = {}) {
   return G(`<image href="img/${name}.png" x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" preserveAspectRatio="none"${flip ? ' transform="scale(-1 1)"' : ""}/>`, { x: cx, y: cy, r, o: op });
 }
 // Vraies photos (événement, expédition) : facultatives. Si le fichier manque, un cadre « photo à venir » s'affiche.
-const PHOTOS = { caen: "img/photos/caen.jpg", amazonie: "img/photos/amazonie.jpg", sticker: "img/photos/sticker.png", hockey: "img/photos/hockey.jpg", app: "img/photos/app.png" };
+const PHOTOS = { caen: "img/photos/caen.jpg", amazonie: "img/photos/amazonie.jpg", sticker: "img/photos/sticker.png", hockey: "img/photos/hockey.jpg", app: "img/photos/app.png", stickerL: "img/photos/sticker-l.png", stickerR: "img/photos/sticker-r.png" };
 const PHOTO_OK = {};
 // Polaroid scotché, centré sur (cx, cy), largeur w, photo au format 4:5
 function polaroid(name, cx, cy, w, o = {}) {
@@ -450,7 +450,7 @@ const speakDur = (s) => {
 const VOICE_TIMING = window.VOICE_TIMING || {};
 let CUE_N = 0;
 function shot(key, cues, draw, opt = {}) {
-  const { lead = 0.05, min = 0, dark = false, subs = true, only = false, as } = opt;
+  const { lead = 0.05, min = 0, dark = false, subs = true, only = false, as, cam = 0 } = opt;
   let t = lead;
   const cs = cues.map(([text, pause = 0.25, sub, id]) => {
     const n = id ?? ++CUE_N; // réplique ajoutée après coup : id « 9a » (prise voice/09a.mp3) sans renuméroter la suite
@@ -458,7 +458,7 @@ function shot(key, cues, draw, opt = {}) {
     t += c.dur + pause;
     return c;
   });
-  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs, only, as }); // only : plan réservé à une version (CUTS)
+  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs, only, as, cam }); // only : plan réservé à une version (CUTS)
 }
 // Moment (en temps local du plan) où le sous-titre affiche ce mot : une image qui nomme une chose arrive avec le mot, jamais avant
 // Un plan peut reprendre le dessin d'un autre avec un nouveau texte (opt.as) : ses recherches par nom tombent alors sur lui
@@ -844,8 +844,8 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
   const t10 = subAt("dixmille", "10"), n = Math.round(10000 * ease.out(prog(t, t10 - 0.6, 1.0)));
   if (t > t10 - 0.6) g += T(n.toLocaleString("fr-FR").replace(/ | /g, " "), 540, 300, { size: 150, font: SANS, weight: 800, c: NAVY });
   if (t > c[2]) {
-    g += T("300+ transactions", 470, 1240, { size: 50, font: SANS, weight: 800 });
-    for (let i = 0; i < 5; i++) g += G(T("★", 0, 0, { size: 60, c: ACC, font: SANS }), { x: 740 + i * 58, y: 1240, s: pop(t, c[2] + 1.0 + i * 0.15) });
+    for (let i = 0; i < 5; i++) g += G(T("★", 0, 0, { size: 76, c: ACC, font: SANS }), { x: 330 + i * 76, y: 1240, s: pop(t, c[2] + 0.3 + i * 0.12) });
+    g += G(T("300+", 0, 0, { size: 76, font: SANS, weight: 800 }), { x: 800, y: 1244, s: pop(t, c[2] + 1.0) });
   }
   return g;
 });
@@ -903,7 +903,7 @@ shot("amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1], ["qu
   // feuillage dessiné autour
   for (let i = 0; i < 9; i++) {
     const x = [80, 1000, 60, 1020, 150, 930, 40, 1040, 540][i], y = [260, 240, 700, 660, 1050, 1030, 1640, 1620, 110][i];
-    g += G(P("M0 0 q60 -80 0 -170 q-60 90 0 170 Z M0 0 v-160", { fill: "#6fae5c", w: 5 }), { x, y: y + 80, r: (i % 2 ? 1 : -1) * (20 + i * 7), s: 1.1 });
+    g += G(P("M0 0 q60 -80 0 -170 q-60 90 0 170 Z M0 0 v-160", { fill: "#6fae5c", w: 5 }), { x, y: y + 80, r: (i % 2 ? 1 : -1) * (20 + i * 7) + Math.sin(t * 2.2 + i) * 6, s: 1.1 });
   }
   g += polaroid("amazonie", lerp(-500, 540, k), 640, 580, { r: lerp(-12, 3, k), caption: t > subAt("amazonie", "dix") ? "10 jours, en autonomie" : "" });
   if (t > c[1] + 0.3) g += fly(t, 800, 420, { rad: 70 }) + fly(t, 300, 560, { rad: 55, seed: 3 });
@@ -1089,8 +1089,8 @@ const badge = (n, t) => G(Circ(0, 0, 58, { fill: NAVY, w: 0 }) + T(n, 0, 4, { si
 const floor = (y = 1180) => P(`M-20 ${y} H1100`, { w: 6 });
 
 // Musée : le gilet sous vitrine, deux visiteurs, un cordon rouge
-shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du monde.", 0.4, undefined, "s1"], ["Il m'a coûté 50 400 €.", 0.7, undefined, "s2"],
-  ["Et non, il faisait pas pare-missile à ce prix-là.", 0.4, undefined, "s3"], ["Il faisait rien, d'ailleurs. Je l'ai jamais reçu.", 0.9, undefined, "s4"]], (t, c) => {
+shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du monde.", 0.25, undefined, "s1"], ["Il m'a coûté 50 400 €.", 0.4, undefined, "s2"],
+  ["Et non, il faisait pas pare-missile à ce prix-là.", 0.25, undefined, "s3"], ["Il faisait rien, d'ailleurs. Je l'ai jamais reçu.", 0.55, undefined, "s4"]], (t, c) => {
   let g = Rect(-10, -10, 1100, 1190, { fill: "#f4efe4", sw: 0, c: "none" }) + floor(1180);
   // spots
   g += P("M380 0 L300 1000 L560 1000 Z M700 0 L520 1000 L780 1000 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
@@ -1106,27 +1106,36 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
   if (t > c[1]) g += G(Rect(-120, -50, 240, 100, { fill: PAPER, sw: 5, rx: 8 }) + T("50 400 €", 0, 4, { size: 48, font: SANS, weight: 800, c: RED }), { x: 830, y: 950, s: pop(t, c[1] + 0.3), r: 6 });
   // cordon
   g += P("M160 1180 V1010 M920 1180 V1010", { w: 10 }) + Dot(160, 1000, 16, "#c9a85c") + Dot(920, 1000, 16, "#c9a85c") + P("M160 1020 Q540 1110 920 1020", { w: 12, c: "#b0282a" });
-  // visiteurs (ils se penchent, se baissent quand le missile passe, puis se regardent)
-  const duck = t > c[2] + 0.5 && t < c[2] + 1.5;
+  // missile : il fonce sur la vitrine… BOUM
+  const tHit = c[2] + 1.0, burnt = t > tHit + 0.15;
+  if (burnt) g += P("M380 560 L470 700 L420 820 M470 700 L600 640 M470 700 L560 880 M600 640 L700 560", { w: 4, c: INK, op: 0.7 }); // vitre fêlée
+  const duck = t > c[2] + 0.3 && t < tHit + 0.6;
   const puzzled = t > tG + 0.7;
-  g += stick({ x: 170, y: 1330, s: 1.0, la: [-30, -110, 10, -90], ra: [30, -110, -10, -90], look: puzzled ? [-8, 0] : [8, -4], eyes: duck ? "closed" : "dot", mouth: puzzled ? "flat" : null, acc: ["roundglasses"] });
-  g += stick({ x: 920, y: 1330, s: 1.0, la: [-30, -110, 10, -90], ra: [30, -110, -10, -90], look: puzzled ? [8, 0] : [-8, -4], eyes: duck ? "closed" : "dot", mouth: puzzled ? "flat" : null });
-  // missile : il traverse la salle
-  if (t > c[2] + 0.3 && t < c[3]) {
-    const k = prog(t, c[2] + 0.3, 1.2);
-    g += G(P("M-90 -18 H50 L90 0 L50 18 H-90 Z M-90 -18 L-120 -40 M-90 18 L-120 40", { fill: GREY, w: 6 }) + P("M-130 -8 l-40 8 l40 8", { fill: "#ffb347", w: 4 }), { x: lerp(-150, 1250, k), y: 400 + Math.sin(k * 6) * 30 });
+  const visitor = (x, look, extra = []) => {
+    let v = stick({ x, y: 1330, s: 1.0, la: [-30, -110, 10, -90], ra: [30, -110, -10, -90], look: puzzled ? [-look, 0] : [look, -4], eyes: duck ? "closed" : burnt ? "wide" : "dot", mouth: puzzled || burnt ? "flat" : null, acc: extra, face: burnt ? "#8a8a8a" : SKIN });
+    if (burnt) v += P(`M${x - 34} ${1330 - 290} l-10 -34 l20 18 l6 -38 l14 34 l12 -36 l8 38 l20 -20 l-6 38`, { w: 5 }); // cheveux en pétard
+    return v;
+  };
+  g += visitor(170, 8, ["roundglasses"]) + visitor(920, -8);
+  if (t > c[2] + 0.2 && t < tHit) {
+    const k = ease.in(prog(t, c[2] + 0.2, tHit - c[2] - 0.2));
+    g += G(P("M-90 -18 H50 L90 0 L50 18 H-90 Z M-90 -18 L-120 -40 M-90 18 L-120 40", { fill: GREY, w: 6 }) + P(`M-130 -8 l${-30 - Math.sin(t * 40) * 15} 8 l${30 + Math.sin(t * 40) * 15} 8`, { fill: "#ffb347", w: 4 }), { x: lerp(-200, 470, k), y: lerp(300, 720, k), r: 32 });
   }
-  return g;
-}, { only: true });
+  if (t > tHit && t < tHit + 0.7) g += boom(t, 520, 720, 330 * ease.out(prog(t, tHit, 0.18)) * (1 - prog(t, tHit + 0.45, 0.25)), 5) + T("BOUM", 520, 720, { size: 110, font: MARK, c: PAPER, stroke: [10, INK], op: clamp((tHit + 0.6 - t) * 4) });
+  if (t > tHit + 0.3 && t < tHit + 1.6) for (let i = 0; i < 6; i++) { const u = prog(t, tHit + 0.3, 1.3); g += Circ(380 + i * 60, 700 - u * 200 - (i % 2) * 40, 70 + u * 40, { fill: "#cfcfcf", w: 0, op: 0.8 * (1 - u) }); }
+  return t > tHit && t < tHit + 0.5 ? G(g, { x: jit(t, 14), y: jit(t * 1.3, 10, 2) }) : g;
+}, { only: true, cam: 0.06 });
 
-shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.5, "Bref. Je me suis fait ████ de 400 balles.", "s5"]], (t, c) => {
-  let g = bigFace(540, 700, 250);
-  if (t > subAt("s-bip", "████") + 0.15) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
-  return g;
+shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.3, "Bref. Je me suis fait ████ de 400 balles.", "s5"]], (t, c) => {
+  const tb = subAt("s-bip", "████") + 0.15;
+  let g = bigFace(540, 700, 250, { eyes: t > tb ? "flat" : "dot" });
+  if (t > tb) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
+  const punch = t > tb ? lerp(1.18, 1, ease.out(prog(t, tb, 0.3))) : 1;
+  return Z(G(g, { x: t > tb && t < tb + 0.25 ? jit(t, 10) : 0 }), punch, 540, 820);
 }, { only: true });
 
 // Le sac de billets vidé dans l'ordinateur d'un développeur
-shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 1.6, undefined, "s6"]], (t, c) => {
+shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 1.3, undefined, "s6"]], (t, c) => {
   let g = floor(1250) + Rect(560, 1000, 440, 30, { fill: PAPER, sw: 7 }) + P("M590 1030 V1250 M970 1030 V1250", { w: 7 });
   // le dev, capuche + lunettes, devant son portable
   g += stick({ x: 830, y: 1250, s: 1.0, acc: ["roundglasses"], la: [-60, -150, -120, -170], ra: [-40, -150, -100, -175], body: P("M-50 -205 Q0 -222 50 -205 L64 -100 H-64 Z", { fill: GREY, w: 6 }) });
@@ -1142,33 +1151,34 @@ shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 1.6, undefine
     g += bill(lerp(430, 720, u), lerp(760, 940, u) - Math.sin(u * Math.PI) * 120, { s: 0.55, r: u * 220 + i * 30 });
   }
   return g;
-}, { only: true });
+}, { only: true, cam: 0.05 });
 
-shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as deux options.", 0.6, undefined, "s7"]], (t, c) => {
+shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as deux options.", 0.35, undefined, "s7"]], (t, c) => {
   const door = (x, n, k) => k > 0 ? G(Rect(-150, -260, 300, 520, { fill: "#f3efe5", sw: 7, rx: 8 }) + Dot(100, 20, 12) + G(Circ(0, 0, 58, { fill: NAVY, w: 0 }) + T(n, 0, 4, { size: 70, font: STENCIL, c: PAPER }), { y: -340 }), { x, y: 900, s: k }) : "";
   const t1 = subAt("s-options", "deux");
   let g = floor(1160) + door(280, "1", pop(t, t1 + 0.1)) + door(800, "2", pop(t, t1 + 0.4));
   g += stick({ x: 540, y: 1300, s: 1.0, la: [-50, -110], ra: [40, -180, 10, -250], look: [Math.sin(t * 2) * 8, 0] });
   return g;
-}, { only: true });
+}, { only: true, cam: 0.05 });
 
 // Option 1 : la page « Déguisements » d'une marketplace, le porte-plaques arrive au milieu des costumes
-shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.3, undefined, "s8"], ["Sauf que les porte-plaques se retrouvent rangés dans la catégorie « Déguisements ».", 1.2, undefined, "s9"]], (t, c) => {
+shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8"], ["Sauf que les porte-plaques se retrouvent rangés dans la catégorie « Déguisements ».", 0.9, undefined, "s9"]], (t, c) => {
   let g = badge("1", t);
   g += Rect(70, 260, 940, 1000, { fill: PAPER, sw: 8, rx: 16 }) + P("M70 340 H1010", { w: 6 }) + Dot(110, 300, 9, "#bbb") + Dot(140, 300, 9, "#bbb");
   g += T("Déguisements", 120, 420, { size: 64, anchor: "start", font: SANS, weight: 800 }) + T("🎭", 950, 420, { size: 60, font: SANS, anchor: "end" });
   const item = (x, y, inner, k, hl) => k > 0 ? G(Rect(-190, -170, 380, 340, { fill: hl ? "#fff1e8" : "#f6f3ea", sw: hl ? 8 : 5, c: hl ? ACC : INK, rx: 14 }) + inner, { x, y, s: k }) : "";
-  g += item(300, 680, G(P("M-70 -40 Q0 -110 70 -40 L50 70 H-50 Z", { fill: INK, w: 5 }) + Circ(0, -20, 18, { fill: PAPER, w: 4 }) + P("M-12 -32 l24 24 M12 -32 l-24 24", { w: 4 })), 1);
-  g += item(780, 680, Circ(0, 0, 70, { fill: RED, w: 6 }) + P("M-30 -30 q20 -10 30 5", { w: 5, c: PAPER }), 1);
-  g += item(300, 1060, P("M-90 70 L0 -100 L90 70 Z", { fill: "#f2cf55", w: 5 }) + Dot(-20, 0, 12, RED) + Dot(30, 30, 12, TEAL) + Dot(0, -60, 14, ACC), 1);
+  g += item(300, 680, G(P("M-70 -40 Q0 -110 70 -40 L50 70 H-50 Z", { fill: INK, w: 5 }) + Circ(0, -20, 18, { fill: PAPER, w: 4 }) + P("M-12 -32 l24 24 M12 -32 l-24 24", { w: 4 })), pop(t, 0.3), false);
+  g += item(780, 680, Circ(0, 0, 70, { fill: RED, w: 6 }) + P("M-30 -30 q20 -10 30 5", { w: 5, c: PAPER }), pop(t, 0.55), false);
+  g += item(300, 1060, P("M-90 70 L0 -100 L90 70 Z", { fill: "#f2cf55", w: 5 }) + Dot(-20, 0, 12, RED) + Dot(30, 30, 12, TEAL) + Dot(0, -60, 14, ACC), pop(t, 0.8), false);
+  if (t < subAt("s-opt1", "porte-plaques")) g += Rect(600, 900, 360, 320, { fill: "none", sw: 5, rx: 14, c: "#ccc" }) + T("?", 780, 1060, { size: 120, font: MARK, c: "#ccc" });
   // le porte-plaques débarque dans la 4e case, au moment où on en parle
   const tP = subAt("s-opt1", "porte-plaques"), tD = subAt("s-opt1", "Déguisements");
   if (t > tP) g += item(780, 1060, vestAt(0, 10, 0.85), pop(t, tP, 0.35), t > tD);
   if (t > tD + 0.2) g += P("M570 1060 C570 860 990 860 990 1060 C990 1260 570 1260 575 1070", { c: RED, w: 9, q: prog(t, tD + 0.2, 0.4) });
   return g;
-}, { only: true });
+}, { only: true, cam: 0.04 });
 
-shot("s-algo", [["Et ça, c'est si tu t'es pas fait bannir par l'algorithme bien-pensant,", 0.2, undefined, "s10"], ["pour qui « porte-chargeur », c'est de l'apologie du terrorisme.", 2.2, undefined, "s11"]], drawOf("algo"), { only: true, as: "algo" });
+shot("s-algo", [["Et ça, c'est si tu t'es pas fait bannir par l'algorithme bien-pensant,", 0.15, undefined, "s10"], ["pour qui « porte-chargeur », c'est de l'apologie du terrorisme.", 1.9, undefined, "s11"]], drawOf("algo"), { only: true, cam: 0.05, as: "algo" });
 
 // Option 2 : les icônes, la conversation sans réponse, les onglets, l'envoi, et retour à la conversation
 const CHAT = [["out", "Salut, toujours dispo le gilet ?"], ["in", "Oui frère 👍"], ["out", "Top, virement envoyé !"], ["out", "Tu l'as posté ?"], ["out", "Allô ?"], ["out", "??"]];
@@ -1184,8 +1194,8 @@ function chatScreen(t, n, o = {}) {
   if (o.left) inner += T("Thomas R. a quitté la conversation", 540, y + 40, { size: 32, font: SANS, c: "#999", op: clamp((t - o.left) * 3) });
   return phone(540, 760, 880, 1180, inner);
 }
-shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.", 0.4, undefined, "s12"], ["Zéro garantie : tu croises les doigts, normalement ça passe.", 2.2, undefined, "s13"],
-  ["Mais tu passes des heures à chercher, et après, tu gères l'envoi tout seul.", 0.8, undefined, "s14"], ["C'est là que j'ai acheté mon gilet.", 1.6, undefined, "s15"]], (t, c) => {
+shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.", 0.25, undefined, "s12"], ["Zéro garantie : tu croises les doigts, normalement ça passe.", 1.9, undefined, "s13"],
+  ["Mais tu passes des heures à chercher, et après, tu gères l'envoi tout seul.", 0.5, undefined, "s14"], ["C'est là que j'ai acheté mon gilet.", 1.3, undefined, "s15"]], (t, c) => {
   let g = badge("2", t);
   if (t < c[1]) {
     // trois icônes, sans texte
@@ -1220,10 +1230,10 @@ shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote 
   }
   // retour à la conversation : il est parti
   return g + chatScreen(t, CHAT.length, { seen: true, left: c[3] + 0.4 }) + fly(t, 540, 520, { seed: 2, rad: 60 });
-}, { only: true });
+}, { only: true, cam: 0.03 });
 
 // L'idée : l'ampoule, puis le logo tombe
-shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.4, undefined, "s16"], ["Second Armor. Le Vinted militaire.", 1.0, undefined, "s17"]], (t, c) => {
+shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.25, undefined, "s16"], ["Second Armor. Le Vinted militaire.", 0.7, undefined, "s17"]], (t, c) => {
   let g = floor(1250);
   const bulb = pop(t, 0.5, 0.35);
   g += stick({ x: 260, y: 1250, s: 1.25, ra: t > c[1] ? [110, -230] : [50, -150], la: [-50, -120], mouth: t > 0.6 ? "smile" : null });
@@ -1236,10 +1246,10 @@ shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.4, undefine
   if (t > c[1]) g += G(logoMark(430, NAVY), { x: 690 + sh, y: lerp(-300, 700, drop) + sh });
   if (t > c[1] + 0.4) g += G(T("SECOND ARMOR", 0, 0, { size: 82, font: SANS, weight: 800, c: NAVY }), { x: 690, y: 1000, s: pop(t, c[1] + 0.4) });
   return g;
-}, { only: true });
+}, { only: true, cam: 0.05 });
 
 // Le paiement : un gars du milieu tient l'argent tant que le colis n'est pas validé
-shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis.", 1.8, undefined, "s19"]], (t, c) => {
+shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis.", 1.5, undefined, "s19"]], (t, c) => {
   let g = floor(1260);
   const tOk = subAt("s-escrow", "validé") + 0.3, tPay = tOk + 0.7;
   g += stick({ x: 170, y: 1260, s: 1.0, mouth: t > tOk ? "smile" : null }) + stick({ x: 910, y: 1260, s: 1.0, acc: ["cap"], mouth: t > tPay + 0.6 ? "smile" : null });
@@ -1253,10 +1263,10 @@ shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis."
   g += G(box({ w: 130, h: 95 }), { x: lerp(820, 280, bk), y: 1260 });
   if (t > tOk) g += G(Circ(0, 0, 50, { fill: GREEN, w: 0 }) + P("M-22 2 l14 16 l28 -34", { w: 9, c: PAPER }), { x: 170, y: 880, s: pop(t, tOk) });
   return g;
-}, { only: true });
+}, { only: true, cam: 0.05 });
 
 // Plus d'algorithme qui panique : le gars du milieu prend sa place au bureau
-shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 2.4, undefined, "s18"]], (t, c) => {
+shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 2.1, undefined, "s18"]], (t, c) => {
   let g = Rect(110, 1080, 860, 34, { fill: PAPER, sw: 7 }) + P("M150 1114 V1260 M930 1114 V1260", { w: 7 });
   // l'écran avec une annonce de matos
   g += Rect(160, 640, 400, 280, { fill: PAPER, sw: 8, rx: 12 }) + P("M360 920 V980 M300 980 H420", { w: 7 }) + G(vest(), { x: 190, y: 680, s: 0.55 }) + T("Porte-plaques", 450, 700, { size: 28, font: SANS, weight: 800 });
@@ -1266,10 +1276,10 @@ shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 2.4, unde
   if (inn > 0) g += stick({ x: lerp(1300, 720, inn), y: 1180, s: 1.1, acc: ["helmet"], la: [-40, -120], ra: inn >= 1 ? [-70, -150, -110, -120] : [40, -120], mouth: inn >= 1 ? "flat" : null });
   if (inn >= 1) g += P("M820 1030 h55 v50 h-55 Z M875 1042 q18 0 18 14 q0 14 -18 14", { fill: PAPER, w: 5 }) + stamp("VALIDÉ", 360, 790, t, 2.9, { c: GREEN, size: 56, r: -10 });
   return g;
-}, { only: true });
+}, { only: true, cam: 0.05 });
 
 // La banquière : affolée mais contenue ; Nico, devant, fait « non non, t'inquiète »
-shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.25, undefined, "s20"], ["les 50 000, ils sont pas encore remboursés.", 0.4, undefined, "s21"], ["Mais je lui ai dit de pas être rabat-joie :", 0.6, undefined, "s22"]], (t, c) => {
+shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.15, undefined, "s20"], ["les 50 000, ils sont pas encore remboursés.", 0.25, undefined, "s21"], ["Mais je lui ai dit de pas être rabat-joie :", 0.35, undefined, "s22"]], (t, c) => {
   let g = Rect(-10, -10, 1100, 1110, { fill: "#eef1f4", sw: 0, c: "none" }) + P("M-20 1100 H1100", { w: 6 });
   g += Rect(640, 220, 320, 200, { fill: PAPER, sw: 6 }) + T("BANQUE", 800, 320, { size: 50, font: STENCIL, c: NAVY }); // cadre au mur
   g += Rect(400, 900, 640, 34, { fill: PAPER, sw: 7 }) + P("M440 934 V1100 M1000 934 V1100", { w: 7 });
@@ -1284,35 +1294,61 @@ shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.25
   const wave = t > c[2] ? Math.sin((t - c[2]) * 9) * 30 : 0;
   g += stick({ x: 190, y: 1330, s: 1.35, la: [-40, -110], ra: t > c[2] ? [70, -200, 60 + wave, -280] : [40, -110], look: [10, 0], mouth: "smile" });
   return g;
-}, { only: true });
+}, { only: true, cam: 0.06 });
 
-shot("s-dixmille", [["On a commencé tout petit,", 0.2, undefined, "s23"], ["et aujourd'hui, on est déjà plus de 10 000,", 0.2, undefined, "s23b"], ["avec plus de 300 transactions notées cinq étoiles.", 0.9, undefined, "s24"]], drawOf("dixmille"), { only: true, as: "dixmille" });
+shot("s-dixmille", [["On a commencé tout petit,", 0.15, undefined, "s23"], ["et aujourd'hui, on est déjà plus de 10 000,", 0.15, undefined, "s23b"], ["avec plus de 300 transactions notées cinq étoiles.", 0.55, undefined, "s24"]], drawOf("dixmille"), { only: true, cam: 0.04, as: "dixmille" });
 
-// Rendre à la communauté : le sticker, puis la photo du match, qui restent à l'écran
-shot("s-freres", [["Et notre mission, c'est de continuer à rendre à la communauté.", 0.3, undefined, "s25"], ["On a déjà sponsorisé les Frères d'Armes,", 0.2, undefined, "s26"], ["autour d'un match caritatif pour les blessés de guerre.", 2.4, undefined, "s27"]], (t, c) => {
-  let g = "";
-  const swap = ease.inOut(prog(t, c[2], 0.5));
-  if (swap < 1) g += G(Pic("sticker", 0, 0, 600, 827), { x: 540, y: 780, s: pop(t, 0.2, 0.4) * (1 - swap * 0.3), r: lerp(-3, -12, swap), o: 1 - swap });
-  if (swap > 0) {
-    const w = 700, h = w * 1282 / 826, x0 = 540 - w / 2, y0 = 220, k = w / 826;
-    g += G(Rect(-w / 2 - 12, -h / 2 - 12, w + 24, h + 24, { fill: PAPER, sw: 6 }) + Pic("hockey", 0, 0, w, h), { x: 540, y: y0 + h / 2, s: lerp(0.8, 1, swap), r: lerp(6, 0, swap), o: swap });
-    const tf = c[2] + 0.9, tl = c[2] + 1.8;
-    if (t > tf) g += arrow(x0 + 560 * k, y0 + 330 * k, x0 + 735 * k, y0 + 175 * k, { c: RED, w: 9, q: prog(t, tf, 0.3), bend: -0.2 });
-    if (t > tl) g += arrow(x0 + 760 * k, y0 + 880 * k, x0 + 560 * k, y0 + 725 * k, { c: RED, w: 9, q: prog(t, tl, 0.3), bend: 0.2 });
-    // des cœurs qui montent, comme en live
-    for (let i = 0; i < 7; i++) {
-      const u = ((t - c[2] - 0.5) * 0.45 + i / 7) % 1;
-      if (t < c[2] + 0.5) break;
-      g += G(P("M0 12 C-26 -6 -18 -30 0 -16 C18 -30 26 -6 0 12 Z", { fill: i % 2 ? RED : ACC, w: 3 }), { x: 960 + Math.sin(u * 9 + i) * 30, y: lerp(1300, 700, u), s: 1.3, o: 1 - u });
+// Rendre à la communauté : une patinoire. Le militaire et la mascotte arrivent en patinant chacun de son côté,
+// se serrent la main sur « Frères d'Armes », puis la photo du match monte comme sur l'écran géant.
+function rink(t) {
+  let g = Rect(-10, -10, 1100, 640, { fill: "#dfe5ea", sw: 0, c: "none" });
+  // le public
+  const cols = [NAVY, RED, ACC, TEAL, "#7a5234", "#9aa3ab"];
+  for (let r = 0; r < 4; r++) for (let i = 0; i < 13; i++) {
+    const x = 40 + i * 82 + (r % 2) * 40, y = 250 + r * 95 + Math.sin(t * 6 + i * 1.7 + r) * 5;
+    g += Circ(x, y, 26, { fill: PAPER, w: 4 }) + P(`M${x - 34} ${y + 70} Q${x} ${y + 20} ${x + 34} ${y + 70}`, { fill: cols[(i + r * 3) % cols.length], w: 4 });
+  }
+  // la bande et ses panneaux
+  g += Rect(-10, 620, 1100, 120, { fill: PAPER, sw: 6 }) + P("M-10 700 H1100", { w: 4, c: "#2a6fd1" });
+  g += G(logoMark(90, NAVY), { x: 210, y: 668 }) + T("SECOND ARMOR", 270, 670, { size: 34, anchor: "start", font: SANS, weight: 800, c: NAVY });
+  g += Rect(700, 638, 300, 62, { fill: RED, sw: 4 }) + Rect(40, 638, 120, 62, { fill: "#f2cf55", sw: 4 });
+  // la glace : lignes rouge et bleues, cercle central
+  g += Rect(-10, 740, 1100, 700, { fill: "#eef7fb", sw: 0, c: "none" }) + P("M-10 740 H1100", { w: 6 });
+  g += P("M540 740 L540 1440", { w: 12, c: "#d23a2a", op: 0.7 }) + P("M300 740 L230 1440 M780 740 L850 1440", { w: 12, c: "#2a6fd1", op: 0.6 });
+  g += `<ellipse cx="540" cy="1080" rx="250" ry="80" fill="none" stroke="#d23a2a" stroke-width="6" opacity="0.7"/>`;
+  return g;
+}
+shot("s-freres", [["Et notre mission, c'est de continuer à rendre à la communauté.", 0.15, undefined, "s25"], ["On a déjà sponsorisé les Frères d'Armes,", 0.15, undefined, "s26"], ["autour d'un match caritatif pour les blessés de guerre.", 1.9, undefined, "s27"]], (t, c) => {
+  let g = rink(t);
+  // le sticker en deux moitiés qui glissent l'une vers l'autre
+  const kS = 520 / 438, H = 604 * kS, wl = 212 * kS, wr = 226 * kS, y0 = 540, xl = 540 - (wl + wr) / 2;
+  const tF = subAt("s-freres", "Frères"), meet = ease.out(prog(t, 0.2, Math.max(0.8, tF - 0.2)));
+  const bob = meet < 1 ? Math.sin(t * 9) * 8 : 0, lean = meet < 1 ? 6 : 0;
+  const img = (n, x, w, r) => G(PHOTO_OK[n] ? `<image href="${PHOTOS[n]}" x="0" y="0" width="${n2(w)}" height="${n2(H)}" preserveAspectRatio="none"/>` : Rect(0, 0, w, H, { fill: "#e9e9e9", sw: 4 }), { x, y: y0 + bob, r });
+  const lift = ease.inOut(prog(t, c[2], 0.6));
+  const sticker = img("stickerL", lerp(-wl - 60, xl, meet), wl, lean) + img("stickerR", lerp(1140, xl + wl, meet), wr, -lean);
+  g += G(sticker, { o: 1 - lift * 0.8 });
+  if (t > tF && t < tF + 0.6) g += P("M532 830 l-50 -50 M532 830 l0 -70 M532 830 l50 -50 M532 830 l-70 0 M532 830 l70 0", { w: 7, c: ACC, op: clamp((tF + 0.6 - t) * 3) });
+  // la photo du match monte comme sur l'écran géant
+  if (lift > 0) {
+    const w = 640, h = w * 1282 / 826, k = w / 826, x0 = 540 - w / 2, py = lerp(1900, 230, lift);
+    g += G(Rect(-w / 2 - 14, -14, w + 28, h + 28, { fill: NAVY, sw: 0, c: "none", rx: 10 }) + G(Pic("hockey", 0, h / 2, w, h)), { x: 540, y: py, r: lerp(8, 0, lift) });
+    const tf = c[2] + 1.0, tl = c[2] + 1.8, y0p = py;
+    if (t > tf) g += arrow(x0 + 560 * k, y0p + 330 * k, x0 + 735 * k, y0p + 175 * k, { c: RED, w: 9, q: prog(t, tf, 0.3), bend: -0.2 });
+    if (t > tl) g += arrow(x0 + 760 * k, y0p + 880 * k, x0 + 560 * k, y0p + 725 * k, { c: RED, w: 9, q: prog(t, tl, 0.3), bend: 0.2 });
+    for (let i = 0; i < 8; i++) {
+      const u = ((t - c[2] - 0.6) * 0.45 + i / 8) % 1;
+      if (t < c[2] + 0.6) break;
+      g += G(P("M0 12 C-26 -6 -18 -30 0 -16 C18 -30 26 -6 0 12 Z", { fill: i % 2 ? RED : ACC, w: 3 }), { x: (i % 2 ? 980 : 100) + Math.sin(u * 9 + i) * 30, y: lerp(1300, 600, u), s: 1.3, o: 1 - u });
     }
   }
   return g;
-}, { only: true });
+}, { only: true, cam: 0.03 });
 
-shot("s-amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1, undefined, "s28"], ["qui part dix jours en autonomie en Amazonie.", 0.3, undefined, "s29"], ["Allez le suivre.", 1.2, undefined, "s30"]], drawOf("amazonie"), { only: true, as: "amazonie" });
+shot("s-amazonie", [["Et on soutient un ancien des forces spéciales,", 0.15, undefined, "s28"], ["qui part dix jours en autonomie en Amazonie.", 0.2, undefined, "s29"], ["Allez le suivre.", 0.9, undefined, "s30"]], drawOf("amazonie"), { only: true, cam: 0.05, as: "amazonie" });
 
 // La fin : l'appli, aux couleurs de la marque (à remplacer par une vraie capture : img/photos/app.png)
-shot("s-pro", [["Et pour votre équipement, équipez-vous comme des pros, avec Second Armor.", 1.2, undefined, "s31"]], (t, c) => {
+shot("s-pro", [["Et pour votre équipement, équipez-vous comme des pros, avec Second Armor.", 0.9, undefined, "s31"]], (t, c) => {
   let g = Rect(-10, -10, 1100, 1940, { fill: "#e9eef2", sw: 0, c: "none" });
   const k = ease.out(prog(t, 0.1, 0.6));
   let inner;
@@ -1329,7 +1365,7 @@ shot("s-pro", [["Et pour votre équipement, équipez-vous comme des pros, avec S
   }
   g += G(G(phone(540, 760, 720, 1260, inner), { x: -540, y: -760 }), { x: 540, y: 700 + lerp(400, 0, k), s: 0.85 });
   return g;
-}, { only: true });
+}, { only: true, cam: 0.03 });
 
 // ---------------------------------------------------------------------------
 // Moteur : seek(t), sous-titres, lecteur, mode export
@@ -1361,26 +1397,40 @@ let DURATION = 0;
 for (const s of SHOTS) { s.from = DURATION; DURATION += s.dur; }
 DURATION = Math.round(DURATION * FPS) / FPS;
 
-// Sous-titres : chaque réplique est découpée en morceaux courts
-// (≤ 26 caractères, une ligne), coupés de préférence sur la ponctuation. Les guillemets et « : ? ! » restent collés au mot.
+// Sous-titres : chaque réplique est découpée en morceaux de 50 caractères au plus (2 lignes à l'écran).
+// On coupe d'abord sur la ponctuation, puis au milieu d'un groupe trop long, jamais après un petit mot (« le », « de », « à »…).
+// Les guillemets et « : ? ! » restent collés au mot.
+const SUB_MAX = 50;
+const FUNC = /^(le|la|les|de|du|des|un|une|à|au|aux|en|et|ou|que|qui|pour|sur|par|ton|ta|tes|mon|ma|mes|son|sa|ses|ce|cet|cette|se|ne|dans|avec|«|est|c'est|si|plus)$/i;
+const slen = (a) => a.join(" ").length;
+function splitLong(ws) {
+  if (slen(ws) <= SUB_MAX || ws.length < 2) return [ws];
+  let best = 1, bestScore = Infinity;
+  for (let i = 1; i < ws.length; i++) {
+    const score = Math.abs(slen(ws.slice(0, i)) - slen(ws.slice(i))) + (FUNC.test(ws[i - 1]) ? 40 : 0) + (/[,:;]$/.test(ws[i - 1]) ? -15 : 0) + (/^(par|pour|que|qui|quand|avec|dans|et|mais|sur)$/i.test(ws[i]) ? -12 : 0);
+    if (score < bestScore) { bestScore = score; best = i; }
+  }
+  return [...splitLong(ws.slice(0, best)), ...splitLong(ws.slice(best))];
+}
 const SUBS = [];
 for (const s of SHOTS) {
   if (!s.subs) continue;
   for (const c of s.cues) {
     const txt = c.sub.replace(/« /g, "«\u00a0").replace(/ »/g, "\u00a0»").replace(/ ([:;?!])/g, "\u00a0$1");
     const words = txt.split(/ +/).filter(Boolean);
-    const chunks = [];
+    // propositions (coupées sur la ponctuation), regroupées tant que ça tient
+    const clauses = [];
     let cur = [];
-    const len = (a) => a.join(" ").length;
-    for (const w of words) {
-      const last = cur[cur.length - 1];
-      if (cur.length && (len([...cur, w]) > 26 || (/[.?!:,…»]$/.test(last) && len(cur) >= 12))) { chunks.push(cur); cur = []; }
-      cur.push(w);
+    for (const w of words) { cur.push(w); if (/[.?!:,;…»]$/.test(w)) { clauses.push(cur); cur = []; } }
+    if (cur.length) clauses.push(cur);
+    const chunks = [];
+    let acc = [];
+    for (const cl of clauses) {
+      // un petit bout (« Bref. », « Et non, ») reste toujours collé à la suite
+      if (acc.length && slen(acc) >= 14 && slen([...acc, ...cl]) > SUB_MAX) { chunks.push(...splitLong(acc)); acc = []; }
+      acc.push(...cl);
     }
-    if (cur.length) {
-      if (chunks.length && len(cur) < 10 && len([...chunks[chunks.length - 1], ...cur]) <= 40) chunks[chunks.length - 1].push(...cur);
-      else chunks.push(cur);
-    }
+    if (acc.length) chunks.push(...splitLong(acc));
     const lines = chunks.map((ch) => ch.join(" "));
     const total = lines.reduce((a, ch) => a + ch.length, 0);
     let t = s.from + c.at;
@@ -1410,7 +1460,9 @@ function seek(t) {
   const lt = t - s.from;
   const c = s.cues.map((q) => q.at);
   CUR = s;
-  drawLayer.innerHTML = s.draw(lt, c, s.dur);
+  const art = s.draw(lt, c, s.dur);
+  // cam : la caméra avance doucement pendant tout le plan (ça évite les images figées)
+  drawLayer.innerHTML = s.cam ? Z(art, 1 + s.cam * ease.inOut(clamp(lt / s.dur)), 540, 880) : art;
   // tremblement « dessin à la main » : 8 fois par seconde
   drawLayer.setAttribute("filter", `url(#boil${Math.floor(t * 8) % 3})`);
   const sub = SUBS.find((x) => t >= x.from && t < x.to && t >= s.from && x.from >= s.from - 0.01);
