@@ -1102,11 +1102,12 @@ const floor = (y = 1180) => P(`M-20 ${y} H1100`, { w: 6 });
 // et quand elle se dissipe (« Il faisait rien »), la vitrine est vide.
 shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du monde.", 0.3, "J'ai acheté le gilet tactique d'occasion le plus cher du monde.|", "s1"], ["Il m'a coûté 50 400 €.", 0.45, undefined, "s2"],
   ["Et non, à ce prix-là, il faisait pas pare-missile.", 0.5, "Et non, à ce prix-là, il faisait pas pare-missile.|", "s3"], ["Il faisait rien, d'ailleurs.", 0.25, undefined, "s4"], ["Je l'ai jamais reçu.", 0.7, undefined, "s4b"]], (t, c) => {
+  const duck = t > c[2] + 0.3 && t < c[2] + 1.6, burnt = t > c[2] + 1.15;
   let g = Rect(-10, -10, 1100, 1190, { fill: "#f4efe4", sw: 0, c: "none" }) + floor(1180);
   g += P("M380 0 L300 1000 L560 1000 Z M700 0 L520 1000 L780 1000 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
   g += Rect(370, 1000, 340, 180, { fill: "#e7dfcc", sw: 7 }) + Rect(440, 1040, 200, 90, { fill: "#c9a85c", sw: 4, rx: 6 });
   g += T("Gilet tactique", 540, 1068, { size: 22, font: SANS, weight: 700 }) + T("occasion", 540, 1100, { size: 24 });
-  const tHit = c[2] + 1.0, burnt = t > tHit + 0.15;
+  const tHit = c[2] + 1.0;
   // le gilet : il disparaît sous la fumée (on ne le reverra pas)
   if (t < tHit + 0.5) g += vestAt(540, 790, 1.05);
   else if (t > c[3]) g += fly(t, 540, 760, { seed: 5, rad: 70 });
@@ -1115,14 +1116,20 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
   if (t > c[1]) g += G(Rect(-120, -50, 240, 100, { fill: PAPER, sw: 5, rx: 8 }) + T("50 400 €", 0, 4, { size: 48, font: SANS, weight: 800, c: RED }), { x: 830, y: 950, s: pop(t, c[1] + 0.2), r: 6 });
   g += P("M160 1180 V1010 M920 1180 V1010", { w: 10 }) + Dot(160, 1000, 16, "#c9a85c") + Dot(920, 1000, 16, "#c9a85c") + P("M160 1020 Q540 1110 920 1020", { w: 12, c: "#b0282a" });
   // visiteurs
-  const duck = t > c[2] + 0.3 && t < tHit + 0.6, puzzled = t > c[3] + 0.4;
+  const puzzled = t > c[3] + 0.4;
   const visitor = (x, look, extra = []) => {
     let v = stick({ x, y: 1330, s: 1.0, la: [-30, -110, 10, -90], ra: [30, -110, -10, -90], look: puzzled ? [-look, 0] : [look, -4], eyes: duck ? "closed" : burnt ? "wide" : "dot", mouth: puzzled || burnt ? "flat" : null, acc: extra, face: burnt ? "#8a8a8a" : SKIN });
     if (burnt) v += P(`M${x - 34} ${1330 - 290} l-10 -34 l20 18 l6 -38 l14 34 l12 -36 l8 38 l20 -20 l-6 38`, { w: 5 });
     if (t > c[4]) v += T("?", x + 30, 1000, { size: 80, font: MARK, c: ACC, op: clamp((t - c[4]) * 4) });
     return v;
   };
-  g += visitor(170, 8, ["roundglasses"]) + visitor(920, -8);
+  g += visitor(110, 8, ["roundglasses"]) + visitor(920, -8);
+  // Nico entre, voit le gilet : « Je le veux. »
+  const walk = ease.out(prog(t, 0, 0.8)), stepL = walk < 1 ? Math.sin(t * 16) * 22 : 0;
+  g += stick({ x: lerp(-150, 330, walk), y: 1360, s: 1.1, ll: [-34 + stepL, 0], rl: [34 - stepL, 0], la: [-40, -110], ra: t > 0.9 ? [80, -190, 150, -230] : [40, -110],
+    look: [8, -6], eyes: duck ? "closed" : burnt ? "wide" : "dot", mouth: t > 0.9 && t < c[0] ? "o" : burnt ? "flat" : null, face: burnt ? "#8a8a8a" : SKIN });
+  if (burnt) g += P(`M${330 - 37} ${1360 - 319} l-11 -37 l22 20 l7 -42 l15 37 l13 -40 l9 42 l22 -22 l-7 42`, { w: 5 });
+  if (t > 0.9 && t < c[0] + 0.4) g += bubble(360, 380, 380, 130, 340, 1030, T("Je le veux.", 360, 384, { size: 60, font: MARK }), { s: pop(t, 0.9, 0.25) });
   // le missile
   if (t > c[2] + 0.2 && t < tHit) {
     const k = ease.in(prog(t, c[2] + 0.2, tHit - c[2] - 0.2));
@@ -1138,7 +1145,7 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
     }
   }
   return t > tHit && t < tHit + 0.5 ? G(g, { x: jit(t, 14), y: jit(t * 1.3, 10, 2) }) : g;
-}, { only: true, cam: 0.06 });
+}, { only: true, cam: 0.06, lead: 1.9 });
 
 shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.3, "Bref. Je me suis fait ████ de 400 balles.", "s5"]], (t, c) => {
   const tb = subAt("s-bip", "████") + 0.15;
@@ -1261,7 +1268,7 @@ shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote 
 }, { only: true, cam: 0.03 });
 
 // L'idée : l'ampoule, puis le logo tombe
-shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.25, undefined, "s16"], ["Second Armor. Le Vinted militaire.", 0.7, undefined, "s17"]], (t, c) => {
+shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.25, undefined, "s16"], ["Second Armor. Le Vinted militaire.", 1.6, undefined, "s17"]], (t, c) => {
   let g = floor(1250);
   const bulb = pop(t, 0.5, 0.35);
   g += stick({ x: 260, y: 1250, s: 1.25, ra: t > c[1] ? [110, -230] : [50, -150], la: [-50, -120], mouth: t > 0.6 ? "smile" : null });
@@ -1276,22 +1283,26 @@ shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.25, undefin
   return g;
 }, { only: true, cam: 0.05 });
 
-// Le paiement : un gars du milieu tient l'argent tant que le colis n'est pas validé
-shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis.", 1.5, undefined, "s19"]], (t, c) => {
-  let g = floor(1260);
-  const tOk = subAt("s-escrow", "validé") + 0.3, tPay = tOk + 0.7;
-  g += stick({ x: 170, y: 1260, s: 1.0, mouth: t > tOk ? "smile" : null }) + stick({ x: 910, y: 1260, s: 1.0, acc: ["cap"], mouth: t > tPay + 0.6 ? "smile" : null });
-  // le gars du milieu, au centre, tient le billet au-dessus de sa tête
-  const pk = ease.inOut(prog(t, tPay, 0.7));
-  g += stick({ x: 540, y: 1260, s: 1.15, acc: ["helmet"], la: [-40, -120], ra: pk > 0 ? [90, -170] : [30, -250, 10, -330] });
-  g += G(logoMark(70, NAVY), { x: 540, y: 1260 - 160 * 1.15 });
-  g += bill(lerp(555, 860, pk), lerp(820, 1010, pk) + (pk === 0 ? jit(t, 2) : 0), { s: 0.9 });
+// Le paiement : l'argent attend au milieu ; quand l'acheteur valide le colis, le vendeur est payé
+shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis.", 2.3, undefined, "s19"]], (t, c) => {
+  let g = floor(1250);
+  const tOk = subAt("s-escrow", "validé") + 0.2, tPay = tOk + 0.9;
+  g += stick({ x: 200, y: 1250, s: 1.0, mouth: t > tOk ? "smile" : null }) + T("toi", 200, 1310, { size: 46 });
+  const paid = ease.inOut(prog(t, tPay, 0.8));
+  g += stick({ x: 880, y: 1250, s: 1.0, acc: ["cap"], ra: [60, -150, 95, -130], mouth: paid >= 1 ? "smile" : null }) + T("vendeur", 880, 1310, { size: 46 });
   // le colis va du vendeur à l'acheteur
-  const bk = ease.inOut(prog(t, 0.3, 1.4));
-  g += G(box({ w: 130, h: 95 }), { x: lerp(820, 280, bk), y: 1260 });
-  if (t > tOk) g += G(Circ(0, 0, 50, { fill: GREEN, w: 0 }) + P("M-22 2 l14 16 l28 -34", { w: 9, c: PAPER }), { x: 170, y: 880, s: pop(t, tOk) });
+  const bk = ease.inOut(prog(t, 0.3, 1.5));
+  g += G(box({ w: 130, h: 95 }), { x: lerp(820, 290, bk), y: 1250 });
+  // l'argent attend au milieu
+  if (t > 0.2) g += T("en attente", 540, 700, { size: 44, c: "#666", op: clamp((t - 0.2) * 3) * (1 - paid) });
+  g += bill(lerp(540, 975, paid), lerp(800, 1140, paid) + (paid === 0 ? Math.sin(t * 3) * 8 : 0), { s: lerp(1.0, 0.7, paid) });
+  // la case « colis validé », cochée au bon moment
+  if (t > tOk - 0.2) {
+    g += G(Rect(-32, -32, 64, 64, { fill: PAPER, sw: 6 }) + T("colis validé", 50, 2, { size: 50, anchor: "start" }), { x: 300, y: 540, s: pop(t, tOk - 0.2, 0.25) });
+    if (t > tOk) g += P("M288 540 l18 20 l32 -44", { w: 9, c: GREEN, q: prog(t, tOk, 0.25) });
+  }
   return g;
-}, { only: true, cam: 0.05 });
+}, { only: true, cam: 0.04 });
 
 // Plus d'algorithme qui panique : le gars du milieu prend sa place au bureau
 shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 2.1, undefined, "s18"]], (t, c) => {
