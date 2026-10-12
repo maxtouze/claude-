@@ -1305,7 +1305,7 @@ shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 2.1, unde
 }, { only: true, cam: 0.05 });
 
 // La banquière : affolée mais contenue ; Nico, devant, fait « non non, t'inquiète »
-shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.15, undefined, "s20"], ["les 50 000, ils sont pas encore remboursés.", 0.25, undefined, "s21"], ["Mais je lui ai dit de pas être rabat-joie :", 0.35, undefined, "s22"]], (t, c) => {
+shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.15, undefined, "s20"], ["les 50 000, ils sont pas encore remboursés.", 0.25, undefined, "s21"], ["Mais je lui ai dit de pas être rabat-joie :", 1.4, undefined, "s22"]], (t, c) => {
   let g = Rect(-10, -10, 1100, 1110, { fill: "#eef1f4", sw: 0, c: "none" }) + P("M-20 1100 H1100", { w: 6 });
   g += Rect(640, 220, 320, 200, { fill: PAPER, sw: 6 }) + T("BANQUE", 800, 320, { size: 50, font: STENCIL, c: NAVY }); // cadre au mur
   g += Rect(400, 900, 640, 34, { fill: PAPER, sw: 7 }) + P("M440 934 V1100 M1000 934 V1100", { w: 7 });
@@ -1318,7 +1318,10 @@ shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.15
   g += stick({ x: 880 + shake, y: 900, s: 1.15, acc: ["roundglasses", ...(t > c[0] + 0.5 ? ["sweat"] : [])], la: [-40, -110, -60, -60], ra: [40, -110, 60, -60], eyes: t > c[0] + 0.5 ? "wide" : "dot", mouth: t > c[0] + 0.5 ? "flat" : null });
   // Nico, au premier plan, détendu ; sur « rabat-joie », il fait non de la main
   const wave = t > c[2] ? Math.sin((t - c[2]) * 9) * 30 : 0;
-  g += stick({ x: 190, y: 1330, s: 1.35, la: [-40, -110], ra: t > c[2] ? [70, -200, 60 + wave, -280] : [40, -110], look: [10, 0], mouth: "smile" });
+  const shout = t > c[2] + 0.3;
+  g += stick({ x: 190, y: 1330, s: 1.35, la: shout ? [-70, -200, -60 - wave, -280] : [-40, -110], ra: t > c[2] ? [70, -200, 60 + wave, -280] : [40, -110], look: [10, 0], mouth: shout ? "o" : "smile" });
+  // « Faut rester positive ! » (le compte, lui, est à −50 000)
+  if (shout) g += bubble(330, 430, 540, 150, 230, 930, T("FAUT RESTER\nPOSITIVE !", 330, 430, { size: 52, font: MARK, c: ACC }), { s: pop(t, c[2] + 0.3, 0.3) * (1 + Math.sin((t - c[2]) * 14) * 0.02) });
   return g;
 }, { only: true, cam: 0.06 });
 
@@ -1522,7 +1525,7 @@ function seek(t) {
   if (s.clean) drawLayer.removeAttribute("filter");
   else drawLayer.setAttribute("filter", `url(#boil${Math.floor(t * 8) % 3})`);
   const sub = SUBS.find((x) => t >= x.from && t < x.to && t >= s.from && x.from >= s.from - 0.01);
-  subEl.textContent = sub ? sub.text : "";
+  subEl.innerHTML = sub ? esc(sub.text).replace(/(\S*-\S*)/g, '<span style="white-space:nowrap">$1</span>') : "";
   subEl.style.display = sub ? "block" : "none";
   subEl.classList.toggle("dark", s.dark);
 }
