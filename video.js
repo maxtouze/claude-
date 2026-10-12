@@ -270,7 +270,7 @@ function Img(name, cx, cy, w, o = {}) {
   return G(`<image href="img/${name}.png" x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" preserveAspectRatio="none"${flip ? ' transform="scale(-1 1)"' : ""}/>`, { x: cx, y: cy, r, o: op });
 }
 // Vraies photos (événement, expédition) : facultatives. Si le fichier manque, un cadre « photo à venir » s'affiche.
-const PHOTOS = { caen: "img/photos/caen.jpg", amazonie: "img/photos/amazonie.jpg" };
+const PHOTOS = { caen: "img/photos/caen.jpg", amazonie: "img/photos/amazonie.jpg", sticker: "img/photos/sticker.png", hockey: "img/photos/hockey.jpg" };
 const PHOTO_OK = {};
 // Polaroid scotché, centré sur (cx, cy), largeur w, photo au format 4:5
 function polaroid(name, cx, cy, w, o = {}) {
@@ -450,7 +450,7 @@ const speakDur = (s) => {
 const VOICE_TIMING = window.VOICE_TIMING || {};
 let CUE_N = 0;
 function shot(key, cues, draw, opt = {}) {
-  const { lead = 0.05, min = 0, dark = false, subs = true, only = false } = opt;
+  const { lead = 0.05, min = 0, dark = false, subs = true, only = false, as } = opt;
   let t = lead;
   const cs = cues.map(([text, pause = 0.25, sub, id]) => {
     const n = id ?? ++CUE_N; // réplique ajoutée après coup : id « 9a » (prise voice/09a.mp3) sans renuméroter la suite
@@ -458,12 +458,16 @@ function shot(key, cues, draw, opt = {}) {
     t += c.dur + pause;
     return c;
   });
-  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs, only }); // only : plan réservé à une version (CUTS)
+  SHOTS.push({ key, cues: cs, draw, dur: Math.max(t, min), dark, subs, only, as }); // only : plan réservé à une version (CUTS)
 }
 // Moment (en temps local du plan) où le sous-titre affiche ce mot : une image qui nomme une chose arrive avec le mot, jamais avant
-const subAt = (key, word) => { const s = SHOTS.find((x) => x.key === key), u = SUBS.find((x) => x.from >= s.from - 0.01 && x.text.includes(word)); return u ? u.from - s.from : 0; };
+// Un plan peut reprendre le dessin d'un autre avec un nouveau texte (opt.as) : ses recherches par nom tombent alors sur lui
+let CUR = null;
+const byKey = (k) => (CUR && (CUR.key === k || CUR.as === k) ? CUR : SHOTS.find((s) => s.key === k));
+const drawOf = (k) => SHOTS.find((s) => s.key === k).draw;
+const subAt = (key, word) => { const s = byKey(key), u = SUBS.find((x) => x.from >= s.from - 0.01 && x.text.includes(word)); return u ? u.from - s.from : 0; };
 // Fin d'une réplique (en temps local du plan) : suit la vraie prise quand elle existe
-const cueEnd = (key, i = 0) => { const c = SHOTS.find((s) => s.key === key).cues[i]; return c.at + c.dur; };
+const cueEnd = (key, i = 0) => { const c = byKey(key).cues[i]; return c.at + c.dur; };
 // Le petit spectateur assis dans le coin (sections 3 à 5)
 const spectator = (t, o = {}) => stick({ x: 970, y: 1300, s: 0.62, la: [-30, -150], ra: [30, -150], ll: [40, -160, 70, -110], rl: [50, -150, 85, -110], ...o });
 
@@ -688,7 +692,7 @@ shot("ordi", [["Sauf que là-bas, ton porte-plaques, il est rangé dans « Dégu
   return g;
 });
 shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un algorithme bien-pensant, « porte-chargeur », c'est de l'apologie du terrorisme.", 1.0]], (t, c) => {
-  const t1 = t - c[1], D = SHOTS.find((x) => x.key === "algo").cues[1].dur; // calé sur la vraie durée de la réplique
+  const t1 = t - c[1], D = byKey("algo").cues[1].dur; // calé sur la vraie durée de la réplique
   const panic = t1 > 0.3 * D, bag = t1 > 0.45 * D && t1 < 0.72 * D, tel = t1 > 0.66 * D;
   let g = "";
   // l'algorithme : cheveux longs, lunettes rondes, gros pull beige, tote bag
@@ -836,8 +840,8 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
     g += stick({ x: x0 + 20 + u * (w - 30), y, s: 0.14, w: 16 });
   }
   if (t > 0.5) g += label(t, 0.5, "au début :\nmon unité", 360, 780, x0 + 40, y0 - 60, { size: 44 });
-  const n = Math.round(10000 * ease.out(prog(t, c[1], 1.0)));
-  if (t > c[1]) g += T(n.toLocaleString("fr-FR").replace(/ | /g, " "), 540, 300, { size: 150, font: SANS, weight: 800, c: NAVY });
+  const t10 = subAt("dixmille", "10"), n = Math.round(10000 * ease.out(prog(t, t10 - 0.6, 1.0)));
+  if (t > t10 - 0.6) g += T(n.toLocaleString("fr-FR").replace(/ | /g, " "), 540, 300, { size: 150, font: SANS, weight: 800, c: NAVY });
   if (t > c[2]) {
     g += T("300+ transactions", 470, 1240, { size: 50, font: SANS, weight: 800 });
     for (let i = 0; i < 5; i++) g += G(T("★", 0, 0, { size: 60, c: ACC, font: SANS }), { x: 740 + i * 58, y: 1240, s: pop(t, c[2] + 1.0 + i * 0.15) });
@@ -1071,12 +1075,216 @@ shot("quiz", [["Vous vous faites arnaquer de 400 balles sur un gilet tactique. Q
 shot("rendre2", [["Et le but, c'est de rendre à la communauté au fur et à mesure qu'on grandit.", 0.3, undefined, SHOTS.find((s) => s.key === "rendre").cues[0].n], ["Les 50 000 ? C'est un investissement.", 0.6, undefined, "h4"]], rendreDraw("promis"), { only: true });
 
 // ---------------------------------------------------------------------------
+// Version « histoire » (?cut=histoire) : le gilet le plus cher du monde, les deux options, la mission, la banquière.
+// ---------------------------------------------------------------------------
+const Pic = (name, cx, cy, w, h, o = {}) => PHOTO_OK[name]
+  ? G(`<image href="${PHOTOS[name]}" x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" preserveAspectRatio="xMidYMid slice"/>`, { x: cx, y: cy, s: o.s ?? 1, r: o.r ?? 0 })
+  : G(Rect(-w / 2, -h / 2, w, h, { fill: "#e9e9e9", sw: 5 }) + T("photo à venir", 0, 0, { size: 44, c: "#8a8a8a" }), { x: cx, y: cy, s: o.s ?? 1, r: o.r ?? 0 });
+const priceTag = (x, y, txt, r, s = 1, col = INK) => G(P("M-210 -60 H150 L200 0 L150 60 H-210 Z", { fill: PAPER, w: 6 }) + Circ(165, 0, 9, { w: 4 }) + T(txt, -25, 4, { size: 60, font: SANS, weight: 800, c: col }), { x, y, r, s });
+
+shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du monde.", 0.3, undefined, "s1"], ["Il m'a coûté 50 400 €.", 0.6, undefined, "s2"],
+  ["Et non, il faisait pas pare-missile à ce prix-là.", 0.3, undefined, "s3"], ["Il faisait rien, d'ailleurs. Je l'ai jamais reçu.", 0.6, undefined, "s4"]], (t, c) => {
+  let g = G(T("LE GILET LE PLUS CHER\nDU MONDE", 0, 0, { size: 70, font: STENCIL, c: NAVY, lh: 1.15 }), { x: 540, y: 230, s: pop(t, 0.3, 0.35) });
+  const gone = t > subAt("s-hook", "jamais") ? ease.in(prog(t, subAt("s-hook", "jamais"), 0.5)) : 0;
+  const sw = Math.sin(t * 3) * 4;
+  // le cintre, le gilet (qui disparaît : il n'est jamais arrivé)
+  g += P(`M540 400 V440 M440 495 Q540 430 640 495`, { w: 7 });
+  if (gone < 1) g += G(vest(), { x: 540, y: 800, s: 1.25 * (1 - gone * 0.15), o: 1 - gone });
+  else g += fly(t, 540, 650, { seed: 5, rad: 60 }) + label(t, c[3] + 1.4, "jamais reçu", 780, 900, 600, 620, { size: 56, c: RED });
+  // l'étiquette
+  const big = t > c[1] + 0.4, sh = big && t < c[1] + 0.8 ? jit(t * 3, 8) : 0;
+  g += P(`M640 610 Q700 700 ${700 + sw} 820`, { w: 4 });
+  g += priceTag(780 + sw + sh, 900 + sh, big ? "50 400 €" : "? €", -8 + sw, big ? pop(t, c[1] + 0.4, 0.35) * 1.1 : 1, big ? RED : INK);
+  // « pare-missile ? » : le missile arrive… et on barre
+  if (t > c[2] && t < c[3] + 0.3) {
+    const k = ease.in(prog(t, c[2] + 0.2, 0.9));
+    g += G(P("M-90 -18 H50 L90 0 L50 18 H-90 Z M-90 -18 L-120 -40 M-90 18 L-120 40", { fill: GREY, w: 6 }), { x: lerp(-120, 330, k), y: lerp(560, 760, k), r: 24 });
+    if (t > c[2] + 1.2) g += T("pare-missile ?", 300, 1160, { size: 58 }) + P("M150 1170 L450 1150", { w: 8, c: RED, q: prog(t, c[2] + 1.6, 0.25) });
+  }
+  return g;
+}, { only: true });
+
+shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.4, "Bref. Je me suis fait ████ de 400 balles.", "s5"]], (t, c) => {
+  let g = bigFace(540, 700, 250);
+  if (t > subAt("s-bip", "████") + 0.15) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
+  return g;
+}, { only: true });
+
+shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 0.8, undefined, "s6"]], (t, c) => {
+  let g = T("−400 €", 540, 520, { size: 150, font: SANS, weight: 800, c: GREY });
+  g += P("M330 520 L750 510", { w: 10, c: INK, q: prog(t, 0.2, 0.3) }) + T("expliqué", 820, 420, { size: 54, r: 8, op: clamp((t - 0.4) * 4) });
+  const k = pop(t, c[0] + 0.6, 0.4), sh = t > c[0] + 0.6 && t < c[0] + 1.0 ? jit(t * 3, 8) : 0;
+  if (k > 0) g += G(T("−50 000 €", 0, 0, { size: 170, font: SANS, weight: 800, c: RED }), { x: 540 + sh, y: 860 + sh, s: k });
+  if (t > c[0] + 1.3) g += T("?", 950, 760, { size: 160, font: MARK, c: ACC, r: 12 });
+  g += stick({ x: 540, y: 1300, s: 0.9, la: [-60, -60], ra: [60, -60], look: [6, -4], mouth: "flat" });
+  return g;
+}, { only: true });
+
+shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as deux options.", 0.5, undefined, "s7"]], (t, c) => {
+  const door = (x, n, k) => k > 0 ? G(Rect(-150, -260, 300, 520, { fill: "#f3efe5", sw: 7, rx: 8 }) + Dot(100, 20, 12) + T("OPTION " + n, 0, -330, { size: 56, font: STENCIL, c: NAVY }), { x, y: 900, s: k }) : "";
+  const t1 = subAt("s-options", "deux");
+  let g = door(280, 1, pop(t, t1 + 0.1)) + door(800, 2, pop(t, t1 + 0.4));
+  g += stick({ x: 540, y: 1300, s: 1.0, la: [-50, -110], ra: [40, -180, 10, -250], look: [Math.sin(t * 2) * 8, 0] });
+  return g;
+}, { only: true });
+
+shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.3, undefined, "s8"], ["Sauf que les porte-plaques se retrouvent rangés dans la catégorie « Déguisements ».", 0.6, undefined, "s9"]], (t, c) => {
+  let g = T("OPTION 1", 540, 190, { size: 64, font: STENCIL, c: NAVY });
+  // la fenêtre de la marketplace
+  g += Rect(70, 290, 940, 900, { fill: PAPER, sw: 8, rx: 16 }) + P("M70 370 H1010", { w: 6 }) + Dot(110, 330, 9, "#bbb") + Dot(140, 330, 9, "#bbb") + T("marketplace", 540, 332, { size: 36, font: SANS, weight: 600, c: "#666" });
+  const tD = subAt("s-opt1", "Déguisements");
+  const cats = ["Mode", "Maison", "Jouets", "Déguisements"];
+  cats.forEach((n, i) => {
+    if (i === 3 && t < tD) return; // la catégorie n'apparaît qu'avec le mot
+    const hl = i === 3 && t > tD;
+    g += Rect(100, 420 + i * 90, 250, 70, { fill: hl ? ACC : "#f1f1f1", sw: hl ? 5 : 0, rx: 10, c: INK }) + T(n, 120, 456 + i * 90, { size: 34, anchor: "start", font: SANS, weight: hl ? 800 : 500, c: hl ? PAPER : INK });
+  });
+  // les annonces : on ne voit la catégorie qu'au mot « Déguisements »
+  const item = (x, y, inner, name, k) => k > 0 ? G(Rect(-140, -150, 280, 300, { fill: "#f6f3ea", sw: 5, rx: 12 }) + inner + T(name, 0, 115, { size: 30, font: SANS, weight: 700 }), { x, y, s: k }) : "";
+  g += item(560, 600, G(vest(), { y: -20, s: 0.5 }), "Porte-plaques", pop(t, c[1] + 0.3));
+  if (t > tD) {
+    g += item(860, 600, P("M-60 -60 Q0 -110 60 -60 L40 40 H-40 Z", { fill: INK, w: 5 }) + Circ(0, -40, 14, { fill: PAPER, w: 4 }), "Costume de pirate", pop(t, tD + 0.2));
+    g += item(560, 960, Circ(0, -20, 50, { fill: RED, w: 6 }), "Nez de clown", pop(t, tD + 0.45));
+    g += item(860, 960, P("M-70 30 L0 -70 L70 30 Z", { fill: "#f2cf55", w: 5 }), "Chapeau de fête", pop(t, tD + 0.7));
+    g += label(t, tD + 1.1, "chercher l'intrus", 760, 1260, 600, 760, { size: 50, c: RED });
+  }
+  return g;
+}, { only: true });
+
+shot("s-algo", [["Et ça, c'est si tu t'es pas fait bannir par l'algorithme bien-pensant,", 0.15, undefined, "s10"], ["pour qui « porte-chargeur », c'est de l'apologie du terrorisme.", 1.0, undefined, "s11"]], drawOf("algo"), { only: true, as: "algo" });
+
+shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.", 0.3, undefined, "s12"], ["Zéro garantie : tu croises les doigts, normalement ça passe.", 0.3, undefined, "s13"],
+  ["Mais tu passes des heures à chercher, et après, tu gères l'envoi tout seul.", 0.4, undefined, "s14"], ["C'est là que j'ai acheté mon gilet.", 1.0, undefined, "s15"]], (t, c) => {
+  let g = T("OPTION 2", 540, 190, { size: 64, font: STENCIL, c: NAVY });
+  if (t < c[1]) {
+    // trois conversations qui arrivent
+    const chats = [["Facebook", "Groupe Matos Occaz"], ["Telegram", "Surplus 🔥 vente"], ["SMS", "le pote d'un pote"]];
+    chats.forEach(([app, txt], i) => {
+      const at = subAt("s-opt2", ["Facebook", "Telegram", "pote"][i]);
+      g += G(Rect(-380, -70, 760, 140, { fill: PAPER, sw: 6, rx: 24 }) + T(app, -340, -22, { size: 30, anchor: "start", font: SANS, weight: 800, c: "#666" }) + T(txt, -340, 26, { size: 46, anchor: "start" }), { x: 540, y: 420 + i * 200, s: pop(t, at) });
+    });
+    return g + stick({ x: 540, y: 1300, s: 0.9, la: [-30, -150], ra: [30, -150], look: [0, -6] });
+  }
+  if (t < c[2]) {
+    // doigts croisés
+    g += stick({ x: 540, y: 1250, s: 1.3, la: [-60, -150, -20, -230], ra: [60, -150, 20, -230], eyes: "closed" });
+    g += P("M520 920 l20 -60 M545 925 l-10 -62", { w: 9 }) + T("ça passe…", 820, 700, { size: 60, r: 6, op: clamp((t - subAt("s-opt2", "passe")) * 3) });
+    g += T("0 garantie", 260, 560, { size: 64, c: RED, r: -6, op: clamp((t - c[1]) * 3) });
+    return g;
+  }
+  if (t < c[3]) {
+    // des heures à chercher, puis l'envoi tout seul
+    const t2 = t - c[2], a = t2 * 7;
+    g += Circ(330, 620, 150, { fill: PAPER, w: 8 }) + P(`M330 620 L${n2(330 + Math.cos(a) * 110)} ${n2(620 + Math.sin(a) * 110)} M330 620 L${n2(330 + Math.cos(a / 12) * 70)} ${n2(620 + Math.sin(a / 12) * 70)}`, { w: 8 });
+    g += T(`${Math.min(6, 1 + Math.floor(t2 * 2))} h`, 330, 840, { size: 60, font: SANS, weight: 800 });
+    const tE = subAt("s-opt2", "envoi");
+    if (t > tE) {
+      g += G(box({ w: 220, h: 150 }), { x: 750, y: 1150 }) + Circ(880, 1060, 40, { fill: "#d9c9a3", w: 6 }) + Circ(880, 1060, 16, { w: 4, fill: PAPER });
+      g += label(t, tE + 0.3, "tout seul", 760, 860, 740, 1040, { size: 54 });
+    }
+    return g + stick({ x: 560, y: 1320, s: 0.9, la: [-40, -110], ra: [40, -110], eyes: "dot", mouth: "flat" });
+  }
+  // c'est là : le carton vide, la mouche
+  g += G(box({ w: 260, h: 180 }), { x: 540, y: 1000 }) + fly(t, 540, 820, { seed: 3, rad: 50 });
+  g += P("M330 1000 C330 820 750 800 760 980 C770 1140 360 1160 330 1010", { c: RED, w: 8, q: prog(t, c[3] + 0.4, 0.4) });
+  g += label(t, subAt("s-opt2", "gilet"), "mon gilet", 820, 640, 640, 880, { size: 58, c: RED });
+  return g;
+}, { only: true });
+
+shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.3, undefined, "s16"], ["Second Armor. Le Vinted militaire.", 0.6, undefined, "s17"]], (t, c) => {
+  let g = stick({ x: 220, y: 1220, s: 1.25, ra: t > c[1] ? [110, -230] : [60, -250, 70, -320] });
+  if (t <= c[1]) g += Dot(220 + 70 * 1.25, 1220 - 320 * 1.25, 12, RED) + T("évident", 560, 520, { size: 64, r: -4, op: clamp((t - subAt("s-mission", "évident")) * 3) });
+  const drop = ease.in(prog(t, c[1] + 0.05, 0.35)), sh = t > c[1] + 0.4 && t < c[1] + 0.75 ? jit(t * 3, 12) : 0;
+  if (t > c[1]) g += G(logoMark(430, NAVY), { x: 680 + sh, y: lerp(-300, 700, drop) + sh });
+  if (t > c[1] + 0.4) g += G(T("SECOND ARMOR", 0, 0, { size: 82, font: SANS, weight: 800, c: NAVY }), { x: 690, y: 1000, s: pop(t, c[1] + 0.4) });
+  if (t > subAt("s-mission", "Vinted")) g += T("le Vinted militaire", 690, 1090, { size: 58, c: ACC, op: clamp((t - subAt("s-mission", "Vinted")) * 4) });
+  return g;
+}, { only: true });
+
+shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 0.3, undefined, "s18"], ["Et le vendeur n'est payé que quand t'as validé ton colis.", 0.6, undefined, "s19"]], (t, c) => {
+  let g = "";
+  if (t < c[1]) {
+    // l'algorithme s'en va en sueur, un gars du milieu s'installe avec son café
+    g += Rect(110, 1080, 860, 34, { fill: PAPER, sw: 7 }) + P("M150 1114 V1260 M930 1114 V1260", { w: 7 });
+    g += G(T("100 % TACTIQUE", 0, 0, { size: 76, font: STENCIL, c: NAVY }), { x: 540, y: 300, s: pop(t, 0.1) });
+    const out = ease.in(prog(t, 0.6, 1.2));
+    if (out < 1) g += algoGirl(t, lerp(700, 1350, out), 1180, 1.0, { panic: true }) + (t > 0.6 ? T("panique", lerp(700, 1350, out), 820, { size: 46, c: RED }) : "");
+    const inn = ease.out(prog(t, 0.9, 0.9));
+    g += stick({ x: lerp(-200, 540, inn), y: 1180, s: 1.1, acc: ["helmet"], la: [-40, -120], ra: inn >= 1 ? [70, -150, 110, -120] : [40, -120], mouth: inn >= 1 ? "flat" : null });
+    if (inn >= 1) g += P("M640 1030 h55 v50 h-55 Z M695 1042 q18 0 18 14 q0 14 -18 14", { fill: PAPER, w: 5 }) + label(t, 2.0, "un gars du milieu", 300, 620, 470, 820, { size: 50 });
+    return g;
+  }
+  // le paiement attend que l'acheteur valide le colis
+  const t1 = t - c[1];
+  g += stick({ x: 200, y: 1220, s: 0.95 }) + T("toi", 200, 1290, { size: 44 }) + stick({ x: 880, y: 1220, s: 0.95, acc: ["cap"] }) + T("vendeur", 880, 1290, { size: 44 });
+  const bk = ease.inOut(prog(t1, 0.2, 1.0));
+  g += G(box({ w: 130, h: 95 }), { x: lerp(880, 300, bk), y: 1210 });
+  const tOk = subAt("s-tactique", "validé");
+  if (t > tOk) g += Rect(380, 520, 64, 64, { fill: PAPER, sw: 6 }) + T("colis validé", 640, 552, { size: 54 });
+  if (t > tOk + 0.2) g += P("M392 552 l20 22 l34 -48", { w: 9, c: GREEN, q: prog(t, tOk + 0.2, 0.25) });
+  const pk = ease.inOut(prog(t, tOk + 0.6, 0.7));
+  g += bill(lerp(540, 880, pk), lerp(800, 1000, pk) + (pk === 0 ? jit(t, 2) : 0)) + (pk === 0 ? T("en attente", 540, 700, { size: 44, c: "#666" }) : "");
+  return g;
+}, { only: true });
+
+shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.2, undefined, "s20"], ["les 50 000, ils sont pas encore remboursés.", 0.6, undefined, "s21"]], (t, c) => {
+  let g = Rect(110, 1080, 860, 34, { fill: PAPER, sw: 7 }) + P("M150 1114 V1260 M930 1114 V1260", { w: 7 });
+  // l'écran avec la courbe qui plonge
+  g += Rect(160, 560, 480, 340, { fill: PAPER, sw: 8, rx: 12 }) + P("M400 900 V960 M340 960 H460", { w: 7 }) + T("Second Armor · compte", 400, 600, { size: 30, font: SANS, weight: 700 });
+  const k = ease.inOut(prog(t, 0.4, 1.4));
+  const pts = [];
+  for (let i = 0; i <= 30; i++) { const u = (i / 30) * Math.max(k, 0.02); pts.push([200 + u * 400, 660 + Math.pow(u, 1.8) * 200]); }
+  g += P("M" + pts.map((p) => `${n2(p[0])} ${n2(p[1])}`).join(" L"), { w: 7, c: RED });
+  if (t > c[1]) g += T("−50 000 €", 400, 840, { size: 54, font: SANS, weight: 800, c: RED, op: clamp((t - c[1]) * 4) });
+  const panic = t > 0.8;
+  g += stick({ x: 790, y: 1180, s: 1.1, acc: ["roundglasses", "sweat"], la: panic ? [-60, -170, -30, -240] : [-60, -120], ra: panic ? [60, -170, 30, -240] : [60, -120], eyes: panic ? "wide" : "dot", mouth: panic ? "o" : null });
+  g += T("ma banquière", 790, 760, { size: 50, op: clamp((t - subAt("s-banquiere", "banquière")) * 3) });
+  // Nico, détendu
+  g += stick({ x: 200, y: 1330, s: 0.7, la: [-40, -150, -10, -190], ra: [40, -150, 10, -190], mouth: "smile" });
+  return g;
+}, { only: true });
+
+shot("s-dixmille", [["Mais je lui ai dit de pas être rabat-joie :", 0.2, undefined, "s22"], ["on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000,", 0.2, undefined, "s23"],
+  ["avec plus de 300 transactions notées cinq étoiles.", 0.5, undefined, "s24"]], drawOf("dixmille"), { only: true, as: "dixmille" });
+
+shot("s-rendre", [["Et notre mission, c'est de continuer à rendre à la communauté.", 0.4, undefined, "s25"]], (t, c) => rendreDraw("")(t, [c[0], 1e9]), { only: true });
+
+shot("s-freres", [["On a déjà sponsorisé les Frères d'Armes,", 0.2, undefined, "s26"], ["autour d'un match caritatif pour les blessés de guerre.", 1.6, undefined, "s27"]], (t, c) => {
+  let g = T("LES FRÈRES D'ARMES", 540, 190, { size: 76, font: STENCIL, c: NAVY, op: clamp((t - subAt("s-freres", "Frères")) * 4) });
+  // le sticker d'abord, puis la photo du match
+  const swap = ease.inOut(prog(t, c[1], 0.5));
+  if (swap < 1) g += G(Pic("sticker", 0, 0, 560, 772), { x: 540, y: 820, s: pop(t, 0.2, 0.4) * (1 - swap * 0.3), r: lerp(-3, -12, swap), o: 1 - swap });
+  if (swap > 0) {
+    const w = 680, h = w * 1282 / 826, x0 = 540 - w / 2, y0 = 290, k = w / 826;
+    g += G(Rect(-w / 2 - 12, -h / 2 - 12, w + 24, h + 24, { fill: PAPER, sw: 6 }) + Pic("hockey", 0, 0, w, h), { x: 540, y: y0 + h / 2, s: lerp(0.8, 1, swap), r: lerp(6, 0, swap), o: swap });
+    const tf = c[1] + 0.9, tl = c[1] + 1.7;
+    // la flèche vers le drapeau, puis vers le petit A sur la jambe
+    if (t > tf) g += arrow(x0 + 560 * k, y0 + 330 * k, x0 + 735 * k, y0 + 175 * k, { c: RED, w: 9, q: prog(t, tf, 0.3), bend: -0.2 });
+    if (t > tl) g += arrow(x0 + 760 * k, y0 + 880 * k, x0 + 560 * k, y0 + 725 * k, { c: RED, w: 9, q: prog(t, tl, 0.3), bend: 0.2 });
+  }
+  return g;
+}, { only: true });
+
+shot("s-amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1, undefined, "s28"], ["qui part dix jours en autonomie en Amazonie.", 0.3, undefined, "s29"], ["Allez le suivre.", 0.9, undefined, "s30"]], drawOf("amazonie"), { only: true, as: "amazonie" });
+
+shot("s-pro", [["Et pour votre équipement, équipez-vous comme des pros, avec Second Armor.", 0.8, undefined, "s31"]], (t, c) => {
+  let g = stick({ x: 540, y: 1250, s: 1.5, acc: ["helmet", "sunglasses"], la: [-60, -130], ra: [80, -230, 110, -300], mouth: "smile" });
+  g += G(vest(), { x: 540, y: 1250 - 1.5 * 160, s: 0.6 });
+  g += G(T("👍", 0, 0, { size: 90, font: SANS }), { x: 540 + 110 * 1.5, y: 1250 - 330 * 1.5, s: pop(t, 0.6) });
+  g += G(logoMark(200, NAVY), { x: 840, y: 520, s: pop(t, subAt("s-pro", "Second")) });
+  return g;
+}, { only: true });
+
+// ---------------------------------------------------------------------------
 // Moteur : seek(t), sous-titres, lecteur, mode export
 // ---------------------------------------------------------------------------
 // Versions : ?cut=court ne garde qu'une partie des plans (voir CUTS). Sans paramètre : la version complète.
 const BODY = ["militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "pasleseul", "tescon", "ordi", "algo", "poche",
   "couilles", "moderation", "garantie", "cree", "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"];
 const CUTS = {
+  // le gilet le plus cher du monde -> les deux options -> la mission -> la banquière -> rendre à la communauté
+  histoire: ["s-hook", "s-bip", "s-apres", "s-options", "s-opt1", "s-algo", "poche", "s-opt2", "s-mission", "s-tactique", "s-banquiere", "s-dixmille",
+    "s-rendre", "s-freres", "s-amazonie", "s-pro", "fin"],
   // accroches à tester (même suite) : bref, prix, jeu télé (« Ça, c'est moi. Nico. » remplace « Salut »)
   // sans voix, autour de 1:53 : accroche « prix », sans les 40 avis, la file du SAV, les onglets ni la modération
   "court-prix": ["prix", "salut", "militaire", "graphe", "poele", "furtif", "bip", "tescon", "algo", "poche", "couilles", "garantie", "cree",
@@ -1145,6 +1353,7 @@ function seek(t) {
   const s = SHOTS.find((x) => t >= x.from && t < x.from + x.dur) || SHOTS[SHOTS.length - 1];
   const lt = t - s.from;
   const c = s.cues.map((q) => q.at);
+  CUR = s;
   drawLayer.innerHTML = s.draw(lt, c, s.dur);
   // tremblement « dessin à la main » : 8 fois par seconde
   drawLayer.setAttribute("filter", `url(#boil${Math.floor(t * 8) % 3})`);

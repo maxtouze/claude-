@@ -164,6 +164,45 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 
 ---
 
+## Version « histoire » (`?cut=histoire`, environ 1:48, sans voix)
+
+Le script de Maxime (12 oct.), orthographe corrigée. C'est la version de référence.
+
+**1. Le gilet le plus cher du monde**
+> J'ai acheté le gilet tactique d'occasion le plus cher du monde.
+> Il m'a coûté 50 400 €.
+> Et non, il faisait pas pare-missile à ce prix-là.
+> Il faisait rien, d'ailleurs. Je l'ai jamais reçu.
+> Bref. Je me suis fait ████ de 400 balles.
+> Les 50 000, c'est ce qui s'est passé après.
+
+**2. Les deux options**
+> Parce que pour acheter du matos tactique d'occasion, t'as deux options.
+> Option 1 : une marketplace grand public.
+> Sauf que les porte-plaques se retrouvent rangés dans la catégorie « Déguisements ».
+> Et ça, c'est si tu t'es pas fait bannir par l'algorithme bien-pensant, pour qui « porte-chargeur », c'est de l'apologie du terrorisme.
+> … C'est une poche.
+> Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.
+> Zéro garantie : tu croises les doigts, normalement ça passe.
+> Mais tu passes des heures à chercher, et après, tu gères l'envoi tout seul.
+> C'est là que j'ai acheté mon gilet.
+
+**3. La mission**
+> Donc j'ai fait ce qui paraissait évident : Second Armor. Le Vinted militaire.
+> 100 % tactique, plus d'algorithme qui panique.
+> Et le vendeur n'est payé que quand t'as validé ton colis.
+> Bon, maintenant, c'est ma banquière qui panique : les 50 000, ils sont pas encore remboursés.
+> Mais je lui ai dit de pas être rabat-joie : on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000, avec plus de 300 transactions notées cinq étoiles.
+
+**4. Rendre à la communauté**
+> Et notre mission, c'est de continuer à rendre à la communauté.
+> On a déjà sponsorisé les Frères d'Armes, autour d'un match caritatif pour les blessés de guerre.
+> *(le sticker, puis la photo du match ; flèches rouges sur le drapeau et sur le A de la jambe gauche)*
+> Et on soutient un ancien des forces spéciales, qui part dix jours en autonomie en Amazonie. Allez le suivre.
+> Et pour votre équipement, équipez-vous comme des pros, avec Second Armor.
+
+---
+
 ## Version « hook » (`?cut=hook`, environ 2:28)
 
 On ouvre direct sur la chute, et l'histoire vient après pour l'expliquer. La version longue ne change pas.
