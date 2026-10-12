@@ -166,17 +166,16 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 
 ## Version « histoire » (`?cut=histoire`, environ 2:00, sans voix)
 
-Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvelle à la fois, un vrai décor par scène (musée, bureau du dev, page « Déguisements », conversation sans réponse, banque). Fin : l'appli (dessinée en attendant une vraie capture dans `img/photos/app.png`).
+Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvelle à la fois, un vrai décor par scène. Le texte de Maxime (12 oct.), avec ses retouches.
 
-Le script de Maxime (12 oct.), orthographe corrigée. C'est la version de référence.
-
-**1. Le gilet le plus cher du monde**
+**1. Le gilet le plus cher du monde** *(un musée, le gilet sous vitrine)*
 > J'ai acheté le gilet tactique d'occasion le plus cher du monde.
 > Il m'a coûté 50 400 €.
-> Et non, il faisait pas pare-missile à ce prix-là.
-> Il faisait rien, d'ailleurs. Je l'ai jamais reçu.
+> Et non, à ce prix-là, il faisait pas pare-missile. *(le missile frappe la vitrine, BOUM, fumée)*
+> Il faisait rien, d'ailleurs. *(la fumée se dissipe : la vitrine est vide)*
+> Je l'ai jamais reçu.
 > Bref. Je me suis fait ████ de 400 balles.
-> Les 50 000, c'est ce qui s'est passé après.
+> Les 50 000, c'est ce qui s'est passé après. *(la tirelire cassée, l'argent aspiré dans l'ordinateur du dev)*
 
 **2. Les deux options**
 > Parce que pour acheter du matos tactique d'occasion, t'as deux options.
@@ -185,24 +184,30 @@ Le script de Maxime (12 oct.), orthographe corrigée. C'est la version de réfé
 > Et ça, c'est si tu t'es pas fait bannir par l'algorithme bien-pensant, pour qui « porte-chargeur », c'est de l'apologie du terrorisme.
 > … C'est une poche.
 > Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.
-> Zéro garantie : tu croises les doigts, normalement ça passe.
+> Zéro garantie : tu croises les doigts, normalement ça passe. *(la conversation sans réponse)*
 > Mais tu passes des heures à chercher, et après, tu gères l'envoi tout seul.
-> C'est là que j'ai acheté mon gilet.
+> C'est là que j'ai acheté mon gilet. *(« Thomas R. a quitté la conversation »)*
 
 **3. La mission**
 > Donc j'ai fait ce qui paraissait évident : Second Armor. Le Vinted militaire.
 > Et le vendeur n'est payé que quand t'as validé ton colis.
 > 100 % tactique, plus d'algorithme qui panique.
 > Bon, maintenant, c'est ma banquière qui panique : les 50 000, ils sont pas encore remboursés.
-> Mais je lui ai dit de pas être rabat-joie : *(Nico, devant elle, fait « non non, t'inquiète »)*
+> Mais je lui ai dit de pas être rabat-joie :
 > on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000, avec plus de 300 transactions notées cinq étoiles.
 
-**4. Rendre à la communauté** *(sur le sticker, puis la photo du match, qui restent à l'écran)*
-> Et notre mission, c'est de continuer à rendre à la communauté.
-> On a déjà sponsorisé les Frères d'Armes, autour d'un match caritatif pour les blessés de guerre.
-> *(le sticker, puis la photo du match ; flèches rouges sur le drapeau et sur le A de la jambe gauche)*
+**4. Redonner à la communauté** *(une patinoire)*
+> *(sur l'écran géant)* Notre mission : redonner à la communauté.
+> On a déjà sponsorisé les Frères d'Armes, *(le militaire et la mascotte arrivent en patinant)*
+> autour d'un match caritatif pour les blessés de guerre. *(la photo du match)*
 > Et on soutient un ancien des forces spéciales, qui part dix jours en autonomie en Amazonie. Allez le suivre.
-> Et pour votre équipement, équipez-vous comme des pros, avec Second Armor.
+
+**5. La fin** *(les vraies captures de l'appli)*
+> Donc voilà : Second Armor, c'est tout l'équipement tactique au même endroit,
+> sur une plateforme sécurisée.
+> Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.
+
+*(carton : SECOND ARMOR · La première marketplace tactique · Par les pros, pour les pros. · Lien en bio)*
 
 ---
 
