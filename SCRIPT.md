@@ -200,7 +200,7 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > *(sur l'écran géant)* Notre mission : redonner à la communauté.
 > On a déjà sponsorisé les Frères d'Armes, *(le militaire et la mascotte arrivent en patinant)*
 > autour d'un match caritatif pour les blessés de guerre. *(la photo du match)*
-> Et on soutient un ancien des forces spéciales, qui part dix jours en autonomie en Amazonie. Allez le suivre.
+> Et on soutient Micka, un ex-para qui part 5 jours en Amazonie pour briser le silence sur les blessures psychiques. Allez le suivre. *(carte Instagram @mickainthewild_, 35,1 k abonnés)*
 
 **5. La fin** *(les deux vraies captures de l'appli, côte à côte)*
 > Donc voilà : Second Armor, c'est tout l'équipement tactique.

@@ -271,7 +271,7 @@ function Img(name, cx, cy, w, o = {}) {
   return G(`<image href="img/${name}.png" x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" preserveAspectRatio="none"${flip ? ' transform="scale(-1 1)"' : ""}/>`, { x: cx, y: cy, r, o: op });
 }
 // Vraies photos (événement, expédition) : facultatives. Si le fichier manque, un cadre « photo à venir » s'affiche.
-const PHOTOS = { caen: "img/photos/caen.jpg", amazonie: "img/photos/amazonie.jpg", sticker: "img/photos/sticker.png", hockey: "img/photos/hockey.jpg", app: "img/photos/app.png", appExplorer: "img/photos/app-explorer.jpg", appPP: "img/photos/app-porteplaques.jpg", stickerL: "img/photos/sticker-l.png", stickerR: "img/photos/sticker-r.png" };
+const PHOTOS = { caen: "img/photos/caen.jpg", amazonie: "img/photos/amazonie.jpg", sticker: "img/photos/sticker.png", hockey: "img/photos/hockey.jpg", app: "img/photos/app.png", appExplorer: "img/photos/app-explorer.jpg", appPP: "img/photos/app-porteplaques.jpg", stickerL: "img/photos/sticker-l.png", stickerR: "img/photos/sticker-r.png", micka: "img/photos/micka.jpg" };
 const PHOTO_OK = {};
 // Polaroid scotché, centré sur (cx, cy), largeur w, photo au format 4:5
 function polaroid(name, cx, cy, w, o = {}) {
@@ -855,7 +855,7 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
   return g;
 });
 // 6 bis. Rendre à la communauté
-const AMAZONIE_COMPTE = "@son.compte"; // À REMPLACER : le compte de l'ancien des forces spéciales
+const AMAZONIE_COMPTE = "mickainthewild_"; // Micka, ex-para : 5 jours en Amazonie pour briser le silence sur les blessures psychiques
 const rendreDraw = (tag) => (t, c) => {
   let g = "";
   if (t < c[1]) {
@@ -910,14 +910,17 @@ shot("amazonie", [["Et on soutient un ancien des forces spéciales,", 0.1], ["qu
     const x = [80, 1000, 60, 1020, 150, 930, 40, 1040, 540][i], y = [260, 240, 700, 660, 1050, 1030, 1640, 1620, 110][i];
     g += G(P("M0 0 q60 -80 0 -170 q-60 90 0 170 Z M0 0 v-160", { fill: "#6fae5c", w: 5 }), { x, y: y + 80, r: (i % 2 ? 1 : -1) * (20 + i * 7) + Math.sin(t * 2.2 + i) * 6, s: 1.1 });
   }
-  g += polaroid("amazonie", lerp(-500, 540, k), 640, 580, { r: lerp(-12, 3, k), caption: t > subAt("amazonie", "dix") ? "10 jours, en autonomie" : "" });
+  g += polaroid("amazonie", lerp(-500, 540, k), 640, 580, { r: lerp(-12, 3, k), caption: CUR && CUR.key === "s-amazonie" ? (t > subAt("amazonie", "jours") ? "5 jours en Amazonie" : "") : (t > subAt("amazonie", "dix") ? "10 jours, en autonomie" : "") });
   if (t > c[1] + 0.3) g += fly(t, 800, 420, { rad: 70 }) + fly(t, 300, 560, { rad: 55, seed: 3 });
   if (t > c[2]) {
     // bouton « suivre »
     const s = pop(t, c[2]);
     const clicked = t > c[2] + 1.1;
-    g += G(Rect(-400, -70, 800, 140, { fill: PAPER, sw: 6, rx: 70 }) + T(AMAZONIE_COMPTE, -360, 0, { size: 54, font: SANS, weight: 800, anchor: "start" }) +
-      Rect(120, -48, 250, 96, { fill: clicked ? GREY : ACC, sw: 5, rx: 48 }) + T(clicked ? "Suivi ✓" : "Suivre", 245, 0, { size: 46, font: SANS, weight: 800, c: clicked ? INK : PAPER }), { x: 540, y: 1200, s });
+    const avatar = `<clipPath id="avM"><circle cx="-325" cy="0" r="48"/></clipPath>` + Circ(-325, 0, 56, { fill: "none", w: 7, c: "#e1306c" }) +
+      (PHOTO_OK.micka ? `<g clip-path="url(#avM)"><image href="${PHOTOS.micka}" x="-373" y="-48" width="96" height="96" preserveAspectRatio="xMidYMid slice"/></g>` : Circ(-325, 0, 48, { fill: GREY, w: 0 }));
+    g += G(Rect(-420, -80, 840, 160, { fill: PAPER, sw: 6, rx: 80 }) + avatar + T(AMAZONIE_COMPTE, -255, -16, { size: 40, font: SANS, weight: 800, anchor: "start" }) +
+      G(Circ(0, 0, 14, { fill: "#3897f0", w: 0 }) + P("M-6 0 l4 5 l8 -10", { w: 4, c: PAPER }), { x: 110, y: -18 }) + T("35,1 k abonnés", -255, 28, { size: 32, font: SANS, anchor: "start", c: "#666" }) +
+      Rect(150, -44, 230, 88, { fill: clicked ? GREY : ACC, sw: 5, rx: 44 }) + T(clicked ? "Suivi ✓" : "Suivre", 265, 0, { size: 46, font: SANS, weight: 800, c: clicked ? INK : PAPER }), { x: 540, y: 1200, s });
     const m = ease.inOut(prog(t, c[2] + 0.4, 0.6));
     g += G(P("M0 0 L0 60 L16 46 L28 72 L38 67 L27 42 L48 42 Z", { fill: PAPER, w: 5 }), { x: lerp(1000, 800, m), y: lerp(1420, 1210, m), s: t > c[2] + 1.05 && t < c[2] + 1.2 ? 0.85 : 1 });
   }
@@ -1396,7 +1399,7 @@ shot("s-freres", [["Et notre mission : redonner à la communauté.", 0.4, "", "s
   return g;
 }, { only: true, cam: 0.03 });
 
-shot("s-amazonie", [["Et on soutient un ancien des forces spéciales,", 0.15, undefined, "s28"], ["qui part dix jours en autonomie en Amazonie.", 0.2, undefined, "s29"], ["Allez le suivre.", 0.9, undefined, "s30"]], drawOf("amazonie"), { only: true, cam: 0.05, as: "amazonie" });
+shot("s-amazonie", [["Et on soutient Micka, un ex-para qui part 5 jours en Amazonie", 0.15, undefined, "s28"], ["pour briser le silence sur les blessures psychiques.", 0.4, undefined, "s29"], ["Allez le suivre.", 1.2, undefined, "s30"]], drawOf("amazonie"), { only: true, cam: 0.05, as: "amazonie" });
 
 // La fin : les deux vraies captures de l'appli, côte à côte et entières. Chaque mot les fait réagir :
 // « au même endroit » → toutes les catégories, « classé » → le filtre « Porte-plaques », « sécurisé » → le cadenas.
