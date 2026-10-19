@@ -714,7 +714,7 @@ shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un
   let scr = Rect(140, 640, 430, 280, { fill: PAPER, sw: 8, rx: 12 }) + P("M355 920 V960 M305 960 H405", { w: 7 });
   let card = G(pouch(), { x: 215, y: 770, s: 0.8 }) + T("Porte-chargeur", 275, 720, { size: 30, anchor: "start", font: SANS, weight: 800 }) + T("bon état · 15 €", 275, 770, { size: 32, anchor: "start" }) + T("vendu par Nico", 275, 820, { size: 30, anchor: "start", c: "#666" });
   if (t1 > 0.4 * D) card += G(P("M0 -46 L48 40 H-48 Z", { fill: "#ffd24a", w: 5 }) + T("!", 0, 14, { size: 50, font: SANS, weight: 800 }) + T("contenu choquant", 0, 80, { size: 30, c: RED }), { x: 350, y: 800, s: pop(t1, 0.4 * D) });
-  if (t1 > D - 0.25) card += stamp("FICHÉ S", 350, 780, t1, D - 0.25, { size: 60, r: -14 }); // sur « terrorisme »
+  if (t1 > D - 0.25) card += stamp(CUR && CUR.key === "s-algo" ? "RECHERCHÉ" : "FICHÉ S", 350, 780, t1, D - 0.25, { size: CUR && CUR.key === "s-algo" ? 50 : 60, r: -14 }); // sur le dernier mot
   g += scr + card;
   // la sueur coule à grosses gouttes
   if (panic) for (let i = 0; i < 3; i++) {
@@ -1215,7 +1215,7 @@ shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8
   return g;
 }, { only: true, cam: 0.04 });
 
-shot("s-algo", [["Et ça, c'est si tu t'es pas fait bannir par l'algorithme bien-pensant,", 0.15, undefined, "s10"], ["pour qui « porte-chargeur », c'est de l'apologie du terrorisme.", 1.0, undefined, "s11"]], drawOf("algo"), { only: true, cam: 0.05, as: "algo" });
+shot("s-algo", [["Et ça, c'est si tu t'es pas fait bannir,", 0.15, undefined, "s10"], ["parce que pour un algorithme de friperie, « porte-chargeur », c'est du grand banditisme.", 1.0, undefined, "s11"]], drawOf("algo"), { only: true, cam: 0.05, as: "algo" });
 
 // Option 2 : les icônes, la conversation sans réponse, les onglets, l'envoi, et retour à la conversation
 const CHAT = [["out", "Salut, toujours dispo le gilet ?"], ["in", "Oui frère 👍"], ["out", "Top, virement envoyé !"], ["out", "Tu l'as posté ?"], ["out", "Allô ?"], ["out", "??"]];

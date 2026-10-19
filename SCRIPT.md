@@ -181,7 +181,7 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > Parce que pour acheter du matos tactique d'occasion, t'as deux options.
 > Option 1 : une marketplace grand public.
 > Sauf que les porte-plaques se retrouvent rangés dans la catégorie « Déguisements ».
-> Et ça, c'est si tu t'es pas fait bannir par l'algorithme bien-pensant, pour qui « porte-chargeur », c'est de l'apologie du terrorisme.
+> Et ça, c'est si tu t'es pas fait bannir, parce que pour un algorithme de friperie, « porte-chargeur », c'est du grand banditisme. *(tampon « RECHERCHÉ »)*
 > … C'est une poche.
 > Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.
 > Zéro garantie : tu croises les doigts, normalement ça passe. *(la conversation sans réponse)*
