@@ -1435,6 +1435,8 @@ shot("s-fin", [["Merci pour votre soutien, qui nous permet de rendre à ceux qui
 const BODY = ["militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bip", "pasleseul", "tescon", "ordi", "algo", "poche",
   "couilles", "moderation", "garantie", "cree", "dixmille", "rendre2", "hockey", "amazonie", "belote", "fin"];
 const CUTS = {
+  // morceau à recoller dans la version « histoire » (patinoire + Amazonie)
+  "patch-communaute": ["s-freres", "s-amazonie"],
   // le gilet le plus cher du monde -> les deux options -> la mission -> la banquière -> rendre à la communauté
   histoire: ["s-hook", "s-bip", "s-apres", "s-options", "s-opt1", "s-algo", "poche", "s-opt2", "s-mission", "s-escrow", "s-tactique", "s-banquiere", "s-dixmille",
     "s-freres", "s-amazonie", "s-pro", "s-fin"],
