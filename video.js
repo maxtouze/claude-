@@ -1366,10 +1366,10 @@ function rink(t) {
   g += `<ellipse cx="540" cy="1080" rx="250" ry="80" fill="none" stroke="#d23a2a" stroke-width="6" opacity="0.7"/>`;
   return g;
 }
-shot("s-freres", [["Et notre mission : redonner à la communauté.", 0.4, "", "s25"], ["On a déjà sponsorisé les Frères d'Armes,", 0.15, undefined, "s26"], ["autour d'un match caritatif pour les blessés de guerre.", 1.9, "autour d'un match caritatif||pour les blessés de guerre.", "s27"]], (t, c) => {
+shot("s-freres", [["Mission : redonner à la communauté.", 0.4, "", "s25"], ["On a déjà sponsorisé les Frères d'Armes,", 0.15, undefined, "s26"], ["autour d'un match caritatif pour les blessés de guerre.", 1.9, "autour d'un match caritatif||pour les blessés de guerre.", "s27"]], (t, c) => {
   let g = rink(t);
   // l'écran géant au-dessus de la glace : la mission s'y écrit (pas en sous-titre)
-  const msg = ["NOTRE MISSION :", "REDONNER À LA", "COMMUNAUTÉ"], n = Math.floor(prog(t, 0.2, Math.max(0.6, c[1] - 0.9)) * msg.join("").length);
+  const msg = ["MISSION :", "REDONNER À LA", "COMMUNAUTÉ"], n = Math.floor(prog(t, 0.2, Math.max(0.6, c[1] - 0.9)) * msg.join("").length);
   let typed = 0;
   let board = Rect(150, 40, 780, 300, { fill: "#0d0e10", sw: 8, rx: 16 }) + P("M300 0 V40 M780 0 V40", { w: 8 });
   msg.forEach((line, i) => { const k = Math.max(0, Math.min(line.length, n - typed)); typed += line.length; board += T(line.slice(0, k), 540, 115 + i * 85, { size: 64, font: STENCIL, c: i === 0 ? ACC : "#ffd24a" }); });

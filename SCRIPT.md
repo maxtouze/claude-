@@ -197,7 +197,7 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000, avec plus de 300 transactions notées cinq étoiles.
 
 **4. Redonner à la communauté** *(une patinoire)*
-> *(sur l'écran géant)* Notre mission : redonner à la communauté.
+> *(sur l'écran géant)* MISSION : REDONNER À LA COMMUNAUTÉ
 > On a déjà sponsorisé les Frères d'Armes, *(le militaire et la mascotte arrivent en patinant)*
 > autour d'un match caritatif pour les blessés de guerre. *(la photo du match)*
 > Et on soutient Micka, un ex-para qui part 5 jours en Amazonie pour briser le silence sur les blessures psychiques. Allez le suivre. *(carte Instagram @mickainthewild_, 35,1 k abonnés)*
