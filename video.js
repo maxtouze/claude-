@@ -1170,43 +1170,45 @@ shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.3, "Bref. Je m
   return Z(G(g, { x: t > tb && t < tb + 0.25 ? jit(t, 10) : 0 }), punch * lerp(1, 1.16, prog(t, 0, byKey("s-bip").dur)), 540, 820);
 }, { only: true });
 
-// Les 50 000 : la tirelire explose et l'argent est aspiré dans l'ordinateur du développeur
-shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 0.3, undefined, "s6"]], (t, c) => {
-  let g = floor(1250) + Rect(560, 1000, 440, 30, { fill: PAPER, sw: 7 }) + P("M590 1030 V1250 M970 1030 V1250", { w: 7 });
-  g += stick({ x: 870, y: 1250, s: 1.0, acc: ["roundglasses"], la: [-60, -150, -120, -170], ra: [-40, -150, -100, -175], body: P("M-50 -205 Q0 -222 50 -205 L64 -100 H-64 Z", { fill: GREY, w: 6 }) });
-  // le portable : son écran est un tourbillon
-  const sp = t * 6;
-  let vortex = "";
-  for (let i = 0; i < 4; i++) vortex += P(`M${n2(735 + Math.cos(sp + i * 1.57) * 50)} ${n2(950 + Math.sin(sp + i * 1.57) * 34)} Q735 950 ${n2(735 + Math.cos(sp + i * 1.57 + 2) * 20)} ${n2(950 + Math.sin(sp + i * 1.57 + 2) * 14)}`, { w: 5, c: TEAL });
-  g += P("M640 1000 L700 890 H860 L820 1000 Z", { fill: "#1d2a40", w: 6 }) + vortex + Rect(640, 990, 180, 14, { fill: "#bfc5cc", sw: 5 });
-  // la tirelire et le marteau
-  const tSmash = 0.9, smashed = t > tSmash;
-  const swing = ease.in(prog(t, 0.2, tSmash - 0.2));
-  g += stick({ x: 140, y: 1250, s: 1.1, ra: [60, -200, lerp(40, 150, swing), lerp(-330, -170, swing)], la: [-40, -120], mouth: smashed ? "smile" : "flat" });
-  if (!smashed) {
-    g += G(P("M-110 0 Q-110 -90 0 -90 Q110 -90 110 0 Q110 70 0 70 Q-110 70 -110 0 Z", { fill: "#f4a6b8", w: 6 }) + Circ(70, -20, 8, { fill: INK, w: 0 }) + Rect(120, -20, 30, 40, { fill: "#f4a6b8", sw: 6, rx: 8 }) +
-      P("M-60 70 v40 M60 70 v40", { w: 10 }) + Rect(-25, -100, 50, 10, { fill: INK, sw: 0 }) + T("€", -10, 10, { size: 60, font: SANS, weight: 800, c: "#c0526d" }), { x: 330, y: 1130 });
-  } else {
-    if (t < tSmash + 0.4) g += boom(t, 330, 1120, 200 * ease.out(prog(t, tSmash, 0.15)) * (1 - prog(t, tSmash + 0.25, 0.15)), 8);
-    // morceaux de tirelire
-    for (let i = 0; i < 5; i++) { const a = -2.6 + i * 0.5, u = ease.out(prog(t, tSmash, 0.5)); g += G(P("M-30 -16 L26 -22 L34 18 L-24 24 Z", { fill: "#f4a6b8", w: 5 }), { x: 330 + Math.cos(a) * 160 * u, y: 1180 + Math.sin(a) * 100 * u + u * u * 60, r: i * 40 + u * 90 }); }
+// Les 50 000 : l'étiquette du musée revient et se déchire ; le « 400 € » part à la poubelle, le « 50 000 € » reste, avec un « ? »
+shot("s-apres", [["Et les 50 000 ? Ça, c'est la suite.", 0.4, undefined, "s6"]], (t, c) => {
+  let g = floor(1250);
+  // la poubelle
+  g += P("M110 1250 L130 1080 H290 L310 1250 Z", { fill: "#cfd5da", w: 7 }) + P("M115 1080 H305", { w: 9 }) + P("M170 1110 V1220 M210 1110 V1220 M250 1110 V1220", { w: 4, op: 0.6 });
+  const tear = ease.out(prog(t, 0.5, 0.4)), fall = ease.in(prog(t, 0.8, 0.6));
+  const half = (txt, side, x, y, r, col) => G(P(side < 0 ? "M-150 -60 H20 L5 -30 L25 0 L5 30 L20 60 H-150 Z" : "M-20 -60 H250 L300 0 L250 60 H-20 L-5 30 L-25 0 L-5 -30 Z", { fill: PAPER, w: 6 }) +
+    T(txt, side < 0 ? -65 : 125, 4, { size: 58, font: SANS, weight: 800, c: col }), { x, y, r });
+  if (tear === 0) g += G(P("M-210 -60 H150 L200 0 L150 60 H-210 Z", { fill: PAPER, w: 6 }) + T("50 400 €", -25, 4, { size: 60, font: SANS, weight: 800, c: RED }), { x: 540, y: 620, s: pop(t, 0.05, 0.3) * 1.3, r: -4 });
+  else {
+    // « 400 € » tombe à la poubelle
+    g += half("400 €", -1, lerp(lerp(480, 380, tear), 210, fall), lerp(620, 1150, fall), lerp(-6, -60, fall), INK);
+    // « 50 000 € » reste au milieu, et grossit
+    const k = ease.out(prog(t, 0.9, 0.5));
+    g += G(half("50 000 €", 1, 0, 0, 0, RED), { x: lerp(620, 440, k), y: lerp(620, 640, k), s: lerp(1.3, 1.5, k), r: lerp(4, 0, k) });
+    if (t > 1.3) g += T("?", 940, 470, { size: 180, font: MARK, c: ACC, r: 10 + Math.sin(t * 5) * 6 });
   }
-  g += G(P(`M${n2(lerp(40, 150, swing) * 1.1 + 140)} ${n2(1250 + lerp(-330, -170, swing) * 1.1)} l40 -60`, { w: 10, c: BROWN }) + "", {});
-  // billets aspirés en spirale vers l'écran
-  if (smashed) for (let i = 0; i < 14; i++) {
-    const u = ((t - tSmash) * 0.8 + i / 14) % 1;
-    const ang = u * 7 + i, rad = (1 - u) * 160;
-    const x = lerp(330, 735, ease.in(u)) + Math.cos(ang) * rad * 0.6, y = lerp(1100, 950, ease.in(u)) + Math.sin(ang) * rad * 0.4 - Math.sin(u * Math.PI) * 180;
-    g += bill(x, y, { s: 0.6 * (1 - u * 0.7), r: u * 540 + i * 25 });
-  }
+  if (fall >= 1) g += fly(t, 210, 1010, { seed: 4, rad: 45 });
   return g;
 }, { only: true, cam: 0.05 });
 
-shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as deux options.", 0.2, undefined, "s7"]], (t, c) => {
+// « Si t'es militaire, tu sais déjà… » : le militaire hoche la tête, le civil ne comprend pas ; puis les deux portes se dessinent
+shot("s-options", [["Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère.", 0.15, undefined, "s7"], ["Sinon, je t'explique : t'as deux options.", 0.3, undefined, "s7b"]], (t, c) => {
+  let g = floor(1160);
+  if (t < c[1]) {
+    // le militaire, l'air entendu, hoche la tête ; le civil, à côté, se gratte la tête
+    const nod = Math.max(0, Math.sin(t * 7)) * 10;
+    g += stick({ x: 330, y: 1160, s: 1.35, acc: ["helmet"], la: [-40, -110, -10, -80], ra: [40, -110, 10, -80], look: [0, nod * 0.6], eyes: t > 1.2 ? "flat" : "dot", mouth: "flat" });
+    g += label(t, 0.6, "lui, il sait", 330, 520, 330, 720, { size: 64 });
+    const civ = t > subAt("s-options", "galère") - 0.2;
+    g += stick({ x: 770, y: 1160, s: 1.35, la: [-50, -110], ra: [40, -180, 10, -250], look: [-6, -4], mouth: civ ? "o" : null });
+    if (t > 0.9) g += T("?", 860, 640, { size: 150, font: MARK, c: ACC, r: 10 + Math.sin(t * 5) * 6 });
+    return g;
+  }
+  // « je t'explique » : les deux portes se dessinent, les numéros se posent dessus
+  const t1 = c[1], tD = subAt("s-options", "deux");
   const door = (x, n, k, q) => G(P("M-150 -260 H150 V260 H-150 Z", { fill: "#f3efe5", w: 7, q }) + (q >= 1 ? Dot(100, 20, 12) : "") +
     (k > 0 ? G(G(Circ(0, 0, 58, { fill: NAVY, w: 0 }) + T(n, 0, 4, { size: 70, font: STENCIL, c: PAPER }), { s: k }), { y: -340 }) : ""), { x, y: 900 });
-  const t1 = subAt("s-options", "deux");
-  let g = floor(1160) + door(280, "1", pop(t, t1 + 0.1), prog(t, 0.05, 0.9)) + door(800, "2", pop(t, t1 + 0.35), prog(t, 0.35, 0.9));
+  g += door(280, "1", pop(t, tD + 0.1), prog(t, t1, 0.7)) + door(800, "2", pop(t, tD + 0.35), prog(t, t1 + 0.25, 0.7));
   g += stick({ x: 540, y: 1300, s: 1.0, la: [-50, -110], ra: [40, -180, 10, -250], look: [Math.sin(t * 2) * 8, 0] });
   return g;
 }, { only: true, cam: 0.05 });
@@ -1472,6 +1474,7 @@ const BODY = ["militaire", "graphe", "poele", "inconnu", "justif", "furtif", "bi
 const CUTS = {
   // morceau à recoller dans la version « histoire » (patinoire + Amazonie)
   "patch-communaute": ["s-freres", "s-amazonie"],
+  "patch-debut": ["s-apres", "s-options"],
   // le gilet le plus cher du monde -> les deux options -> la mission -> la banquière -> rendre à la communauté
   histoire: ["s-hook", "s-bip", "s-apres", "s-options", "s-opt1", "s-algo", "poche", "s-opt2", "s-mission", "s-escrow", "s-tactique", "s-banquiere", "s-dixmille",
     "s-freres", "s-amazonie", "s-pro", "s-fin"],

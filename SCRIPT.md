@@ -178,7 +178,8 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > Les 50 000, c'est ce qui s'est passé après. *(la tirelire cassée, l'argent aspiré dans l'ordinateur du dev)*
 
 **2. Les deux options**
-> Parce que pour acheter du matos tactique d'occasion, t'as deux options.
+> Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère. *(le militaire hoche la tête, le civil ne comprend pas)*
+> Sinon, je t'explique : t'as deux options.
 > Option 1 : une marketplace grand public.
 > Sauf que quand tu cherches « porte-plaques »,
 > tu tombes sur des plaques de cuisson. *(résultats : plaque de cuisson, plaquettes de frein, porte-plaque d'immatriculation, costume de soldat 8 ans)*
