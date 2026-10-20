@@ -1116,7 +1116,9 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
   else if (t > c[3]) g += fly(t, 540, 760, { seed: 5, rad: 70 });
   g += `<rect x="350" y="520" width="380" height="480" fill="#bfe3ee" fill-opacity="0.3"/>` + Rect(350, 520, 380, 480, { sw: 7 }) + P("M390 560 l60 -30 M400 620 l90 -50", { w: 5, c: PAPER });
   if (burnt) g += P("M380 560 L470 700 L420 820 M470 700 L600 640 M470 700 L560 880 M600 640 L700 560", { w: 4, c: INK, op: 0.7 });
-  if (t > c[1]) g += G(Rect(-120, -50, 240, 100, { fill: PAPER, sw: 5, rx: 8 }) + T("50 400 €", 0, 4, { size: 48, font: SANS, weight: 800, c: RED }), { x: 830, y: 950, s: pop(t, c[1] + 0.2), r: 6 });
+  // le prix tombe d'un coup (BAM) au moment où on le lit
+  if (t > c[1]) g += G(Rect(-120, -50, 240, 100, { fill: PAPER, sw: 5, rx: 8 }) + T("50 400 €", 0, 4, { size: 48, font: SANS, weight: 800, c: RED }),
+    { x: 830 + (t < c[1] + 0.25 ? jit(t, 8) : 0), y: 950, s: pop(t, c[1], 0.2) * lerp(1.5, 1, ease.out(prog(t, c[1], 0.3))), r: 6 }) + bam(t, c[1], 900, 820);
   g += P("M160 1180 V1010 M920 1180 V1010", { w: 10 }) + Dot(160, 1000, 16, "#c9a85c") + Dot(920, 1000, 16, "#c9a85c") + P("M160 1020 Q540 1110 920 1020", { w: 12, c: "#b0282a" });
   // visiteurs
   const puzzled = t > c[3] + 0.4;
@@ -1129,16 +1131,15 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
   g += visitor(110, 8, ["roundglasses"]) + visitor(920, -8);
   // plan de dos, façon caméra à l'épaule : la salle est dans le noir, seule la vitrine est éclairée ;
   // Nico (tête et épaules en gros plan) avance, la caméra recule et la salle se dévoile
-  const walkD = Math.max(1.8, c[1] - 0.5), walk = ease.inOut(prog(t, 0.1, walkD)), stepL = walk < 1 ? Math.sin(t * 9) * 18 : 0;
+  const walkD = Math.max(1.6, c[1] - 1.0), walk = ease.inOut(prog(t, 0.1, walkD)), stepL = walk < 1 ? Math.sin(t * 9) * 18 : 0;
   const reveal = ease.inOut(prog(t, 0.4, walkD));
   if (reveal < 1) g += `<path d="M-40 -40 H1120 V1960 H-40 Z M340 470 V1010 H740 V470 Z" fill-rule="evenodd" fill="#141414" opacity="${n2(0.62 * (1 - reveal))}"/>`;
   const ns = lerp(4.6, 1.05, walk), nx = lerp(540, 420, walk), ny = lerp(2750, 1390, walk) + (walk < 1 ? Math.abs(Math.sin(t * 9)) * 6 * ns : 0);
   const turned = t > c[3]; // il se retourne vers nous quand la fumée se dissipe
-  g += stick({ x: nx, y: ny, s: ns, ll: [-34 + stepL, 0], rl: [34 - stepL, 0], la: [-62, -110], ra: [62, -110],
-    body: P("M-64 -208 Q0 -226 64 -208 L78 -96 H-78 Z", { fill: "#5f6b4a", w: 6 }), // sa veste : on voit ses épaules de dos
+  g += stick({ x: nx, y: ny, s: ns, ll: [-34 + stepL, 0], rl: [34 - stepL, 0], la: [-62, -110], ra: t > 0.1 + walkD ? [70, -200, 100, -300] : [62, -110], // arrivé, il lève le bras vers le gilet
     eyes: turned ? (burnt ? "wide" : "dot") : "none", mouth: turned ? "flat" : null, face: turned ? (burnt ? "#8a8a8a" : SKIN) : "#4a3b30" }); // de dos : on voit ses cheveux
   if (burnt) g += P(`M${nx - 35 * ns} ${ny - 290 * ns} l${-10 * ns} ${-34 * ns} l${20 * ns} ${18 * ns} l${6 * ns} ${-38 * ns} l${14 * ns} ${34 * ns} l${12 * ns} ${-36 * ns} l${8 * ns} ${38 * ns} l${20 * ns} ${-20 * ns} l${-6 * ns} ${38 * ns}`, { w: 5 });
-  const tB = Math.max(1.0, c[1] - 1.6);
+  const tB = 0.15 + walkD;
   if (t > tB && t < c[1] + 0.5) g += bubble(nx + 170, ny - 380 * ns, 300, 84, nx + 40, ny - 300 * ns, T("Je le prends.", nx + 170, ny - 376 * ns, { size: 38, font: MARK }), { s: pop(t, tB, 0.25) });
   // le missile
   if (t > c[2] + 0.2 && t < tHit) {
@@ -1167,7 +1168,7 @@ shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.3, "Bref. Je m
 }, { only: true });
 
 // Les 50 000 : la tirelire explose et l'argent est aspiré dans l'ordinateur du développeur
-shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 1.3, undefined, "s6"]], (t, c) => {
+shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 0.3, undefined, "s6"]], (t, c) => {
   let g = floor(1250) + Rect(560, 1000, 440, 30, { fill: PAPER, sw: 7 }) + P("M590 1030 V1250 M970 1030 V1250", { w: 7 });
   g += stick({ x: 870, y: 1250, s: 1.0, acc: ["roundglasses"], la: [-60, -150, -120, -170], ra: [-40, -150, -100, -175], body: P("M-50 -205 Q0 -222 50 -205 L64 -100 H-64 Z", { fill: GREY, w: 6 }) });
   // le portable : son écran est un tourbillon
@@ -1198,10 +1199,11 @@ shot("s-apres", [["Les 50 000, c'est ce qui s'est passé après.", 1.3, undefine
   return g;
 }, { only: true, cam: 0.05 });
 
-shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as deux options.", 0.35, undefined, "s7"]], (t, c) => {
-  const door = (x, n, k) => k > 0 ? G(Rect(-150, -260, 300, 520, { fill: "#f3efe5", sw: 7, rx: 8 }) + Dot(100, 20, 12) + G(Circ(0, 0, 58, { fill: NAVY, w: 0 }) + T(n, 0, 4, { size: 70, font: STENCIL, c: PAPER }), { y: -340 }), { x, y: 900, s: k }) : "";
+shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as deux options.", 0.2, undefined, "s7"]], (t, c) => {
+  const door = (x, n, k, q) => G(P("M-150 -260 H150 V260 H-150 Z", { fill: "#f3efe5", w: 7, q }) + (q >= 1 ? Dot(100, 20, 12) : "") +
+    (k > 0 ? G(G(Circ(0, 0, 58, { fill: NAVY, w: 0 }) + T(n, 0, 4, { size: 70, font: STENCIL, c: PAPER }), { s: k }), { y: -340 }) : ""), { x, y: 900 });
   const t1 = subAt("s-options", "deux");
-  let g = floor(1160) + door(280, "1", pop(t, t1 + 0.1)) + door(800, "2", pop(t, t1 + 0.4));
+  let g = floor(1160) + door(280, "1", pop(t, t1 + 0.1), prog(t, 0.05, 0.9)) + door(800, "2", pop(t, t1 + 0.35), prog(t, 0.35, 0.9));
   g += stick({ x: 540, y: 1300, s: 1.0, la: [-50, -110], ra: [40, -180, 10, -250], look: [Math.sin(t * 2) * 8, 0] });
   return g;
 }, { only: true, cam: 0.05 });
@@ -1290,7 +1292,7 @@ shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote 
 }, { only: true, cam: 0.03 });
 
 // L'idée : l'ampoule, puis le logo tombe
-shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.25, undefined, "s16"], ["Second Armor. Le Vinted militaire.", 1.6, undefined, "s17"]], (t, c) => {
+shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.25, undefined, "s16"], ["Second Armor. Le Vinted militaire.", 0.8, undefined, "s17"]], (t, c) => {
   let g = floor(1250);
   const bulb = pop(t, 0.5, 0.35);
   g += stick({ x: 260, y: 1250, s: 1.25, ra: t > c[1] ? [110, -230] : [50, -150], la: [-50, -120], mouth: t > 0.6 ? "smile" : null });
@@ -1306,7 +1308,7 @@ shot("s-mission", [["Donc j'ai fait ce qui paraissait évident :", 0.25, undefin
 }, { only: true, cam: 0.05 });
 
 // Le paiement : l'argent attend au milieu ; quand l'acheteur valide le colis, le vendeur est payé
-shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis.", 2.3, undefined, "s19"]], (t, c) => {
+shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis.", 1.4, undefined, "s19"]], (t, c) => {
   let g = floor(1250);
   const tOk = subAt("s-escrow", "validé") + 0.2, tPay = tOk + 0.9;
   g += stick({ x: 200, y: 1250, s: 1.0, mouth: t > tOk ? "smile" : null }) + T("toi", 200, 1310, { size: 46 });
@@ -1327,7 +1329,7 @@ shot("s-escrow", [["Et le vendeur n'est payé que quand t'as validé ton colis."
 }, { only: true, cam: 0.04 });
 
 // Plus d'algorithme qui panique : le gars du milieu prend sa place au bureau
-shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 2.1, undefined, "s18"]], (t, c) => {
+shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 1.4, undefined, "s18"]], (t, c) => {
   let g = Rect(110, 1080, 860, 34, { fill: PAPER, sw: 7 }) + P("M150 1114 V1260 M930 1114 V1260", { w: 7 });
   // l'écran avec une annonce de matos
   g += Rect(160, 640, 400, 280, { fill: PAPER, sw: 8, rx: 12 }) + P("M360 920 V980 M300 980 H420", { w: 7 }) + G(vest(), { x: 190, y: 680, s: 0.55 }) + T("Porte-plaques", 450, 700, { size: 28, font: SANS, weight: 800 });
@@ -1335,7 +1337,7 @@ shot("s-tactique", [["100 % tactique, plus d'algorithme qui panique.", 2.1, unde
   if (out < 1) g += algoGirl(t, lerp(720, 1350, out), 1180, 1.0, { panic: true }) + (t < 0.9 ? P("M790 880 q12 22 0 32 q-12 -10 0 -32 Z", { fill: "#8fd0ff", w: 3 }) : "");
   const inn = ease.out(prog(t, 1.6, 1.0));
   if (inn > 0) g += stick({ x: lerp(1300, 720, inn), y: 1180, s: 1.1, acc: ["helmet"], la: [-40, -120], ra: inn >= 1 ? [-70, -150, -110, -120] : [40, -120], mouth: inn >= 1 ? "flat" : null });
-  if (inn >= 1) g += P("M820 1030 h55 v50 h-55 Z M875 1042 q18 0 18 14 q0 14 -18 14", { fill: PAPER, w: 5 }) + stamp("VALIDÉ", 360, 790, t, 2.9, { c: GREEN, size: 56, r: -10 });
+  if (inn >= 1) g += P("M820 1030 h55 v50 h-55 Z M875 1042 q18 0 18 14 q0 14 -18 14", { fill: PAPER, w: 5 }) + stamp("VALIDÉ", 360, 790, t, 2.6, { c: GREEN, size: 56, r: -10 });
   return g;
 }, { only: true, cam: 0.05 });
 
@@ -1427,7 +1429,7 @@ function appPhone(name, x, y, h, o = {}) {
     `<clipPath id="ph${name}"><rect x="${n2(-w / 2)}" y="${n2(-h / 2 + 8)}" width="${n2(w)}" height="${n2(h)}" rx="26"/></clipPath>` +
     `<g clip-path="url(#ph${name})">${Pic(name, 0, 8, w, h)}</g>` + Rect(-40, -bh / 2 + 14, 80, 18, { fill: INK, sw: 0, rx: 9, c: "none" }), { x, y, r: o.r ?? 0, s: o.s ?? 1, o: o.op ?? 1 });
 }
-shot("s-pro", [["Donc voilà : Second Armor, c'est tout l'équipement tactique.", 0.9, undefined, "s31"], ["Tout au même endroit, classé, et sécurisé.", 2.4, undefined, "s32"]], (t, c) => {
+shot("s-pro", [["Donc voilà : Second Armor, c'est tout l'équipement tactique.", 0.9, undefined, "s31"], ["Tout au même endroit, classé, et sécurisé.", 1.4, undefined, "s32"]], (t, c) => {
   let g = "";
   const H = 820, W = H * 924 / 2000, cy = 690, xl = 290, xr = 790, k = H / 2000;
   const u1 = ease.out(prog(t, 0.1, 0.6)), u2 = ease.out(prog(t, 0.6, 0.6));
