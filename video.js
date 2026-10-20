@@ -716,6 +716,7 @@ shot("algo", [["Enfin… si tu t'es pas fait bannir.", 0.2], ["Parce que pour un
   if (t1 > 0.4 * D) card += G(P("M0 -46 L48 40 H-48 Z", { fill: "#ffd24a", w: 5 }) + T("!", 0, 14, { size: 50, font: SANS, weight: 800 }) + T("contenu choquant", 0, 80, { size: 30, c: RED }), { x: 350, y: 800, s: pop(t1, 0.4 * D) });
   if (t1 > D - 0.25) card += stamp(CUR && CUR.key === "s-algo" ? "RECHERCHÉ" : "FICHÉ S", 350, 780, t1, D - 0.25, { size: CUR && CUR.key === "s-algo" ? 50 : 60, r: -14 }); // sur le dernier mot
   g += scr + card;
+  if (t1 < D - 0.25) { const sy = 660 + ((t * 1.6) % 1) * 240; g += P(`M150 ${n2(sy)} H560`, { w: 6, c: "#5ad1ff", op: 0.8 }); } // l'algorithme scanne l'annonce
   // la sueur coule à grosses gouttes
   if (panic) for (let i = 0; i < 3; i++) {
     const u = (t1 * 1.3 + i / 3) % 1;
@@ -846,7 +847,7 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
     g += stick({ x: x0 + 20 + u * (w - 30), y, s: 0.14, w: 16 });
   }
   if (t > 0.5) g += label(t, 0.5, "au début :\nmon unité", 360, 780, x0 + 40, y0 - 60, { size: 44 });
-  const t10 = subAt("dixmille", "10"), n = Math.round(10000 * ease.out(prog(t, t10 - 0.6, 1.0)));
+  const t10 = subAt("dixmille", "10"), n = Math.round(10000 * ease.out(prog(t, t10 - 0.6, 1.0)) + Math.max(0, t - t10 - 0.4) * 9); // puis il continue de grimper
   if (t > t10 - 0.6) g += T(n.toLocaleString("fr-FR").replace(/ | /g, " "), 540, 300, { size: 150, font: SANS, weight: 800, c: NAVY });
   if (t > c[2]) {
     for (let i = 0; i < 5; i++) g += G(T("★", 0, 0, { size: 76, c: ACC, font: SANS }), { x: 330 + i * 76, y: 1240, s: pop(t, c[2] + 0.3 + i * 0.12) });
@@ -958,7 +959,8 @@ function finCard(t, o = {}) {
   g += T("LA PREMIÈRE MARKETPLACE TACTIQUE", 540, 1090 + dy, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 5, op: clamp((t - 1.0) * 3) });
   g += T("Par les pros, pour les pros.", 540, 1160 + dy, { size: 42, font: SANS, weight: 500, c: "#9aa3ab", op: clamp((t - 1.4) * 3) });
   const pk = pop(t, pillAt);
-  if (pk > 0) g += G(Rect(-200, -54, 400, 108, { rx: 54, fill: "#5d8296", sw: 0, c: "none" }) + T("LIEN EN BIO", 0, 2, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 4 }), { x: 540, y: pillY, s: pk });
+  if (pk > 0) g += G(Rect(-200, -54, 400, 108, { rx: 54, fill: "#5d8296", sw: 0, c: "none" }) + T("LIEN EN BIO", 0, 2, { size: 40, font: SANS, weight: 800, c: PAPER, ls: 4 }), { x: 540, y: pillY, s: pk * (t > pillAt + 0.5 ? 1 + Math.sin((t - pillAt) * 6) * 0.06 : 1) });
+  if (t > pillAt + 0.6) g += G(P("M0 -70 V0 M-26 -26 L0 0 L26 -26", { w: 9, c: PAPER }), { x: 540, y: pillY - 80 + Math.sin((t - pillAt) * 6) * 12, o: clamp((t - pillAt - 0.6) * 3) });
   return g;
 }
 shot("fin", [], (t) => finCard(t), { min: 4.5, subs: false, clean: true });
@@ -1117,8 +1119,9 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
   g += `<rect x="350" y="520" width="380" height="480" fill="#bfe3ee" fill-opacity="0.3"/>` + Rect(350, 520, 380, 480, { sw: 7 }) + P("M390 560 l60 -30 M400 620 l90 -50", { w: 5, c: PAPER });
   if (burnt) g += P("M380 560 L470 700 L420 820 M470 700 L600 640 M470 700 L560 880 M600 640 L700 560", { w: 4, c: INK, op: 0.7 });
   // le prix tombe d'un coup (BAM) au moment où on le lit
+  const drop = ease.in(prog(t, c[4] + 0.2, 0.6)); // sur « Je l'ai jamais reçu », le prix tombe de son chevalet
   if (t > c[1]) g += G(Rect(-120, -50, 240, 100, { fill: PAPER, sw: 5, rx: 8 }) + T("50 400 €", 0, 4, { size: 48, font: SANS, weight: 800, c: RED }),
-    { x: 830 + (t < c[1] + 0.25 ? jit(t, 8) : 0), y: 950, s: pop(t, c[1], 0.2) * lerp(1.5, 1, ease.out(prog(t, c[1], 0.3))), r: 6 }) + bam(t, c[1], 900, 820);
+    { x: 830 + (t < c[1] + 0.25 ? jit(t, 8) : 0) + drop * 40, y: 950 + drop * 230, s: pop(t, c[1], 0.2) * lerp(1.5, 1, ease.out(prog(t, c[1], 0.3))), r: 6 + drop * 80 }) + bam(t, c[1], 900, 820);
   g += P("M160 1180 V1010 M920 1180 V1010", { w: 10 }) + Dot(160, 1000, 16, "#c9a85c") + Dot(920, 1000, 16, "#c9a85c") + P("M160 1020 Q540 1110 920 1020", { w: 12, c: "#b0282a" });
   // visiteurs
   const puzzled = t > c[3] + 0.4;
@@ -1160,11 +1163,11 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
 }, { only: true, cam: 0.06 });
 
 shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.3, "Bref. Je me suis fait ████ de 400 balles.", "s5"]], (t, c) => {
-  const tb = subAt("s-bip", "████") + 0.15;
-  let g = bigFace(540, 700, 250, { eyes: t > tb ? "flat" : "dot" });
+  const tb = c[0] + byKey("s-bip").cues[0].dur * 0.55; // « ████ » arrive aux 55 % de la phrase
+  let g = bigFace(540, 700, 250, { eyes: t > tb ? "flat" : "dot", mouth: t < tb && Math.floor(t * 7) % 2 ? "o" : "flat" });
   if (t > tb) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
   const punch = t > tb ? lerp(1.18, 1, ease.out(prog(t, tb, 0.3))) : 1;
-  return Z(G(g, { x: t > tb && t < tb + 0.25 ? jit(t, 10) : 0 }), punch, 540, 820);
+  return Z(G(g, { x: t > tb && t < tb + 0.25 ? jit(t, 10) : 0 }), punch * lerp(1, 1.16, prog(t, 0, byKey("s-bip").dur)), 540, 820);
 }, { only: true });
 
 // Les 50 000 : la tirelire explose et l'argent est aspiré dans l'ordinateur du développeur
@@ -1209,18 +1212,19 @@ shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as d
 }, { only: true, cam: 0.05 });
 
 // Option 1 : on tape « porte-plaques » dans la recherche d'une marketplace… et on tombe sur des plaques de cuisson
-shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8"], ["Sauf que quand tu cherches « porte-plaques »,", 0.15, undefined, "s9"], ["tu tombes sur des plaques de cuisson.", 1.4, undefined, "s9b"]], (t, c) => {
+shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8"], ["Sauf que quand tu cherches « porte-plaques »,", 0.15, undefined, "s9"], ["tu tombes sur des plaques de cuisson.", 0.9, undefined, "s9b"]], (t, c) => {
   let g = badge("1", t);
   g += Rect(70, 260, 940, 1000, { fill: PAPER, sw: 8, rx: 16 }) + P("M70 340 H1010", { w: 6 }) + Dot(110, 300, 9, "#bbb") + Dot(140, 300, 9, "#bbb");
   // la barre de recherche : « porte-plaques » s'écrit lettre par lettre
-  const q = "porte-plaques", typed = q.slice(0, Math.floor(prog(t, c[1] + 0.2, 1.0) * q.length));
+  // on tape tout de suite, les résultats tombent juste après : on a le temps de les regarder pendant qu'on lit
+  const q = "porte-plaques", typed = q.slice(0, Math.floor(prog(t, 0.25, 0.8) * q.length));
   g += Rect(110, 380, 860, 90, { fill: "#f1f1f1", sw: 5, rx: 45 }) + Circ(165, 425, 18, { w: 5 }) + P("M178 438 l16 16", { w: 5 });
   g += T(typed || "Rechercher…", 210, 427, { size: 40, anchor: "start", font: SANS, weight: typed ? 700 : 400, c: typed ? INK : "#aaa" });
   if (typed && typed.length < q.length && Math.floor(t * 4) % 2) g += P(`M${215 + typed.length * 22} 405 v44`, { w: 4 });
   // avant la recherche : la page d'accueil, des annonces au hasard (floues)
   const item = (x, y, inner, name, price, k) => k > 0 ? G(Rect(-190, -170, 380, 340, { fill: "#f6f3ea", sw: 5, rx: 14 }) + G(inner, { y: -40 }) +
     T(name, -165, 105, { size: 30, anchor: "start", font: SANS, weight: 700 }) + T(price, -165, 145, { size: 30, anchor: "start", font: SANS, weight: 800, c: NAVY }), { x, y, s: k }) : "";
-  const tR = c[2] - 0.1;
+  const tR = 1.2;
   if (t < tR) {
     for (let i = 0; i < 4; i++) g += Rect(110 + (i % 2) * 450, 520 + Math.floor(i / 2) * 370, 410, 330, { fill: "#f3f3f3", sw: 0, rx: 14, c: "none" });
     return g;
@@ -1232,7 +1236,9 @@ shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8
     [Rect(-110, -40, 220, 80, { fill: PAPER, sw: 6, rx: 8 }) + Rect(-110, -40, 30, 80, { fill: "#2a4fa0", sw: 0, c: "none" }) + T("AB-123-CD", 15, 3, { size: 32, font: SANS, weight: 800 }), "Porte-plaque immat.", "12 €"],
     [P("M-50 -70 h100 l20 30 l-30 10 v90 h-80 v-90 l-30 -10 Z", { fill: "#8d9478", w: 5 }) + T("★", 0, 0, { size: 40, c: "#f2cf55", font: SANS }), "Costume soldat (8 ans)", "15 €"],
   ];
-  res.forEach(([pic, name, price], i) => { g += item(300 + (i % 2) * 480, 690 + Math.floor(i / 2) * 370, pic, name, price, pop(t, tR + i * 0.3, 0.3)); });
+  res.forEach(([pic, name, price], i) => { g += item(300 + (i % 2) * 480, 690 + Math.floor(i / 2) * 370, pic, name, price, pop(t, tR + i * 0.35, 0.3)); });
+  // sur « plaques de cuisson », la plaque est entourée
+  if (t > c[2]) g += `<ellipse cx="300" cy="690" rx="215" ry="190" fill="none" stroke="${RED}" stroke-width="8" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${n2(1 - prog(t, c[2] + 0.2, 0.4))}"/>`;
   return g;
 }, { only: true, cam: 0.04 });
 
@@ -1249,7 +1255,8 @@ function chatScreen(t, n, o = {}) {
     y += 110;
   });
   if (o.seen) inner += T("Vu", 900, y - 50, { size: 30, anchor: "end", font: SANS, c: "#888" });
-  if (o.left) inner += T("Thomas R. a quitté la conversation", 540, y + 40, { size: 32, font: SANS, c: "#999", op: clamp((t - o.left) * 3) });
+  if (o.left) inner += T("Thomas R. a quitté la conversation", 540, y + 40, { size: 32, font: SANS, c: "#999", op: clamp((t - o.left) * 3) }) +
+    `<ellipse cx="540" cy="${y + 40}" rx="300" ry="42" fill="none" stroke="${RED}" stroke-width="7" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${n2(1 - prog(t, o.left + 0.5, 0.4))}"/>`;
   return phone(540, 760, 880, 1180, inner);
 }
 shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.", 0.25, undefined, "s12"], ["Zéro garantie : tu croises les doigts, normalement ça passe.", 1.9, undefined, "s13"],
@@ -1257,10 +1264,12 @@ shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote 
   let g = badge("2", t);
   if (t < c[1]) {
     // trois icônes, sans texte
-    const tF = subAt("s-opt2", "Facebook"), step = (c[1] - 0.3 - tF) / 3;
+    const tF = subAt("s-opt2", "Facebook"), step = (c[1] - 0.3 - tF) / 2.4;
     const at = (w) => tF + ["Facebook", "Telegram", "pote"].indexOf(w) * step;
     g += G(Rect(-110, -110, 220, 220, { fill: "#3b5998", sw: 0, rx: 40, c: "none" }) + T("f", 10, 20, { size: 170, font: SANS, weight: 800, c: PAPER }), { x: 220 + 300 * (1 - ease.out(prog(t, at("Facebook"), 0.35))), y: 700, s: pop(t, at("Facebook")) });
     g += G(Circ(0, 0, 110, { fill: "#2aa3dd", w: 0 }) + P("M-55 5 L60 -50 L35 60 L5 20 Z M5 20 L60 -50", { fill: PAPER, w: 5, c: PAPER }), { x: 540 + 300 * (1 - ease.out(prog(t, at("Telegram"), 0.35))), y: 700, s: pop(t, at("Telegram")) });
+    // les notifications s'empilent sur chaque icône
+    [[220, "Facebook"], [540, "Telegram"], [860, "pote"]].forEach(([x, w]) => { const n = Math.max(0, Math.floor((t - at(w) - 0.4) * 3)); if (n > 0) g += G(Circ(0, 0, 36, { fill: RED, w: 0 }) + T(String(Math.min(n, 99)), 0, 3, { size: 36, font: SANS, weight: 800, c: PAPER }), { x: x + 85, y: 600, s: pop(t, at(w) + 0.4, 0.2) }); });
     if (t > at("pote")) g += G(stick({ x: -50, y: 120, s: 0.8, la: [-30, -110], ra: [40, -170, 70, -200] }) + stick({ x: 60, y: 120, s: 0.8, la: [-30, -110], ra: [30, -110], look: [-6, 0] }), { x: 860, y: 640, s: pop(t, at("pote")) });
     return g;
   }
@@ -1274,21 +1283,21 @@ shot("s-opt2", [["Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote 
     const tE = subAt("s-opt2", "envoi");
     if (t < tE) {
       // des heures à chercher : les onglets s'empilent
-      const R = rng(21), n = Math.min(15, Math.floor((t - c[2]) * 5) + 1);
+      const R = rng(21), n = Math.min(15, Math.floor(((t - c[2]) / Math.max(0.5, tE - c[2] - 0.2)) * 15) + 1);
       for (let i = 0; i < n; i++) g += win(lerp(330, 750, R()), lerp(420, 1050, R()), WINS[i % WINS.length][0], WINS[i % WINS.length][1], { s: 1.15, r: lerp(-8, 8, R()) });
       g += T(`${n}/15`, 960, 160, { size: 60, font: SANS, weight: 800, c: n >= 15 ? RED : INK });
       return g;
     }
     // l'envoi tout seul : Nico ligoté par son propre scotch
-    const k = prog(t, tE, 1.4);
+    const k = prog(t, tE, Math.max(1.4, c[3] - tE - 0.2));
     g += floor(1250) + G(box({ w: 300, h: 200 }), { x: 720, y: 1250 });
-    g += stick({ x: 380, y: 1250, s: 1.3, la: [-60, -150, -20, -230], ra: [60, -150, 20, -230], eyes: "wide", mouth: "o" });
-    for (let i = 0; i < 6; i++) if (k > i / 6) g += P(`M${290 + i * 4} ${1000 + i * 40} q90 ${30 - i * 6} 180 ${-10 + i * 4}`, { w: 14, c: "#c9a85c", op: 0.85 });
+    g += stick({ x: 380 + jit(t, 6), y: 1250, s: 1.3, la: [-60, -150, -20, -230], ra: [60, -150, 20, -230], eyes: "wide", mouth: "o" });
+    for (let i = 0; i < 9; i++) if (k > i / 9) g += P(`M${290 + i * 4} ${1000 + i * 40} q90 ${30 - i * 6} 180 ${-10 + i * 4}`, { w: 14, c: "#c9a85c", op: 0.85 });
     g += Circ(560, 1120, 50, { fill: "#d9c9a3", w: 6 }) + Circ(560, 1120, 20, { w: 4, fill: PAPER });
     return g;
   }
   // retour à la conversation : il est parti
-  return g + chatScreen(t, CHAT.length, { seen: true, left: c[3] + 0.4 }) + fly(t, 540, 520, { seed: 2, rad: 60 });
+  return g + Z(chatScreen(t, CHAT.length, { seen: true, left: c[3] + 0.4 }) + fly(t, 540, 520, { seed: 2, rad: 60 }), lerp(1, 1.35, prog(t, c[3] + 0.2, byKey("s-opt2").dur - c[3] - 0.2)), 540, 1150);
 }, { only: true, cam: 0.03 });
 
 // L'idée : l'ampoule, puis le logo tombe
@@ -1356,7 +1365,8 @@ shot("s-banquiere", [["Bon, maintenant, c'est ma banquière qui panique :", 0.15
   // Nico, au premier plan, détendu ; sur « rabat-joie », il fait non de la main
   const wave = t > c[2] ? Math.sin((t - c[2]) * 9) * 30 : 0;
   const shout = t > c[2] + 0.3;
-  g += stick({ x: 190, y: 1330, s: 1.35, la: shout ? [-70, -200, -60 - wave, -280] : [-40, -110], ra: t > c[2] ? [70, -200, 60 + wave, -280] : [40, -110], look: [10, 0], mouth: shout ? "o" : "smile" });
+  const enter = ease.out(prog(t, 0, 0.9));
+  g += stick({ x: lerp(-200, 190, enter), y: 1330, s: 1.35, ll: [-34 + (enter < 1 ? Math.sin(t * 14) * 20 : 0), 0], rl: [34 - (enter < 1 ? Math.sin(t * 14) * 20 : 0), 0], la: shout ? [-70, -200, -60 - wave, -280] : [-40, -110], ra: t > c[2] ? [70, -200, 60 + wave, -280] : [40, -110], look: [10, 0], mouth: shout ? "o" : "smile" });
   // « Faut rester positive ! » (le compte, lui, est à −50 000)
   if (shout) g += bubble(330, 430, 540, 150, 230, 930, T("FAUT RESTER\nPOSITIVE !", 330, 430, { size: 52, font: MARK, c: ACC }), { s: pop(t, c[2] + 0.3, 0.3) * (1 + Math.sin((t - c[2]) * 14) * 0.02) });
   return g;
@@ -1438,15 +1448,20 @@ shot("s-pro", [["Donc voilà : Second Armor, c'est tout l'équipement tactique."
   const glow = (x, at) => t > at ? Rect(x - W / 2 - 46, cy - H / 2 - 60, W + 92, H + 124, { fill: "none", sw: 8, c: ACC, rx: 64 }) : "";
   g += glow(xl, tE) + appPhone("appExplorer", xl, lerp(1900, cy, u1), H, { r: lerp(-8, -2, u1) });
   g += appPhone("appPP", xr, lerp(1900, cy, u2), H, { r: lerp(8, 2, u2) });
+  // un doigt qui navigue : les catégories, puis le filtre, puis le cadenas
+  const fx = t < tE ? lerp(560, xl, ease.inOut(prog(t, 0.6, 0.6))) : t < tC ? lerp(xl, xr + (758 - 462) * k, ease.inOut(prog(t, tE + 0.4, 0.5))) : lerp(xr + (758 - 462) * k, 560, ease.inOut(prog(t, tC + 0.5, 0.5)));
+  const fy = t < tE ? lerp(1300, cy - 60, ease.inOut(prog(t, 0.6, 0.6))) : t < tC ? lerp(cy - 60, cy + (398 - 1000) * k + 20, ease.inOut(prog(t, tE + 0.4, 0.5))) : lerp(cy + (398 - 1000) * k + 20, cy + H / 2 + 10, ease.inOut(prog(t, tC + 0.5, 0.5)));
+  const tap = [1.25, tE + 0.95, tC + 1.05].some((x) => t > x && t < x + 0.12);
   // « classé » : on entoure le filtre « Porte-plaques »
   if (t > tC) g += G(`<ellipse cx="${n2((758 - 462) * k)}" cy="${n2((398 - 1000) * k)}" rx="86" ry="32" fill="none" stroke="${RED}" stroke-width="7" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${n2(1 - prog(t, tC, 0.35))}"/>`, { x: xr, y: cy, r: 2 });
   // « sécurisé » : le cadenas vert se pose entre les deux
   if (t > tS) g += G(Circ(0, 0, 70, { fill: GREEN, w: 6, c: PAPER }) + Rect(-30, -6, 60, 46, { fill: PAPER, sw: 0, c: "none", rx: 7 }) + P("M-18 -6 v-16 q18 -30 36 0 v16", { w: 9, c: PAPER }), { x: 540, y: cy + H / 2 - 20, s: pop(t, tS, 0.35) });
-  return g;
+  if (t > 0.6) g += G(P("M0 0 L0 60 L16 46 L28 72 L38 67 L27 42 L48 42 Z", { fill: PAPER, w: 5 }), { x: fx, y: fy, s: tap ? 0.8 : 1.1 }) + (tap ? Circ(fx, fy, 40, { w: 5, c: ACC }) : "");
+  return G(g, { y: Math.sin(t * 1.8) * 10 });
 }, { only: true, cam: 0.03 });
 
 // Le merci, sur le carton de fin
-shot("s-fin", [["Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.", 2.6, "Merci pour votre soutien,|qui nous permet de rendre à ceux qui le méritent aussi.", "s33"]], (t) => finCard(t, { dy: -110, pillY: 1640, pillAt: 3.2 }), { only: true, dark: true, clean: true });
+shot("s-fin", [["Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.", 1.8, "Merci pour votre soutien,|qui nous permet de rendre à ceux qui le méritent aussi.", "s33"]], (t) => finCard(t, { dy: -110, pillY: 1640, pillAt: 2.0 }), { only: true, dark: true, clean: true });
 
 // ---------------------------------------------------------------------------
 // Moteur : seek(t), sous-titres, lecteur, mode export
@@ -1557,7 +1572,7 @@ function seek(t) {
   CUR = s;
   const art = s.draw(lt, c, s.dur);
   // cam : la caméra avance doucement pendant tout le plan (ça évite les images figées)
-  drawLayer.innerHTML = s.cam ? Z(art, 1 + s.cam * ease.inOut(clamp(lt / s.dur)), 540, 880) : art;
+  drawLayer.innerHTML = s.cam && !window.NOCAM ? Z(art, 1 + s.cam * ease.inOut(clamp(lt / s.dur)), 540, 880) : art;
   // tremblement « dessin à la main » : 8 fois par seconde
   if (s.clean) drawLayer.removeAttribute("filter");
   else drawLayer.setAttribute("filter", `url(#boil${Math.floor(t * 8) % 3})`);
