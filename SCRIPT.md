@@ -175,7 +175,7 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > Il faisait rien, d'ailleurs. *(la fumée se dissipe : la vitrine est vide)*
 > Je l'ai jamais reçu.
 > Bref. Je me suis fait ████ de 400 balles.
-> Les 50 000, c'est ce qui s'est passé après. *(la tirelire cassée, l'argent aspiré dans l'ordinateur du dev)*
+> Et les 50 000 ? Ça, c'est la suite. *(l'étiquette se déchire : « 400 € » part à la poubelle, « 50 000 € » reste avec un « ? »)*
 
 **2. Les deux options**
 > Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère. *(le militaire hoche la tête, le civil ne comprend pas)*
