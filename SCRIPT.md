@@ -168,7 +168,7 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 
 Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvelle à la fois, un vrai décor par scène. Le texte de Maxime (12 oct.), avec ses retouches.
 
-**1. Le gilet le plus cher du monde** *(un musée, le gilet sous vitrine ; Nico arrive de dos, du bas de l'écran : « Je le prends. »)*
+**1. Le gilet le plus cher du monde** *(plan de dos façon caméra à l'épaule : la salle dans le noir, seule la vitrine éclairée ; Nico avance, la caméra recule, la salle se dévoile ; « Je le prends. »)*
 > J'ai acheté le gilet tactique d'occasion le plus cher du monde.
 > Il m'a coûté 50 400 €.
 > Et non, à ce prix-là, il faisait pas pare-missile. *(le missile frappe la vitrine, BOUM, fumée)*
@@ -180,7 +180,8 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 **2. Les deux options**
 > Parce que pour acheter du matos tactique d'occasion, t'as deux options.
 > Option 1 : une marketplace grand public.
-> Sauf que les porte-plaques se retrouvent rangés dans la catégorie « Déguisements ».
+> Sauf que quand tu cherches « porte-plaques »,
+> tu tombes sur des plaques de cuisson. *(résultats : plaque de cuisson, plaquettes de frein, porte-plaque d'immatriculation, costume de soldat 8 ans)*
 > Et ça, c'est si tu t'es pas fait bannir, parce que pour un algorithme de friperie, « porte-chargeur », c'est du grand banditisme. *(tampon « RECHERCHÉ »)*
 > … C'est une poche.
 > Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.

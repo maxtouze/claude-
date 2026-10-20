@@ -1103,8 +1103,8 @@ const floor = (y = 1180) => P(`M-20 ${y} H1100`, { w: 6 });
 
 // Musée : le gilet sous vitrine, deux visiteurs, un cordon rouge. Le missile frappe, la fumée cache la vitrine,
 // et quand elle se dissipe (« Il faisait rien »), la vitrine est vide.
-shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du monde.", 0.3, "J'ai acheté le gilet tactique d'occasion le plus cher du monde.|", "s1"], ["Il m'a coûté 50 400 €.", 0.45, undefined, "s2"],
-  ["Et non, à ce prix-là, il faisait pas pare-missile.", 0.5, "Et non, à ce prix-là, il faisait pas pare-missile.|", "s3"], ["Il faisait rien, d'ailleurs.", 0.25, undefined, "s4"], ["Je l'ai jamais reçu.", 0.7, undefined, "s4b"]], (t, c) => {
+shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du monde.", 0.2, "J'ai acheté le gilet tactique d'occasion le plus cher du monde.|", "s1"], ["Il m'a coûté 50 400 €.", 0.3, undefined, "s2"],
+  ["Et non, à ce prix-là, il faisait pas pare-missile.", 0.5, "Et non, à ce prix-là, il faisait pas pare-missile.|", "s3"], ["Il faisait rien, d'ailleurs.", 0.25, undefined, "s4"], ["Je l'ai jamais reçu.", 0.45, undefined, "s4b"]], (t, c) => {
   const duck = t > c[2] + 0.3 && t < c[2] + 1.6, burnt = t > c[2] + 1.15;
   let g = Rect(-10, -10, 1100, 1190, { fill: "#f4efe4", sw: 0, c: "none" }) + floor(1180);
   g += P("M380 0 L300 1000 L560 1000 Z M700 0 L520 1000 L780 1000 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
@@ -1127,12 +1127,16 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
     return v;
   };
   g += visitor(110, 8, ["roundglasses"]) + visitor(920, -8);
-  // Nico arrive du bas de l'écran, de dos, et marche droit vers la vitrine : « Je le prends. »
-  const walk = ease.out(prog(t, 0, Math.max(1.5, c[1] - 0.4))), stepL = walk < 1 ? Math.sin(t * 11) * 18 : 0;
-  const nx = lerp(560, 420, walk), ny = lerp(2050, 1390, walk), ns = lerp(2.0, 1.05, walk);
+  // plan de dos, façon caméra à l'épaule : la salle est dans le noir, seule la vitrine est éclairée ;
+  // Nico (tête et épaules en gros plan) avance, la caméra recule et la salle se dévoile
+  const walkD = Math.max(1.8, c[1] - 0.5), walk = ease.inOut(prog(t, 0.1, walkD)), stepL = walk < 1 ? Math.sin(t * 9) * 18 : 0;
+  const reveal = ease.inOut(prog(t, 0.4, walkD));
+  if (reveal < 1) g += `<path d="M-40 -40 H1120 V1960 H-40 Z M340 470 V1010 H740 V470 Z" fill-rule="evenodd" fill="#141414" opacity="${n2(0.62 * (1 - reveal))}"/>`;
+  const ns = lerp(4.6, 1.05, walk), nx = lerp(540, 420, walk), ny = lerp(2750, 1390, walk) + (walk < 1 ? Math.abs(Math.sin(t * 9)) * 6 * ns : 0);
   const turned = t > c[3]; // il se retourne vers nous quand la fumée se dissipe
-  g += stick({ x: nx, y: ny, s: ns, ll: [-34 + stepL, 0], rl: [34 - stepL, 0], la: [-40, -110], ra: [40, -110],
-    eyes: turned ? (burnt ? "wide" : "dot") : "none", mouth: turned ? "flat" : null, face: burnt ? "#8a8a8a" : SKIN });
+  g += stick({ x: nx, y: ny, s: ns, ll: [-34 + stepL, 0], rl: [34 - stepL, 0], la: [-62, -110], ra: [62, -110],
+    body: P("M-64 -208 Q0 -226 64 -208 L78 -96 H-78 Z", { fill: "#5f6b4a", w: 6 }), // sa veste : on voit ses épaules de dos
+    eyes: turned ? (burnt ? "wide" : "dot") : "none", mouth: turned ? "flat" : null, face: turned ? (burnt ? "#8a8a8a" : SKIN) : "#4a3b30" }); // de dos : on voit ses cheveux
   if (burnt) g += P(`M${nx - 35 * ns} ${ny - 290 * ns} l${-10 * ns} ${-34 * ns} l${20 * ns} ${18 * ns} l${6 * ns} ${-38 * ns} l${14 * ns} ${34 * ns} l${12 * ns} ${-36 * ns} l${8 * ns} ${38 * ns} l${20 * ns} ${-20 * ns} l${-6 * ns} ${38 * ns}`, { w: 5 });
   const tB = Math.max(1.0, c[1] - 1.6);
   if (t > tB && t < c[1] + 0.5) g += bubble(nx + 170, ny - 380 * ns, 300, 84, nx + 40, ny - 300 * ns, T("Je le prends.", nx + 170, ny - 376 * ns, { size: 38, font: MARK }), { s: pop(t, tB, 0.25) });
@@ -1150,6 +1154,7 @@ shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du mond
       g += Circ(540 + Math.cos(a) * 110 + (i - 4) * 18, 760 + Math.sin(a * 1.3) * 140, rr, { fill: i % 2 ? "#d4d4d4" : "#c4c4c4", w: 0, op: thick * 0.95 });
     }
   }
+  g = Z(g, lerp(1.35, 1, walk), 540, 760); // la caméra recule pendant qu'il avance
   return t > tHit && t < tHit + 0.5 ? G(g, { x: jit(t, 14), y: jit(t * 1.3, 10, 2) }) : g;
 }, { only: true, cam: 0.06 });
 
@@ -1201,20 +1206,31 @@ shot("s-options", [["Parce que pour acheter du matos tactique d'occasion, t'as d
   return g;
 }, { only: true, cam: 0.05 });
 
-// Option 1 : la page « Déguisements » d'une marketplace, le porte-plaques arrive au milieu des costumes
-shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8"], ["Sauf que les porte-plaques se retrouvent rangés dans la catégorie « Déguisements ».", 0.9, undefined, "s9"]], (t, c) => {
+// Option 1 : on tape « porte-plaques » dans la recherche d'une marketplace… et on tombe sur des plaques de cuisson
+shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8"], ["Sauf que quand tu cherches « porte-plaques »,", 0.15, undefined, "s9"], ["tu tombes sur des plaques de cuisson.", 1.4, undefined, "s9b"]], (t, c) => {
   let g = badge("1", t);
   g += Rect(70, 260, 940, 1000, { fill: PAPER, sw: 8, rx: 16 }) + P("M70 340 H1010", { w: 6 }) + Dot(110, 300, 9, "#bbb") + Dot(140, 300, 9, "#bbb");
-  g += T("Déguisements", 120, 420, { size: 64, anchor: "start", font: SANS, weight: 800 }) + T("🎭", 950, 420, { size: 60, font: SANS, anchor: "end" });
-  const item = (x, y, inner, k, hl) => k > 0 ? G(Rect(-190, -170, 380, 340, { fill: hl ? "#fff1e8" : "#f6f3ea", sw: hl ? 8 : 5, c: hl ? ACC : INK, rx: 14 }) + inner, { x, y, s: k }) : "";
-  g += item(300, 680, G(P("M-70 -40 Q0 -110 70 -40 L50 70 H-50 Z", { fill: INK, w: 5 }) + Circ(0, -20, 18, { fill: PAPER, w: 4 }) + P("M-12 -32 l24 24 M12 -32 l-24 24", { w: 4 })), pop(t, 0.3), false);
-  g += item(780, 680, Circ(0, 0, 70, { fill: RED, w: 6 }) + P("M-30 -30 q20 -10 30 5", { w: 5, c: PAPER }), pop(t, 0.55), false);
-  g += item(300, 1060, P("M-90 70 L0 -100 L90 70 Z", { fill: "#f2cf55", w: 5 }) + Dot(-20, 0, 12, RED) + Dot(30, 30, 12, TEAL) + Dot(0, -60, 14, ACC), pop(t, 0.8), false);
-  if (t < subAt("s-opt1", "porte-plaques")) g += Rect(600, 900, 360, 320, { fill: "none", sw: 5, rx: 14, c: "#ccc" }) + T("?", 780, 1060, { size: 120, font: MARK, c: "#ccc" });
-  // le porte-plaques débarque dans la 4e case, au moment où on en parle
-  const tP = subAt("s-opt1", "porte-plaques"), tD = subAt("s-opt1", "Déguisements");
-  if (t > tP) g += item(780, 1060, vestAt(0, 10, 0.85), pop(t, tP, 0.35), t > tD);
-  if (t > tD + 0.2) g += P("M570 1060 C570 860 990 860 990 1060 C990 1260 570 1260 575 1070", { c: RED, w: 9, q: prog(t, tD + 0.2, 0.4) });
+  // la barre de recherche : « porte-plaques » s'écrit lettre par lettre
+  const q = "porte-plaques", typed = q.slice(0, Math.floor(prog(t, c[1] + 0.2, 1.0) * q.length));
+  g += Rect(110, 380, 860, 90, { fill: "#f1f1f1", sw: 5, rx: 45 }) + Circ(165, 425, 18, { w: 5 }) + P("M178 438 l16 16", { w: 5 });
+  g += T(typed || "Rechercher…", 210, 427, { size: 40, anchor: "start", font: SANS, weight: typed ? 700 : 400, c: typed ? INK : "#aaa" });
+  if (typed && typed.length < q.length && Math.floor(t * 4) % 2) g += P(`M${215 + typed.length * 22} 405 v44`, { w: 4 });
+  // avant la recherche : la page d'accueil, des annonces au hasard (floues)
+  const item = (x, y, inner, name, price, k) => k > 0 ? G(Rect(-190, -170, 380, 340, { fill: "#f6f3ea", sw: 5, rx: 14 }) + G(inner, { y: -40 }) +
+    T(name, -165, 105, { size: 30, anchor: "start", font: SANS, weight: 700 }) + T(price, -165, 145, { size: 30, anchor: "start", font: SANS, weight: 800, c: NAVY }), { x, y, s: k }) : "";
+  const tR = c[2] - 0.1;
+  if (t < tR) {
+    for (let i = 0; i < 4; i++) g += Rect(110 + (i % 2) * 450, 520 + Math.floor(i / 2) * 370, 410, 330, { fill: "#f3f3f3", sw: 0, rx: 14, c: "none" });
+    return g;
+  }
+  // les résultats : tout sauf un porte-plaques
+  const res = [
+    [Rect(-90, -60, 180, 120, { fill: INK, sw: 4, rx: 10 }) + Circ(-40, -10, 30, { w: 4, c: "#888" }) + Circ(40, -10, 30, { w: 4, c: "#888" }) + Circ(0, 35, 18, { w: 4, c: "#888" }), "Plaque de cuisson", "45 €"],
+    [P("M-80 -40 Q0 -80 80 -40 L70 40 Q0 10 -70 40 Z", { fill: "#9a9a9a", w: 5 }) + P("M-70 40 Q0 10 70 40 L60 60 Q0 35 -60 60 Z", { fill: "#555", w: 4 }), "Plaquettes de frein", "29 €"],
+    [Rect(-110, -40, 220, 80, { fill: PAPER, sw: 6, rx: 8 }) + Rect(-110, -40, 30, 80, { fill: "#2a4fa0", sw: 0, c: "none" }) + T("AB-123-CD", 15, 3, { size: 32, font: SANS, weight: 800 }), "Porte-plaque immat.", "12 €"],
+    [P("M-50 -70 h100 l20 30 l-30 10 v90 h-80 v-90 l-30 -10 Z", { fill: "#8d9478", w: 5 }) + T("★", 0, 0, { size: 40, c: "#f2cf55", font: SANS }), "Costume soldat (8 ans)", "15 €"],
+  ];
+  res.forEach(([pic, name, price], i) => { g += item(300 + (i % 2) * 480, 690 + Math.floor(i / 2) * 370, pic, name, price, pop(t, tR + i * 0.3, 0.3)); });
   return g;
 }, { only: true, cam: 0.04 });
 
@@ -1404,18 +1420,20 @@ shot("s-amazonie", [["Et on soutient Micka, un ex-para qui part 5 jours en Amazo
 // La fin : les deux vraies captures de l'appli, côte à côte et entières. Chaque mot les fait réagir :
 // « au même endroit » → toutes les catégories, « classé » → le filtre « Porte-plaques », « sécurisé » → le cadenas.
 function appPhone(name, x, y, h, o = {}) {
-  const w = h * 924 / 2000;
-  return G(Rect(-w / 2 - 14, -h / 2 - 14, w + 28, h + 28, { fill: "#0d0e10", sw: 6, rx: 46 }) +
-    `<clipPath id="ph${name}"><rect x="${n2(-w / 2)}" y="${n2(-h / 2)}" width="${n2(w)}" height="${n2(h)}" rx="34"/></clipPath>` +
-    `<g clip-path="url(#ph${name})">${Pic(name, 0, 0, w, h)}</g>`, { x, y, r: o.r ?? 0, s: o.s ?? 1, o: o.op ?? 1 });
+  // un téléphone dessiné à la main : coque noire épaisse, encoche, boutons, la vraie capture dedans
+  const w = h * 924 / 2000, bw = w + 44, bh = h + 70;
+  return G(P(`M${-bw / 2 + 50} ${-bh / 2} H${bw / 2 - 50} Q${bw / 2} ${-bh / 2} ${bw / 2} ${-bh / 2 + 50} V${bh / 2 - 50} Q${bw / 2} ${bh / 2} ${bw / 2 - 50} ${bh / 2} H${-bw / 2 + 50} Q${-bw / 2} ${bh / 2} ${-bw / 2} ${bh / 2 - 50} V${-bh / 2 + 50} Q${-bw / 2} ${-bh / 2} ${-bw / 2 + 50} ${-bh / 2} Z`, { fill: INK, w: 8 }) +
+    P(`M${bw / 2} ${-bh / 2 + 140} v70 M${-bw / 2} ${-bh / 2 + 120} v50 M${-bw / 2} ${-bh / 2 + 190} v50`, { w: 10 }) +
+    `<clipPath id="ph${name}"><rect x="${n2(-w / 2)}" y="${n2(-h / 2 + 8)}" width="${n2(w)}" height="${n2(h)}" rx="26"/></clipPath>` +
+    `<g clip-path="url(#ph${name})">${Pic(name, 0, 8, w, h)}</g>` + Rect(-40, -bh / 2 + 14, 80, 18, { fill: INK, sw: 0, rx: 9, c: "none" }), { x, y, r: o.r ?? 0, s: o.s ?? 1, o: o.op ?? 1 });
 }
 shot("s-pro", [["Donc voilà : Second Armor, c'est tout l'équipement tactique.", 0.9, undefined, "s31"], ["Tout au même endroit, classé, et sécurisé.", 2.4, undefined, "s32"]], (t, c) => {
-  let g = Rect(-10, -10, 1100, 1940, { fill: "#e9eef2", sw: 0, c: "none" });
-  const H = 860, W = H * 924 / 2000, cy = 690, xl = 290, xr = 790, k = H / 2000;
+  let g = "";
+  const H = 820, W = H * 924 / 2000, cy = 690, xl = 290, xr = 790, k = H / 2000;
   const u1 = ease.out(prog(t, 0.1, 0.6)), u2 = ease.out(prog(t, 0.6, 0.6));
   // les trois mots sont dans le même sous-titre : on les cale sur leur place dans la phrase
   const D1 = byKey("s-pro").cues[1].dur, tE = c[1] + D1 * 0.35, tC = c[1] + D1 * 0.62, tS = c[1] + D1 * 0.9;
-  const glow = (x, at) => t > at ? Rect(x - W / 2 - 30, cy - H / 2 - 30, W + 60, H + 60, { fill: "none", sw: 8, c: ACC, rx: 58 }) : "";
+  const glow = (x, at) => t > at ? Rect(x - W / 2 - 46, cy - H / 2 - 60, W + 92, H + 124, { fill: "none", sw: 8, c: ACC, rx: 64 }) : "";
   g += glow(xl, tE) + appPhone("appExplorer", xl, lerp(1900, cy, u1), H, { r: lerp(-8, -2, u1) });
   g += appPhone("appPP", xr, lerp(1900, cy, u2), H, { r: lerp(8, 2, u2) });
   // « classé » : on entoure le filtre « Porte-plaques »
@@ -1423,7 +1441,7 @@ shot("s-pro", [["Donc voilà : Second Armor, c'est tout l'équipement tactique."
   // « sécurisé » : le cadenas vert se pose entre les deux
   if (t > tS) g += G(Circ(0, 0, 70, { fill: GREEN, w: 6, c: PAPER }) + Rect(-30, -6, 60, 46, { fill: PAPER, sw: 0, c: "none", rx: 7 }) + P("M-18 -6 v-16 q18 -30 36 0 v16", { w: 9, c: PAPER }), { x: 540, y: cy + H / 2 - 20, s: pop(t, tS, 0.35) });
   return g;
-}, { only: true, clean: true });
+}, { only: true, cam: 0.03 });
 
 // Le merci, sur le carton de fin
 shot("s-fin", [["Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.", 2.6, "Merci pour votre soutien,|qui nous permet de rendre à ceux qui le méritent aussi.", "s33"]], (t) => finCard(t, { dy: -110, pillY: 1640, pillAt: 3.2 }), { only: true, dark: true, clean: true });
