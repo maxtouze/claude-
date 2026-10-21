@@ -169,7 +169,8 @@ Un petit bonhomme « spectateur » est assis dans un coin de l'écran pendant to
 Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvelle à la fois, un vrai décor par scène. Le texte de Maxime (12 oct.), avec ses retouches.
 
 **1. Le gilet le plus cher du monde** *(plan de dos façon caméra à l'épaule : la salle dans le noir, seule la vitrine éclairée ; Nico avance, la caméra recule, la salle se dévoile ; « Je le prends. »)*
-> J'ai acheté le gilet tactique d'occasion le plus cher du monde.
+> En 2023,
+> j'ai acheté le gilet d'occasion le plus cher du monde.
 > Il m'a coûté 50 400 €.
 > Et non, à ce prix-là, il faisait pas pare-missile. *(le missile frappe la vitrine, BOUM, fumée)*
 > Il faisait rien, d'ailleurs. *(la fumée se dissipe : la vitrine est vide)*

@@ -1105,8 +1105,9 @@ const floor = (y = 1180) => P(`M-20 ${y} H1100`, { w: 6 });
 
 // Musée : le gilet sous vitrine, deux visiteurs, un cordon rouge. Le missile frappe, la fumée cache la vitrine,
 // et quand elle se dissipe (« Il faisait rien »), la vitrine est vide.
-shot("s-hook", [["J'ai acheté le gilet tactique d'occasion le plus cher du monde.", 0.2, "J'ai acheté le gilet tactique d'occasion le plus cher du monde.|", "s1"], ["Il m'a coûté 50 400 €.", 0.3, undefined, "s2"],
+shot("s-hook", [["En 2023,", 0.15, undefined, "s0"], ["j'ai acheté le gilet d'occasion le plus cher du monde.", 0.2, "j'ai acheté le gilet d'occasion le plus cher du monde.|", "s1"], ["Il m'a coûté 50 400 €.", 0.3, undefined, "s2"],
   ["Et non, à ce prix-là, il faisait pas pare-missile.", 0.5, "Et non, à ce prix-là, il faisait pas pare-missile.|", "s3"], ["Il faisait rien, d'ailleurs.", 0.25, undefined, "s4"], ["Je l'ai jamais reçu.", 0.45, undefined, "s4b"]], (t, c) => {
+  c = c.slice(1); // « En 2023, » ouvre le plan pendant la marche : les repères partent de la phrase du gilet
   const duck = t > c[2] + 0.3 && t < c[2] + 1.6, burnt = t > c[2] + 1.15;
   let g = Rect(-10, -10, 1100, 1190, { fill: "#f4efe4", sw: 0, c: "none" }) + floor(1180);
   g += P("M380 0 L300 1000 L560 1000 Z M700 0 L520 1000 L780 1000 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
@@ -1475,6 +1476,7 @@ const CUTS = {
   // morceau à recoller dans la version « histoire » (patinoire + Amazonie)
   "patch-communaute": ["s-freres", "s-amazonie"],
   "patch-debut": ["s-apres", "s-options"],
+  "patch-hook": ["s-hook"],
   // le gilet le plus cher du monde -> les deux options -> la mission -> la banquière -> rendre à la communauté
   histoire: ["s-hook", "s-bip", "s-apres", "s-options", "s-opt1", "s-algo", "poche", "s-opt2", "s-mission", "s-escrow", "s-tactique", "s-banquiere", "s-dixmille",
     "s-freres", "s-amazonie", "s-pro", "s-fin"],
