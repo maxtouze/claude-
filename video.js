@@ -1108,12 +1108,12 @@ const floor = (y = 1180) => P(`M-20 ${y} H1100`, { w: 6 });
 shot("s-hook", [["En 2023,", 0.15, undefined, "s0"], ["j'ai acheté le gilet d'occasion le plus cher du monde.", 0.2, "j'ai acheté le gilet d'occasion le plus cher du monde.|", "s1"], ["Il m'a coûté 50 400 €.", 0.3, undefined, "s2"],
   ["Et non, à ce prix-là, il faisait pas pare-missile.", 0.5, "Et non, à ce prix-là, il faisait pas pare-missile.|", "s3"], ["Il faisait rien, d'ailleurs.", 0.25, undefined, "s4"], ["Je l'ai jamais reçu.", 0.45, undefined, "s4b"]], (t, c) => {
   c = c.slice(1); // « En 2023, » ouvre le plan pendant la marche : les repères partent de la phrase du gilet
-  const duck = t > c[2] + 0.3 && t < c[2] + 1.6, burnt = t > c[2] + 1.15;
+  const tHit = cueEnd("s-hook", 3) - 0.3; // le missile tombe sur « pare-missile »
+  const duck = t > tHit - 0.5 && t < tHit + 0.6, burnt = t > tHit + 0.15;
   let g = Rect(-10, -10, 1100, 1190, { fill: "#f4efe4", sw: 0, c: "none" }) + floor(1180);
   g += P("M380 0 L300 1000 L560 1000 Z M700 0 L520 1000 L780 1000 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
   g += Rect(370, 1000, 340, 180, { fill: "#e7dfcc", sw: 7 }) + Rect(440, 1040, 200, 90, { fill: "#c9a85c", sw: 4, rx: 6 });
   g += T("Gilet tactique", 540, 1068, { size: 22, font: SANS, weight: 700 }) + T("occasion", 540, 1100, { size: 24 });
-  const tHit = c[2] + 1.0;
   // le gilet : il disparaît sous la fumée (on ne le reverra pas)
   if (t < tHit + 0.5) g += vestAt(540, 790, 1.05);
   else if (t > c[3]) g += fly(t, 540, 760, { seed: 5, rad: 70 });
@@ -1140,27 +1140,56 @@ shot("s-hook", [["En 2023,", 0.15, undefined, "s0"], ["j'ai acheté le gilet d'o
   if (reveal < 1) g += `<path d="M-40 -40 H1120 V1960 H-40 Z M340 470 V1010 H740 V470 Z" fill-rule="evenodd" fill="#141414" opacity="${n2(0.62 * (1 - reveal))}"/>`;
   const ns = lerp(4.6, 1.05, walk), nx = lerp(540, 420, walk), ny = lerp(2750, 1390, walk) + (walk < 1 ? Math.abs(Math.sin(t * 9)) * 6 * ns : 0);
   const turned = t > c[3]; // il se retourne vers nous quand la fumée se dissipe
-  g += stick({ x: nx, y: ny, s: ns, ll: [-34 + stepL, 0], rl: [34 - stepL, 0], la: [-62, -110], ra: t > 0.1 + walkD ? [70, -200, 100, -300] : [62, -110], // arrivé, il lève le bras vers le gilet
-    eyes: turned ? (burnt ? "wide" : "dot") : "none", mouth: turned ? "flat" : null, face: turned ? (burnt ? "#8a8a8a" : SKIN) : "#4a3b30" }); // de dos : on voit ses cheveux
+  g += stick({ x: nx, y: ny, s: ns, ll: [-34 + stepL, 0], rl: [34 - stepL, 0], la: [-62, -110], ra: t > 0.1 + walkD && t < tHit ? [70, -200, 100, -300] : [62, -110], // arrivé, il lève le bras vers le gilet
+    eyes: turned && !burnt ? "dot" : "none", mouth: turned ? "flat" : null, face: turned ? (burnt ? "#8a8a8a" : SKIN) : "#4a3b30" }); // de dos : on voit ses cheveux
   if (burnt) g += P(`M${nx - 35 * ns} ${ny - 290 * ns} l${-10 * ns} ${-34 * ns} l${20 * ns} ${18 * ns} l${6 * ns} ${-38 * ns} l${14 * ns} ${34 * ns} l${12 * ns} ${-36 * ns} l${8 * ns} ${38 * ns} l${20 * ns} ${-20 * ns} l${-6 * ns} ${38 * ns}`, { w: 5 });
   const tB = 0.15 + walkD;
   if (t > tB && t < c[1] + 0.5) g += bubble(nx + 170, ny - 380 * ns, 300, 84, nx + 40, ny - 300 * ns, T("Je le prends.", nx + 170, ny - 376 * ns, { size: 38, font: MARK }), { s: pop(t, tB, 0.25) });
   // le missile
-  if (t > c[2] + 0.2 && t < tHit) {
-    const k = ease.in(prog(t, c[2] + 0.2, tHit - c[2] - 0.2));
+  if (t > tHit - 1.4 && t < tHit) {
+    const k = ease.in(prog(t, tHit - 1.4, 1.4));
     g += G(P("M-90 -18 H50 L90 0 L50 18 H-90 Z M-90 -18 L-120 -40 M-90 18 L-120 40", { fill: GREY, w: 6 }) + P(`M-130 -8 l${-30 - Math.sin(t * 40) * 15} 8 l${30 + Math.sin(t * 40) * 15} 8`, { fill: "#ffb347", w: 4 }), { x: lerp(-200, 470, k), y: lerp(300, 720, k), r: 32 });
   }
-  if (t > tHit && t < tHit + 0.7) g += boom(t, 520, 720, 330 * ease.out(prog(t, tHit, 0.18)) * (1 - prog(t, tHit + 0.45, 0.25)), 5) + T("BOUM", 520, 720, { size: 110, font: MARK, c: PAPER, stroke: [10, INK], op: clamp((tHit + 0.6 - t) * 4) });
-  // la fumée reste sur la vitrine… et se dissipe sur « Il faisait rien »
-  if (t > tHit + 0.25) {
-    const thick = ease.out(prog(t, tHit + 0.25, 0.3)) * (1 - ease.inOut(prog(t, c[3] + 0.1, 0.7)));
-    if (thick > 0) for (let i = 0; i < 9; i++) {
-      const a = i * 0.7 + t * 0.6, rr = 90 + (i % 3) * 30;
-      g += Circ(540 + Math.cos(a) * 110 + (i - 4) * 18, 760 + Math.sin(a * 1.3) * 140, rr, { fill: i % 2 ? "#d4d4d4" : "#c4c4c4", w: 0, op: thick * 0.95 });
-    }
-  }
+  if (t > tHit && t < tHit + 0.7) g += boom(t, 520, 720, 330 * ease.out(prog(t, tHit, 0.18)) * (1 - prog(t, tHit + 0.45, 0.25)), 5);
   g = Z(g, lerp(1.35, 1, walk), 540, 760); // la caméra recule pendant qu'il avance
-  return t > tHit && t < tHit + 0.5 ? G(g, { x: jit(t, 14), y: jit(t * 1.3, 10, 2) }) : g;
+  if (t > tHit && t < tHit + 0.5) g = G(g, { x: jit(t, 14), y: jit(t * 1.3, 10, 2) });
+  // sous la fumée, on coupe sur un gros plan : lui, noirci, les yeux exorbités ; derrière lui, la vitrine vide
+  if (t > tHit + 0.2) {
+    const S = 4.5, hx = 360, hy = 1050;
+    let cu = Rect(-10, -10, 1100, 1940, { fill: "#f4efe4", sw: 0, c: "none" }) + Rect(-10, 960, 1100, 980, { fill: "#e9e2d3", sw: 0, c: "none" }) + floor(960);
+    cu += P("M640 0 L560 800 L800 800 Z M860 0 L760 800 L960 800 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
+    cu += Rect(580, 800, 320, 170, { fill: "#e7dfcc", sw: 7 }) + Rect(640, 840, 200, 80, { fill: "#c9a85c", sw: 4, rx: 6 }) + T("Gilet tactique", 740, 868, { size: 22, font: SANS, weight: 700 }) + T("occasion", 740, 898, { size: 24 });
+    cu += `<rect x="560" y="260" width="360" height="540" fill="#bfe3ee" fill-opacity="0.3"/>` + Rect(560, 260, 360, 540, { sw: 7 }) + P("M590 300 L690 460 L640 600 M690 460 L820 400 M690 460 L780 700 M820 400 L900 310", { w: 4, c: INK, op: 0.7 });
+    cu += fly(t, 740, 520, { seed: 5, rad: 80 });
+    cu += stick({ x: hx, y: hy + 250 * S, s: S, la: [-45, -30], ra: [45, -30], ll: [-8, 0], rl: [8, 0], eyes: "none", face: "#8a8a8a" });
+    cu += P(`M${hx - 35 * S} ${hy - 40 * S} l${-10 * S} ${-34 * S} l${20 * S} ${18 * S} l${6 * S} ${-38 * S} l${14 * S} ${34 * S} l${12 * S} ${-36 * S} l${8 * S} ${38 * S} l${20 * S} ${-20 * S} l${-6 * S} ${38 * S}`, { w: 7, fill: "#3a3a3a" }); // cheveux dressés
+    const look = ease.inOut(prog(t, c[4] + 0.15, 0.3)) * (1 - ease.inOut(prog(t, c[4] + 1.0, 0.25))); // ses yeux filent vers la vitrine vide, puis reviennent vers nous
+    const blink = t > c[4] + 1.45 && t < c[4] + 1.55, bulge = lerp(1.4, 1, ease.out(prog(t, c[3] + 0.55, 0.25))), er = 17 * S;
+    for (const sx of [-1, 1]) {
+      const ex = hx + sx * 17 * S, ey = hy - 6 * S;
+      cu += blink ? P(`M${ex - er} ${ey} H${ex + er}`, { w: 8 }) : Circ(ex, ey, er * bulge, { fill: PAPER, w: 8 }) + Dot(ex + look * 34 + jit(t, 2.5, sx), ey - look * 26 + jit(t * 1.2, 2.5, sx), 15, INK);
+    }
+    cu += `<ellipse cx="${hx}" cy="${n2(hy + 108)}" rx="${n2(16 + jit(t, 2))}" ry="${n2(22 + jit(t * 1.3, 2, 1))}" fill="${INK}"/>`; // bouche bée qui tremble
+    for (let i = 0; i < 3; i++) { // fumerolles qui montent de ses cheveux
+      const k = (t * 0.6 + i / 3) % 1;
+      cu += P(`M${hx + (i - 1) * 90} ${hy - 330 - k * 200} q30 -35 0 -70 t0 -70`, { w: 7, c: GREY, op: n2(0.8 * (1 - k)) });
+    }
+    g = Z(cu, 1 + 0.07 * ease.inOut(prog(t, c[3], 4)), hx, hy); // lente poussée sur son visage
+  }
+  // la fumée envahit tout l'écran, devant la caméra, puis s'écarte sur « Il faisait rien »
+  const fill = ease.out(prog(t, tHit + 0.02, 0.22)), clear = ease.inOut(prog(t, c[3] + 0.05, 0.85));
+  if (fill > 0 && clear < 1) {
+    const puffs = [[540, 900, 420], [180, 500, 360], [900, 480, 380], [120, 1150, 380], [960, 1180, 400], [540, 300, 360], [300, 1600, 380], [800, 1650, 400], [540, 1350, 360], [40, 1850, 300], [1060, 1880, 300], [540, 1900, 300], [-20, 120, 300], [1100, 100, 300]];
+    const at = puffs.map(([x, y, r], i) => {
+      const dx = i ? x - 540 : 300, dy = i ? y - 900 : 400, d = Math.hypot(dx, dy), out = clear * 1000, wob = Math.sin(t * 2 + i) * 18;
+      return [x + (dx / d) * out + wob, y + (dy / d) * out + wob * 0.7, r * lerp(0.3, 1, fill) * lerp(1, 0.75, clear)];
+    });
+    let sm = at.map(([x, y, r]) => Circ(x, y, r, { fill: "#cfcfcf", w: 14 })).join("") + at.map(([x, y, r]) => Circ(x, y, r - 7, { fill: "#cfcfcf", w: 0, c: "none" })).join("");
+    sm += at.map(([x, y, r], i) => P(`M${x - r * 0.3} ${y} a${r * 0.22} ${r * 0.22} 0 1 1 ${r * 0.3} ${r * 0.18} a${r * 0.12} ${r * 0.12} 0 1 1 -${r * 0.12} -${r * 0.14}`, { w: 7, c: "#9a9a9a", op: 0.8 })).join(""); // volutes dessinées
+    g += `<g opacity="${n2(Math.min(1, fill * 1.4))}">${sm}</g>`;
+  }
+  if (t > tHit && t < tHit + 0.7) g += G(T("BOUM", 0, 0, { size: 150, font: MARK, c: PAPER, stroke: [12, INK], op: clamp((tHit + 0.65 - t) * 4) }), { x: 540, y: 820, s: pop(t, tHit, 0.15) }); // par-dessus la fumée
+  return g;
 }, { only: true, cam: 0.06 });
 
 shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.3, "Bref. Je me suis fait ████ de 400 balles.", "s5"]], (t, c) => {
