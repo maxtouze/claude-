@@ -172,15 +172,15 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > En 2023,
 > j'ai acheté le gilet d'occasion le plus cher du monde.
 > Il m'a coûté 50 400 €.
-> Et non, à ce prix-là, il faisait pas pare-missile. *(le missile frappe la vitrine, BOUM, fumée)*
-> Il faisait rien, d'ailleurs. *(la fumée se dissipe : la vitrine est vide)*
+> Et non, à ce prix-là, il faisait pas pare-missile. *(le missile frappe la vitrine sur « pare-missile », BOUM, la fumée envahit tout l'écran)*
+> Il faisait rien, d'ailleurs. *(la fumée s'écarte : gros plan sur Nico, blasé, un peu de suie, et derrière lui la vitrine vide)*
 > Je l'ai jamais reçu.
-> Bref. Je me suis fait ████ de 400 balles.
-> Et les 50 000 ? Ça, c'est la suite. *(l'étiquette se déchire : « 400 € » part à la poubelle, « 50 000 € » reste avec un « ? »)*
+> Bref. Je me suis fait ████ de 400 balles. *(même gros plan, il nous le raconte ; la barre « BIP » tombe sur sa bouche)*
+> Et les 50 000 ? Ça, c'est la suite. *(sur l'étiquette « 50 400 € », le « 400 » est un autocollant : il se décolle et file dans la poubelle, dessous il y a « 000 » ; l'iris des vieux dessins animés se ferme sur « 50 000 € »)*
 
 **2. Les deux options**
-> Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère. *(le militaire hoche la tête, le civil ne comprend pas)*
-> Sinon, je t'explique : t'as deux options.
+> Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère. *(deux cases de BD : en haut, un militaire sur son lit de chambrée fait défiler son téléphone, blasé, il repense à un carton vide avec une mouche ; sur « galère », un petit nuage lui pleut dessus, il ne bronche pas. En bas, dans l'ombre, un civil avec son popcorn)*
+> Sinon, je t'explique : t'as deux options. *(la case du civil s'éclaire, il pose le popcorn, « ? » ; les portes 1 et 2 se dessinent sur le mur de son salon)*
 > Option 1 : une marketplace grand public.
 > Sauf que quand tu cherches « porte-plaques »,
 > tu tombes sur des plaques de cuisson. *(résultats : plaque de cuisson, plaquettes de frein, porte-plaque d'immatriculation, costume de soldat 8 ans)*

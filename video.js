@@ -1105,6 +1105,28 @@ const floor = (y = 1180) => P(`M-20 ${y} H1100`, { w: 6 });
 
 // Musée : le gilet sous vitrine, deux visiteurs, un cordon rouge. Le missile frappe, la fumée cache la vitrine,
 // et quand elle se dissipe (« Il faisait rien »), la vitrine est vide.
+// Gros plan de Nico, blasé (poker face), un peu de suie sur la figure, devant la vitrine vide : la fin du gilet, puis « Bref… »
+function museumCloseUp(t, o = {}) {
+  const { talk = false, bip = Infinity, look = 0, blink = false } = o, hx = 360, hy = 1010, R = 200;
+  let g = Rect(-10, -10, 1100, 1940, { fill: "#f4efe4", sw: 0, c: "none" }) + Rect(-10, 960, 1100, 980, { fill: "#e9e2d3", sw: 0, c: "none" }) + floor(960);
+  g += P("M640 0 L560 800 L800 800 Z M860 0 L760 800 L960 800 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
+  g += Rect(580, 800, 320, 170, { fill: "#e7dfcc", sw: 7 }) + Rect(640, 840, 200, 80, { fill: "#c9a85c", sw: 4, rx: 6 }) + T("Gilet tactique", 740, 868, { size: 22, font: SANS, weight: 700 }) + T("occasion", 740, 898, { size: 24 });
+  g += `<rect x="560" y="260" width="360" height="540" fill="#bfe3ee" fill-opacity="0.3"/>` + Rect(560, 260, 360, 540, { sw: 7 }) + P("M590 300 L690 460 L640 600 M690 460 L820 400 M690 460 L780 700 M820 400 L900 310", { w: 4, c: INK, op: 0.7 });
+  g += fly(t, 740, 520, { seed: 5, rad: 80 });
+  g += bigFace(hx, hy, R, { eyes: "none", mouth: "none" });
+  g += `<g opacity="0.3">${Circ(hx - 95, hy + 45, 36, { fill: "#555", w: 0, c: "none" })}${Circ(hx + 115, hy - 75, 24, { fill: "#555", w: 0, c: "none" })}${Circ(hx + 55, hy + 125, 18, { fill: "#555", w: 0, c: "none" })}</g>`; // suie
+  for (const sx of [-1, 1]) { // yeux mi-clos : la paupière tombe à moitié sur la pupille
+    const ex = hx + sx * 0.32 * R, ey = hy - 0.1 * R;
+    g += blink ? P(`M${ex - 32} ${ey + 6} h64`, { w: 9 }) : P(`M${n2(ex - 20 + look * 12)} ${ey} a20 20 0 0 0 40 0 Z`, { fill: INK, w: 0, c: "none" }) + P(`M${ex - 34} ${ey} h68`, { w: 9 });
+  }
+  const open = talk && t < bip && Math.floor(t * 7) % 2;
+  g += open ? `<ellipse cx="${hx}" cy="${hy + 0.45 * R}" rx="26" ry="16" fill="${INK}"/>` : P(`M${hx - 0.2 * R} ${hy + 0.45 * R} h${0.4 * R}`, { w: 9 });
+  if (t > bip) g += Rect(hx - 150, hy + 0.45 * R - 42, 300, 84, { fill: INK, sw: 0, c: "none" }) + T("BIP", hx, hy + 0.45 * R + 2, { size: 60, font: STENCIL, c: PAPER });
+  const k = (t * 0.5) % 1; // une fumerolle monte encore de sa tête
+  g += P(`M${hx + 20} ${hy - R - 10 - k * 160} q30 -35 0 -70 t0 -70`, { w: 8, c: "#9a9a9a", op: n2(0.7 * (1 - k)) });
+  return g;
+}
+
 shot("s-hook", [["En 2023,", 0.15, undefined, "s0"], ["j'ai acheté le gilet d'occasion le plus cher du monde.", 0.2, "j'ai acheté le gilet d'occasion le plus cher du monde.|", "s1"], ["Il m'a coûté 50 400 €.", 0.3, undefined, "s2"],
   ["Et non, à ce prix-là, il faisait pas pare-missile.", 0.5, "Et non, à ce prix-là, il faisait pas pare-missile.|", "s3"], ["Il faisait rien, d'ailleurs.", 0.25, undefined, "s4"], ["Je l'ai jamais reçu.", 0.45, undefined, "s4b"]], (t, c) => {
   c = c.slice(1); // « En 2023, » ouvre le plan pendant la marche : les repères partent de la phrase du gilet
@@ -1155,26 +1177,8 @@ shot("s-hook", [["En 2023,", 0.15, undefined, "s0"], ["j'ai acheté le gilet d'o
   if (t > tHit && t < tHit + 0.5) g = G(g, { x: jit(t, 14), y: jit(t * 1.3, 10, 2) });
   // sous la fumée, on coupe sur un gros plan : lui, noirci, les yeux exorbités ; derrière lui, la vitrine vide
   if (t > tHit + 0.2) {
-    const S = 4.5, hx = 360, hy = 1050;
-    let cu = Rect(-10, -10, 1100, 1940, { fill: "#f4efe4", sw: 0, c: "none" }) + Rect(-10, 960, 1100, 980, { fill: "#e9e2d3", sw: 0, c: "none" }) + floor(960);
-    cu += P("M640 0 L560 800 L800 800 Z M860 0 L760 800 L960 800 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.8 });
-    cu += Rect(580, 800, 320, 170, { fill: "#e7dfcc", sw: 7 }) + Rect(640, 840, 200, 80, { fill: "#c9a85c", sw: 4, rx: 6 }) + T("Gilet tactique", 740, 868, { size: 22, font: SANS, weight: 700 }) + T("occasion", 740, 898, { size: 24 });
-    cu += `<rect x="560" y="260" width="360" height="540" fill="#bfe3ee" fill-opacity="0.3"/>` + Rect(560, 260, 360, 540, { sw: 7 }) + P("M590 300 L690 460 L640 600 M690 460 L820 400 M690 460 L780 700 M820 400 L900 310", { w: 4, c: INK, op: 0.7 });
-    cu += fly(t, 740, 520, { seed: 5, rad: 80 });
-    cu += stick({ x: hx, y: hy + 250 * S, s: S, la: [-45, -30], ra: [45, -30], ll: [-8, 0], rl: [8, 0], eyes: "none", face: "#8a8a8a" });
-    cu += P(`M${hx - 35 * S} ${hy - 40 * S} l${-10 * S} ${-34 * S} l${20 * S} ${18 * S} l${6 * S} ${-38 * S} l${14 * S} ${34 * S} l${12 * S} ${-36 * S} l${8 * S} ${38 * S} l${20 * S} ${-20 * S} l${-6 * S} ${38 * S}`, { w: 7, fill: "#3a3a3a" }); // cheveux dressés
     const look = ease.inOut(prog(t, c[4] + 0.15, 0.3)) * (1 - ease.inOut(prog(t, c[4] + 1.0, 0.25))); // ses yeux filent vers la vitrine vide, puis reviennent vers nous
-    const blink = t > c[4] + 1.45 && t < c[4] + 1.55, bulge = lerp(1.4, 1, ease.out(prog(t, c[3] + 0.55, 0.25))), er = 17 * S;
-    for (const sx of [-1, 1]) {
-      const ex = hx + sx * 17 * S, ey = hy - 6 * S;
-      cu += blink ? P(`M${ex - er} ${ey} H${ex + er}`, { w: 8 }) : Circ(ex, ey, er * bulge, { fill: PAPER, w: 8 }) + Dot(ex + look * 34 + jit(t, 2.5, sx), ey - look * 26 + jit(t * 1.2, 2.5, sx), 15, INK);
-    }
-    cu += `<ellipse cx="${hx}" cy="${n2(hy + 108)}" rx="${n2(16 + jit(t, 2))}" ry="${n2(22 + jit(t * 1.3, 2, 1))}" fill="${INK}"/>`; // bouche bée qui tremble
-    for (let i = 0; i < 3; i++) { // fumerolles qui montent de ses cheveux
-      const k = (t * 0.6 + i / 3) % 1;
-      cu += P(`M${hx + (i - 1) * 90} ${hy - 330 - k * 200} q30 -35 0 -70 t0 -70`, { w: 7, c: GREY, op: n2(0.8 * (1 - k)) });
-    }
-    g = Z(cu, 1 + 0.07 * ease.inOut(prog(t, c[3], 4)), hx, hy); // lente poussée sur son visage
+    g = Z(museumCloseUp(t, { look, blink: t > c[3] + 1.0 && t < c[3] + 1.12 }), 1 + 0.07 * ease.inOut(prog(t, c[3], 4)), 360, 1010); // lente poussée sur son visage
   }
   // la fumée envahit tout l'écran, devant la caméra, puis s'écarte sur « Il faisait rien »
   const fill = ease.out(prog(t, tHit + 0.02, 0.22)), clear = ease.inOut(prog(t, c[3] + 0.05, 0.85));
@@ -1194,54 +1198,89 @@ shot("s-hook", [["En 2023,", 0.15, undefined, "s0"], ["j'ai acheté le gilet d'o
 
 shot("s-bip", [["Bref. Je me suis fait enculer de 400 balles.", 0.3, "Bref. Je me suis fait ████ de 400 balles.", "s5"]], (t, c) => {
   const tb = c[0] + byKey("s-bip").cues[0].dur * 0.55; // « ████ » arrive aux 55 % de la phrase
-  let g = bigFace(540, 700, 250, { eyes: t > tb ? "flat" : "dot", mouth: t < tb && Math.floor(t * 7) % 2 ? "o" : "flat" });
-  if (t > tb) g += Rect(380, 780, 320, 80, { fill: INK, sw: 0, c: "none" }) + T("BIP", 540, 822, { size: 60, font: STENCIL, c: PAPER });
-  const punch = t > tb ? lerp(1.18, 1, ease.out(prog(t, tb, 0.3))) : 1;
-  return Z(G(g, { x: t > tb && t < tb + 0.25 ? jit(t, 10) : 0 }), punch * lerp(1, 1.16, prog(t, 0, byKey("s-bip").dur)), 540, 820);
+  const punch = t > tb ? lerp(1.12, 1, ease.out(prog(t, tb, 0.3))) : 1, base = 1.07 + 0.08 * prog(t, 0, byKey("s-bip").dur); // même cadre que la fin du plan précédent, on continue d'avancer
+  return Z(G(museumCloseUp(t + 13, { talk: true, bip: tb + 13 }), { x: t > tb && t < tb + 0.25 ? jit(t, 10) : 0 }), base * punch, 360, 1010);
 }, { only: true });
 
-// Les 50 000 : l'étiquette du musée revient et se déchire ; le « 400 € » part à la poubelle, le « 50 000 € » reste, avec un « ? »
+// Les 50 000 : sur l'étiquette du musée, le « 400 » n'était qu'un autocollant. Il se décolle, file à la poubelle,
+// et dessous il y avait « 000 ». Puis l'iris des vieux dessins animés se ferme sur « 50 000 € » : à suivre.
 shot("s-apres", [["Et les 50 000 ? Ça, c'est la suite.", 0.4, undefined, "s6"]], (t, c) => {
-  let g = floor(1250);
-  // la poubelle
-  g += P("M110 1250 L130 1080 H290 L310 1250 Z", { fill: "#cfd5da", w: 7 }) + P("M115 1080 H305", { w: 9 }) + P("M170 1110 V1220 M210 1110 V1220 M250 1110 V1220", { w: 4, op: 0.6 });
-  const tear = ease.out(prog(t, 0.5, 0.4)), fall = ease.in(prog(t, 0.8, 0.6));
-  const half = (txt, side, x, y, r, col) => G(P(side < 0 ? "M-150 -60 H20 L5 -30 L25 0 L5 30 L20 60 H-150 Z" : "M-20 -60 H250 L300 0 L250 60 H-20 L-5 30 L-25 0 L-5 -30 Z", { fill: PAPER, w: 6 }) +
-    T(txt, side < 0 ? -65 : 125, 4, { size: 58, font: SANS, weight: 800, c: col }), { x, y, r });
-  if (tear === 0) g += G(P("M-210 -60 H150 L200 0 L150 60 H-210 Z", { fill: PAPER, w: 6 }) + T("50 400 €", -25, 4, { size: 60, font: SANS, weight: 800, c: RED }), { x: 540, y: 620, s: pop(t, 0.05, 0.3) * 1.3, r: -4 });
-  else {
-    // « 400 € » tombe à la poubelle
-    g += half("400 €", -1, lerp(lerp(480, 380, tear), 210, fall), lerp(620, 1150, fall), lerp(-6, -60, fall), INK);
-    // « 50 000 € » reste au milieu, et grossit
-    const k = ease.out(prog(t, 0.9, 0.5));
-    g += G(half("50 000 €", 1, 0, 0, 0, RED), { x: lerp(620, 440, k), y: lerp(620, 640, k), s: lerp(1.3, 1.5, k), r: lerp(4, 0, k) });
-    if (t > 1.3) g += T("?", 940, 470, { size: 180, font: MARK, c: ACC, r: 10 + Math.sin(t * 5) * 6 });
-  }
-  if (fall >= 1) g += fly(t, 210, 1010, { seed: 4, rad: 45 });
-  return g;
-}, { only: true, cam: 0.05 });
+  const D = byKey("s-apres").dur, cx = 520, cy = 760;
+  let g = Rect(-10, -10, 1100, 1940, { fill: "#f4efe4", sw: 0, c: "none" }) + Rect(-10, 1250, 1100, 700, { fill: "#e9e2d3", sw: 0, c: "none" }) + floor(1250);
+  g += P("M560 0 L300 1250 L760 1250 Z", { fill: "#fff6cf", w: 0, c: "none", op: 0.7 });
+  // le chevalet et l'étiquette
+  g += P(`M300 870 L230 1250 M740 870 L810 1250 M${cx} 870 L${cx} 1250`, { w: 9 });
+  g += Rect(cx - 330, cy - 120, 660, 240, { fill: PAPER, sw: 8, rx: 14 });
+  const num = (txt, x, col) => T(txt, x, cy + 8, { size: 120, font: SANS, weight: 800, c: col });
+  g += num("50", cx - 190, RED) + num("000", cx + 40, RED) + num("€", cx + 240, RED);
+  // la poubelle, à droite : le fond, puis l'autocollant, puis l'avant (il disparaît dedans)
+  const bx = 930, lid = t > 1.0 && t < 1.45 ? -55 : t > 1.45 && t < 1.6 ? 8 : 0;
+  g += `<ellipse cx="${bx}" cy="1075" rx="80" ry="16" fill="#555"/>`;
+  const peel = ease.inOut(prog(t, 0.3, 0.35)), fall = ease.in(prog(t, 0.7, 0.6));
+  const sx = lerp(cx + 40, bx, fall), sy = lerp(cy - 30 * peel, 1150, fall) - Math.sin(fall * Math.PI) * 260;
+  if (fall < 1) g += G(Rect(-125, -85, 250, 170, { fill: BLONDE, sw: 6, rx: 12 }) + T("400", 0, 8, { size: 120, font: SANS, weight: 800 }), { x: sx, y: sy, r: -peel * 14 + fall * 260, s: lerp(1, 0.55, fall) });
+  g += P(`M${bx - 80} 1075 L${bx - 64} 1250 H${bx + 64} L${bx + 80} 1075 Z`, { fill: "#cfd5da", w: 7 }) + P(`M${bx - 40} 1105 V1225 M${bx} 1105 V1225 M${bx + 40} 1105 V1225`, { w: 4, op: 0.6 });
+  g += G(P("M-92 0 H92 M-20 -14 h40", { w: 10 }), { x: bx, y: 1068, r: lid, s: 1 });
+  // l'autocollant parti, le « 50 000 € » cogne
+  const bam1 = t > 1.45 ? lerp(1.12, 1, ease.out(prog(t, 1.45, 0.3))) : 1;
+  let out = Z(g, bam1 * (1 + 0.12 * ease.inOut(prog(t, 1.45, D - 1.45))), cx, cy); // puis la caméra avance sur le prix
+  // l'iris se ferme sur le prix
+  const tI = D - 1.0, r = lerp(1500, 390, ease.inOut(prog(t, tI, 0.6))); // il se ferme juste avant la coupe
+  if (t > tI) out += `<path d="M-40 -40 H1120 V1960 H-40 Z M${cx - r} ${cy} a${r} ${r} 0 1 0 ${2 * r} 0 a${r} ${r} 0 1 0 ${-2 * r} 0 Z" fill-rule="evenodd" fill="${INK}"/>`;
+  return out;
+}, { only: true });
 
-// « Si t'es militaire, tu sais déjà… » : le militaire hoche la tête, le civil ne comprend pas ; puis les deux portes se dessinent
+// « Si t'es militaire… » : deux cases de BD. En haut, un militaire dans sa chambrée fait défiler son téléphone, blasé ;
+// sur « la galère », un petit nuage lui pleut dessus et il ne bronche même pas. En bas, un civil, popcorn sur le canapé.
+// « Sinon, je t'explique » : on passe au civil, et les deux portes se dessinent sur le mur de son salon.
 shot("s-options", [["Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère.", 0.15, undefined, "s7"], ["Sinon, je t'explique : t'as deux options.", 0.3, undefined, "s7b"]], (t, c) => {
-  let g = floor(1160);
-  if (t < c[1]) {
-    // le militaire, l'air entendu, hoche la tête ; le civil, à côté, se gratte la tête
-    const nod = Math.max(0, Math.sin(t * 7)) * 10;
-    g += stick({ x: 330, y: 1160, s: 1.35, acc: ["helmet"], la: [-40, -110, -10, -80], ra: [40, -110, 10, -80], look: [0, nod * 0.6], eyes: t > 1.2 ? "flat" : "dot", mouth: "flat" });
-    g += label(t, 0.6, "lui, il sait", 330, 520, 330, 720, { size: 64 });
-    const civ = t > subAt("s-options", "galère") - 0.2;
-    g += stick({ x: 770, y: 1160, s: 1.35, la: [-50, -110], ra: [40, -180, 10, -250], look: [-6, -4], mouth: civ ? "o" : null });
-    if (t > 0.9) g += T("?", 860, 640, { size: 150, font: MARK, c: ACC, r: 10 + Math.sin(t * 5) * 6 });
-    return g;
+  let g = Rect(-10, -10, 1100, 1940, { fill: PAPER, sw: 0, c: "none" });
+  const focusB = ease.inOut(prog(t, c[1] - 0.1, 0.3)); // 0 : la case du haut est éclairée ; 1 : celle du bas
+  // case du haut : la chambrée
+  let A = Rect(40, 70, 1000, 620, { fill: "#e4e0cf", sw: 0, c: "none" }) + floor(640);
+  A += Rect(80, 250, 170, 390, { fill: "#8d9478", sw: 6 }) + P("M110 290 h110 M110 310 h110 M110 330 h110", { w: 4 }) + P("M165 250 V640", { w: 4 }); // casier
+  A += P("M330 140 V640 M930 140 V640", { w: 9, c: "#666" }) + Rect(330, 230, 600, 34, { fill: "#6f7a5a", sw: 5 }) + Rect(330, 500, 600, 40, { fill: "#6f7a5a", sw: 5 }); // lits superposés
+  A += P("M720 230 q40 -60 120 -40 q30 10 20 40 Z", { fill: "#8d9478", w: 5 }); // le sac sur le lit du haut
+  const nod = Math.max(0, Math.sin(t * 3)) * 5;
+  A += stick({ x: 560, y: 640, s: 1.05, acc: ["helmet"], la: [-40, -135, -12, -160], ra: [40, -135, 12, -160], ll: [-55, -95, -60, 0], rl: [55, -95, 60, 0], eyes: "flat", look: [0, 4 + nod], mouth: "flat" });
+  const scroll = (t * 140) % 40;
+  A += Rect(540, 452, 40, 62, { fill: INK, sw: 3, rx: 6 }) + `<rect x="546" y="458" width="28" height="50" fill="#9fd3ff" opacity="0.8"/>` + P(`M550 ${n2(468 + scroll / 4)} h20 M550 ${n2(482 + scroll / 4)} h20 M550 ${n2(496 + scroll / 4)} h20`, { w: 3, c: "#4a7a9a" });
+  const tG = subAt("s-options", "galère");
+  if (t > tG - 0.1) { // le nuage de pluie
+    const k = pop(t, tG - 0.1, 0.25);
+    let cl = P("M-90 20 q-40 -10 -20 -50 q10 -50 70 -40 q30 -50 90 -20 q60 -10 60 50 q30 30 -10 60 Z", { fill: "#9aa3ab", w: 6 });
+    for (let i = 0; i < 5; i++) { const y = ((t * 3 + i * 0.37) % 1) * 120; cl += P(`M${-70 + i * 35} ${n2(70 + y)} l-6 22`, { w: 5, c: "#5d8fc4" }); }
+    A += G(cl, { x: 560, y: 272, s: k * 0.7 });
   }
-  // « je t'explique » : les deux portes se dessinent, les numéros se posent dessus
-  const t1 = c[1], tD = subAt("s-options", "deux");
-  const door = (x, n, k, q) => G(P("M-150 -260 H150 V260 H-150 Z", { fill: "#f3efe5", w: 7, q }) + (q >= 1 ? Dot(100, 20, 12) : "") +
-    (k > 0 ? G(G(Circ(0, 0, 58, { fill: NAVY, w: 0 }) + T(n, 0, 4, { size: 70, font: STENCIL, c: PAPER }), { s: k }), { y: -340 }) : ""), { x, y: 900 });
-  g += door(280, "1", pop(t, tD + 0.1), prog(t, t1, 0.7)) + door(800, "2", pop(t, tD + 0.35), prog(t, t1 + 0.25, 0.7));
-  g += stick({ x: 540, y: 1300, s: 1.0, la: [-50, -110], ra: [40, -180, 10, -250], look: [Math.sin(t * 2) * 8, 0] });
+  // il repense à son dernier achat : un carton vide, une mouche (la bulle éclate quand le nuage arrive)
+  const tM = subAt("s-options", "sais");
+  if (t > tM && t < tG - 0.1) {
+    const k = pop(t, tM, 0.3);
+    A += Circ(615, 365, 7, { fill: PAPER, w: 4 }) + Circ(640, 340, 10, { fill: PAPER, w: 4 });
+    A += G(P("M-95 -10 q-30 -60 30 -75 q40 -45 100 -5 q55 0 45 60 q20 55 -50 60 q-40 30 -90 0 q-60 5 -35 -40 Z", { fill: PAPER, w: 5 }) + G(box({ w: 90, h: 60 }), { y: 40, s: 0.9 }) + fly(t, 0, -30, { seed: 3, rad: 30 }), { x: 730, y: 290, s: k * 0.7 });
+  }
+  // case du bas : le salon du civil
+  let B = Rect(40, 730, 1000, 600, { fill: "#f0e6d6", sw: 0, c: "none" }) + floor(1280);
+  const tD = c[1] + 0.3, door = (x, n, q, k) => G(P("M-90 -170 H90 V170 H-90 Z", { fill: "#f8f4ea", w: 6, q }) + (q >= 1 ? Dot(60, 10, 9) : "") +
+    (k > 0 ? G(G(Circ(0, 0, 40, { fill: NAVY, w: 0 }) + T(n, 0, 3, { size: 48, font: STENCIL, c: PAPER }), { s: k }), { y: -225 }) : ""), { x, y: 1110 });
+  if (t > tD) B += door(230, "1", prog(t, tD, 0.45), pop(t, tD + 0.4)) + door(850, "2", prog(t, tD + 0.15, 0.45), pop(t, tD + 0.6));
+  B += Rect(330, 1150, 420, 130, { fill: "#b76e4b", sw: 6, rx: 20 }) + Rect(300, 1110, 60, 170, { fill: "#a65f3f", sw: 6, rx: 16 }) + Rect(720, 1110, 60, 170, { fill: "#a65f3f", sw: 6, rx: 16 }); // canapé
+  const eat = t < c[1] + 0.3 ? Math.max(0, Math.sin(t * 5)) : 0, lean = ease.out(prog(t, c[1] + 0.2, 0.3));
+  B += stick({ x: 540, y: 1280, s: 0.95, la: [-60, -120, -40, -100], ra: [40, lerp(-120, -150, eat), lerp(10, 5, eat), lerp(-150, -230, eat)], ll: [-50, -90, -55, 0], rl: [50, -90, 55, 0], look: [0, lean * 4], mouth: t > c[1] + 0.2 ? "o" : null });
+  B += G(P("M-40 -50 L-30 30 H30 L40 -50 Z", { fill: PAPER, w: 5 }) + P("M-22 -50 L-16 30 M0 -50 V30 M22 -50 L16 30", { w: 8, c: RED }) + Circ(-20, -55, 12, { fill: "#fff3c4", w: 3 }) + Circ(5, -60, 12, { fill: "#fff3c4", w: 3 }) + Circ(25, -52, 11, { fill: "#fff3c4", w: 3 }), { x: 490, y: 1180 }); // popcorn
+  if (t > c[1] + 0.3) B += T("?", 640, 960, { size: 110, font: MARK, c: ACC, r: 10 + Math.sin(t * 5) * 6, op: clamp((t - c[1] - 0.3) * 4) });
+  // chaque case a sa caméra, qui avance doucement sur son personnage (le décor est coupé au bord de la case)
+  A = `<clipPath id="caseA"><rect x="40" y="70" width="1000" height="620"/></clipPath><g clip-path="url(#caseA)">${Z(A, lerp(1.35, 1.5, prog(t, 0, c[1])), 560, 470)}</g>`;
+  B = `<clipPath id="caseB"><rect x="40" y="730" width="1000" height="600"/></clipPath><g clip-path="url(#caseB)">${Z(B, lerp(1.25, 1.32, prog(t, 0, byKey("s-options").dur)), 540, 1150)}</g>`;
+  // la case qui n'a pas la parole est assombrie
+  A += `<rect x="40" y="70" width="1000" height="620" fill="#000" opacity="${n2(0.45 * focusB)}"/>` + Rect(40, 70, 1000, 620, { fill: "none", sw: 8 });
+  B += `<rect x="40" y="730" width="1000" height="600" fill="#000" opacity="${n2(0.45 * (1 - focusB))}"/>` + Rect(40, 730, 1000, 600, { fill: "none", sw: 8 });
+  g += A + B;
+  // l'iris se rouvre (raccord avec le plan précédent)
+  const r = lerp(390, 1500, ease.inOut(prog(t, 0, 0.5)));
+  if (r < 1500) g += `<path d="M-40 -40 H1120 V1960 H-40 Z M${540 - r} 400 a${r} ${r} 0 1 0 ${2 * r} 0 a${r} ${r} 0 1 0 ${-2 * r} 0 Z" fill-rule="evenodd" fill="${INK}"/>`;
   return g;
-}, { only: true, cam: 0.05 });
+}, { only: true, cam: 0.03 });
 
 // Option 1 : on tape « porte-plaques » dans la recherche d'une marketplace… et on tombe sur des plaques de cuisson
 shot("s-opt1", [["Option 1 : une marketplace grand public.", 0.2, undefined, "s8"], ["Sauf que quand tu cherches « porte-plaques »,", 0.15, undefined, "s9"], ["tu tombes sur des plaques de cuisson.", 0.9, undefined, "s9b"]], (t, c) => {
@@ -1506,6 +1545,7 @@ const CUTS = {
   "patch-communaute": ["s-freres", "s-amazonie"],
   "patch-debut": ["s-apres", "s-options"],
   "patch-hook": ["s-hook"],
+  "patch-intro": ["s-hook", "s-bip", "s-apres", "s-options"],
   // le gilet le plus cher du monde -> les deux options -> la mission -> la banquière -> rendre à la communauté
   histoire: ["s-hook", "s-bip", "s-apres", "s-options", "s-opt1", "s-algo", "poche", "s-opt2", "s-mission", "s-escrow", "s-tactique", "s-banquiere", "s-dixmille",
     "s-freres", "s-amazonie", "s-pro", "s-fin"],
