@@ -179,14 +179,15 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > Et les 50 000 ? Ça, c'est la suite. *(sur l'étiquette « 50 400 € », le « 400 » est un autocollant : il se décolle et file dans la poubelle, dessous il y a « 000 » ; l'iris des vieux dessins animés se ferme sur « 50 000 € »)*
 
 **2. Les deux options**
-> Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère. *(deux cases de BD : en haut, un militaire sur son lit de chambrée fait défiler son téléphone, blasé, il repense à un carton vide avec une mouche ; sur « galère », un petit nuage lui pleut dessus, il ne bronche pas. En bas, dans l'ombre, un civil avec son popcorn)*
-> Sinon, je t'explique : t'as deux options. *(la case du civil s'éclaire, il pose le popcorn, « ? » ; les portes 1 et 2 se dessinent sur le mur de son salon)*
-> Option 1 : une marketplace grand public.
-> Sauf que quand tu cherches « porte-plaques »,
-> tu tombes sur des plaques de cuisson. *(résultats : plaque de cuisson, plaquettes de frein, porte-plaque d'immatriculation, costume de soldat 8 ans)*
-> Et ça, c'est si tu t'es pas fait bannir, parce que pour un algorithme de friperie, « porte-chargeur », c'est du grand banditisme. *(tampon « RECHERCHÉ »)*
+> Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère. *(dans sa chambrée, un militaire fait défiler son téléphone, blasé ; il repense à un carton vide avec une mouche ; sur « galère », un petit nuage lui pleut dessus, il ne bronche pas)*
+> T'as deux options. *(les portes 1 et 2 se dessinent ; un militaire arrive en courant, enfonce la porte 1 d'un coup de pied et s'y engouffre)*
+> *(à l'image : « OPTION 1 »)* Soit tu vas sur une marketplace grand public.
+> Sauf que là, c'est Bagdad : *(les résultats tombent en vrac, les uns sur les autres)*
+> ton porte-plaques, faut le trouver entre les plaques de cuisson et les plaques d'immatriculation. *(elles sont barrées quand on les nomme ; on écarte le tas, et tout au fond, le vrai porte-plaques, entouré en vert)*
+> Et ça, c'est si tu t'es pas déjà fait cuisiner par l'algorithme. *(la lampe d'interrogatoire se braque sur l'annonce)*
+> Pour une friperie, « porte-chargeur », c'est du grand banditisme. *(tampon « BANNI »)*
 > … C'est une poche.
-> Option 2 : à l'ancienne. Groupes Facebook, Telegram, le pote d'un pote.
+> *(à l'image : « OPTION 2 »)* Soit tu fais à l'ancienne : groupes Facebook, Telegram, le pote d'un pote.
 > Zéro garantie : tu croises les doigts, normalement ça passe. *(la conversation sans réponse)*
 > Mais tu passes des heures à chercher, et après, tu gères l'envoi tout seul.
 > C'est là que j'ai acheté mon gilet. *(« Thomas R. a quitté la conversation »)*
