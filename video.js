@@ -854,9 +854,10 @@ shot("dixmille", [["Et faut croire que c'est pas trop con :", 0.15], ["on est d�
   if (t > 0.5) g += label(t, 0.5, "au début :\nmon unité", 360, 780, x0 + 40, y0 - 60, { size: 44 });
   const t10 = subAt("dixmille", "10"), n = Math.round(10000 * ease.out(prog(t, t10 - 0.6, 1.0)) + Math.max(0, t - t10 - 0.4) * 9); // puis il continue de grimper
   if (t > t10 - 0.6) g += T(n.toLocaleString("fr-FR").replace(/ | /g, " "), 540, 300, { size: 150, font: SANS, weight: 800, c: NAVY });
-  if (t > c[2]) {
-    for (let i = 0; i < 5; i++) g += G(T("★", 0, 0, { size: 76, c: ACC, font: SANS }), { x: 330 + i * 76, y: 1240, s: pop(t, c[2] + 0.3 + i * 0.12) });
-    g += G(T("300+", 0, 0, { size: 76, font: SANS, weight: 800 }), { x: 800, y: 1244, s: pop(t, c[2] + 1.0) });
+  const tSt = c[2] + byKey("dixmille").cues[2].dur * 0.6; // les étoiles arrivent une fois la phrase lue
+  if (t > tSt) {
+    for (let i = 0; i < 5; i++) g += G(T("★", 0, 0, { size: 76, c: ACC, font: SANS }), { x: 330 + i * 76, y: 1240, s: pop(t, tSt + i * 0.12) });
+    g += G(T("300+", 0, 0, { size: 76, font: SANS, weight: 800 }), { x: 800, y: 1244, s: pop(t, tSt + 0.7) });
   }
   return g;
 });
@@ -1385,9 +1386,10 @@ shot("s-mission", [["Alors j'ai réagi de façon proportionnée :", 0.25, undefi
     g += G(P("M0 -120 C-80 -120 -90 -40 -40 0 V40 H40 V0 C90 -40 80 -120 0 -120 Z", { fill: "#ffe066", w: 6 }) + Rect(-40, 40, 80, 40, { fill: GREY, sw: 5 }) +
       P("M-110 -100 l-40 -30 M110 -100 l40 -30 M0 -150 v-50 M-130 -40 h-50 M130 -40 h50", { w: 6, c: ACC, op: glow }), { x: 260, y: 760, s: bulb });
   }
-  const drop = ease.in(prog(t, c[1] + 0.05, 0.35)), sh = t > c[1] + 0.4 && t < c[1] + 0.75 ? jit(t * 3, 12) : 0;
-  if (t > c[1]) g += G(logoMark(430, NAVY), { x: 690 + sh, y: lerp(-300, 700, drop) + sh });
-  if (t > c[1] + 0.4) g += G(T("SECOND ARMOR", 0, 0, { size: 82, font: SANS, weight: 800, c: NAVY }), { x: 690, y: 1000, s: pop(t, c[1] + 0.4) });
+  const tL = c[1] + byKey("s-mission").cues[1].dur * 0.5; // le logo tombe une fois « Second Armor » lu, pas en même temps
+  const drop = ease.in(prog(t, tL, 0.35)), sh = t > tL + 0.35 && t < tL + 0.7 ? jit(t * 3, 12) : 0;
+  if (t > tL) g += G(logoMark(430, NAVY), { x: 690 + sh, y: lerp(-300, 700, drop) + sh });
+  if (t > tL + 0.35) g += G(T("SECOND ARMOR", 0, 0, { size: 82, font: SANS, weight: 800, c: NAVY }), { x: 690, y: 1000, s: pop(t, tL + 0.35) });
   return g;
 }, { only: true, cam: 0.05 });
 
