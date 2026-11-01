@@ -1300,38 +1300,44 @@ shot("s-opt1", [["Soit tu vas sur une marketplace grand public.", 0.15, undefine
   g += Rect(110, 380, 860, 90, { fill: "#f1f1f1", sw: 5, rx: 45 }) + Circ(165, 425, 18, { w: 5 }) + P("M178 438 l16 16", { w: 5 });
   g += T(typed || "Rechercher…", 210, 427, { size: 40, anchor: "start", font: SANS, weight: typed ? 700 : 400, c: typed ? INK : "#aaa" });
   if (typed && typed.length < q.length && Math.floor(t * 4) % 2) g += P(`M${215 + typed.length * 22} 405 v44`, { w: 4 });
-  const item = (inner, name, price) => Rect(-150, -140, 300, 280, { fill: "#f6f3ea", sw: 5, rx: 14 }) + G(inner, { y: -35, s: 0.85 }) +
-    T(name, -130, 85, { size: 25, anchor: "start", font: SANS, weight: 700 }) + T(price, -130, 118, { size: 26, anchor: "start", font: SANS, weight: 800, c: NAVY });
-  const cuisson = Rect(-90, -60, 180, 120, { fill: INK, sw: 4, rx: 10 }) + Circ(-40, -10, 30, { w: 4, c: "#888" }) + Circ(40, -10, 30, { w: 4, c: "#888" }) + Circ(0, 35, 18, { w: 4, c: "#888" });
-  const immat = Rect(-110, -40, 220, 80, { fill: PAPER, sw: 6, rx: 8 }) + Rect(-110, -40, 30, 80, { fill: "#2a4fa0", sw: 0, c: "none" }) + T("AB-123-CD", 15, 3, { size: 32, font: SANS, weight: 800 });
-  // les résultats, tout sauf un porte-plaques ; [x, y, rotation, dessin, nom, prix]
-  const pile = [
-    [300, 640, -8, cuisson, "Plaque de cuisson", "45 €"],
-    [760, 620, 6, P("M-80 -40 Q0 -80 80 -40 L70 40 Q0 10 -70 40 Z", { fill: "#9a9a9a", w: 5 }) + P("M-70 40 Q0 10 70 40 L60 60 Q0 35 -60 60 Z", { fill: "#555", w: 4 }), "Plaquettes de frein", "29 €"],
-    [520, 760, 12, immat, "Plaque immat.", "12 €"],
-    [250, 980, 5, P("M-50 -70 h100 l20 30 l-30 10 v90 h-80 v-90 l-30 -10 Z", { fill: "#8d9478", w: 5 }) + T("★", 0, 0, { size: 40, c: "#f2cf55", font: SANS }), "Costume soldat (8 ans)", "15 €"],
-    [800, 960, -10, Rect(-100, -60, 200, 120, { fill: "#e9e9e9", sw: 5 }) + P("M-80 -40 l10 10 M70 -40 l10 10 M-80 40 l10 10 M70 40 l10 10", { w: 4 }), "Plaque de plâtre BA13", "8 €"],
-    [430, 1110, -4, Rect(-100, -50, 200, 100, { fill: "#c9a85c", sw: 5, rx: 8 }) + T("ICI A VÉCU", 0, 3, { size: 24, font: SANS, weight: 800 }), "Plaque commémorative", "60 €"],
-    [680, 1130, 9, Rect(-100, -45, 200, 90, { fill: "#555", sw: 5, rx: 6 }) + P("M100 0 h50", { w: 10 }), "Plancha", "35 €"],
-    [330, 800, 14, cuisson, "Plaque à induction", "80 €"],
-    [740, 800, -14, immat, "Plaque immat. moto", "9 €"],
-  ];
-  const tR = c[1] - 0.1, tSweep = c[2] + 0.4, find = c[2] + byKey("s-opt1").cues[2].dur * 0.75;
-  // le vrai porte-plaques, au fond du tas
-  const real = G(item(G(vest(), { s: 0.42 }), "Porte-plaques", "90 €"), { x: 760, y: 1110, r: 3, s: 0.8 });
-  if (t > tR) g += real;
-  pile.forEach(([x, y, r, pic, name, price], i) => {
-    const at = i < 2 ? 1.25 + i * 0.5 : tR + (i - 2) * 0.09, k = ease.out(prog(t, at, 0.22)); // deux résultats d'abord, puis tout tombe en vrac sur « Bagdad »
-    if (t < at) return;
-    // la fouille : les cartes qui cachent le vrai porte-plaques sont écartées une à une
-    const sw = i >= 4 ? ease.inOut(prog(t, tSweep + (i - 4) * 0.35, 0.35)) : 0, away = [0, 0, 0, 0, -1, -1, 1, -1, 1][i];
-    g += G(item(pic, name, price), { x: x + away * sw * 700, y: lerp(y - 500, y, k), r: r + away * sw * 40, s: 0.8 });
+  // les résultats en liste, façon petites annonces : une rangée par annonce, toutes différentes, aucune n'est un porte-plaques…
+  const pic = {
+    cuisson: Rect(-90, -60, 180, 120, { fill: INK, sw: 4, rx: 10 }) + Circ(-40, -10, 30, { w: 4, c: "#888" }) + Circ(40, -10, 30, { w: 4, c: "#888" }) + Circ(0, 35, 18, { w: 4, c: "#888" }),
+    immat: Rect(-110, -40, 220, 80, { fill: PAPER, sw: 6, rx: 8 }) + Rect(-110, -40, 30, 80, { fill: "#2a4fa0", sw: 0, c: "none" }) + T("AB-123-CD", 15, 3, { size: 32, font: SANS, weight: 800 }),
+    frein: P("M-80 -40 Q0 -80 80 -40 L70 40 Q0 10 -70 40 Z", { fill: "#9a9a9a", w: 5 }),
+    platre: Rect(-100, -60, 200, 120, { fill: "#e9e9e9", sw: 5 }),
+    laiton: Rect(-100, -50, 200, 100, { fill: "#c9a85c", sw: 5, rx: 8 }),
+    plancha: Rect(-100, -45, 200, 90, { fill: "#555", sw: 5, rx: 6 }),
+    costume: P("M-50 -70 h100 l20 30 l-30 10 v90 h-80 v-90 l-30 -10 Z", { fill: "#8d9478", w: 5 }),
+    choco: Rect(-90, -55, 180, 110, { fill: "#6b3f2a", sw: 5, rx: 6 }) + P("M-30 -55 V55 M30 -55 V55 M-90 0 H90", { w: 4, c: "#4a2a1a" }),
+    fonte: Rect(-90, -70, 180, 140, { fill: "#3b3b3b", sw: 5, rx: 4 }) + Circ(0, 0, 35, { w: 5, c: "#777" }),
+    bebe: P("M-60 -60 h120 v120 h-120 Z", { fill: "#e7a7b8", w: 5 }) + Circ(0, -10, 22, { fill: PAPER, w: 4 }),
+    savon: `<ellipse cx="0" cy="0" rx="80" ry="40" fill="#bfe3ee" stroke="${INK}" stroke-width="5"/>`,
+    pp: G(vest(), { s: 0.55 }),
+  };
+  const rows = [["Plaque de cuisson vitrocéramique", "45 €", "cuisson"], ["Plaquettes de frein Clio 3", "29 €", "frein"], ["Plaque d'immatriculation", "12 €", "immat"],
+    ["Plaque de plâtre BA13 (lot de 6)", "8 €", "platre"], ["Plaque commémorative en laiton", "60 €", "laiton"], ["Plancha gaz 2 feux", "35 €", "plancha"],
+    ["Costume soldat (8 ans)", "15 €", "costume"], ["Plaque de chocolat 2 kg", "18 €", "choco"], ["Plaque de cheminée en fonte", "90 €", "fonte"],
+    ["Porte-bébé ventral", "25 €", "bebe"], ["Plaque à induction 4 feux", "80 €", "cuisson"], ["Porte-savon vintage", "5 €", "savon"],
+    ["Plaque immat. moto", "9 €", "immat"], ["Plaque de four émaillée", "14 €", "plancha"], ["Plaquettes de frein vélo", "7 €", "frein"],
+    ["Plaque de polystyrène", "3 €", "platre"], ["Plaque « Ici a vécu »", "45 €", "laiton"], ["Plaque de cuisson gaz", "40 €", "cuisson"],
+    ["Porte-plaques Multicam", "90 €", "pp"], ["Plaque de verre trempé", "22 €", "platre"], ["Porte-manteau mural", "10 €", "laiton"], ["Plaque chauffante", "19 €", "cuisson"], ["Plaquettes de frein 206", "25 €", "frein"]];
+  const RH = 170, top = 510, real = 18, tR = 1.25, D2 = byKey("s-opt1").cues[2].dur, find = c[2] + D2 * 0.7;
+  // sur « Bagdad », on se met à faire défiler, page après page ; ça ralentit et s'arrête sur le vrai porte-plaques
+  const end = real * RH - 2 * RH, sc = end * ease.inOut(prog(t, c[1], find - c[1]));
+  let list = "";
+  rows.forEach(([name, price, k], i) => {
+    const y = top + i * RH - sc;
+    if (y < top - RH || y > 1270 || t < tR + Math.min(i, 3) * 0.25) return;
+    const hit = i === real && t > find, on = hit && Math.floor((t - find) * 4) % 2 === 0;
+    list += Rect(95, y, 890, RH - 14, { fill: hit ? (on ? "#d6f0d2" : "#eef8ec") : "#f6f3ea", sw: hit ? 7 : 4, c: hit ? "#3f9a3c" : INK, rx: 12 });
+    list += Rect(110, y + 12, 180, RH - 38, { fill: PAPER, sw: 3, rx: 8 }) + G(pic[k], { x: 200, y: y + 12 + (RH - 38) / 2, s: 0.62 });
+    list += T(name, 315, y + 50, { size: 34, anchor: "start", font: SANS, weight: 700 }) + T(price, 315, y + 98, { size: 32, anchor: "start", font: SANS, weight: 800, c: NAVY }) +
+      T(["Lyon", "Brest", "Nîmes", "Metz", "Pau", "Tours"][i % 6] + " · " + ["hier", "aujourd'hui", "il y a 3 j"][i % 3], 960, 98 + y, { size: 26, anchor: "end", c: "#888" });
   });
-  if (t > tR && t < tR + 1.0) g = G(g, { x: jit(t, 5), y: jit(t * 1.3, 4, 2) }); // ça tombe de partout
-  // la plaque de cuisson et la plaque d'immat sont barrées quand on les nomme, le vrai porte-plaques est entouré en vert
-  const cross = (x, y, at) => (t > at ? P(`M${x - 110} ${y - 100} L${x + 110} ${y + 100} M${x + 110} ${y - 100} L${x - 110} ${y + 100}`, { w: 10, c: RED, q: prog(t, at, 0.3) }) : "");
-  g += cross(300, 640, subAt("s-opt1", "cuisson") + 0.2) + cross(520, 760, subAt("s-opt1", "immatriculation") + 0.2);
-  if (t > find) g += `<ellipse cx="760" cy="1110" rx="160" ry="150" fill="none" stroke="#3f9a3c" stroke-width="9" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${n2(1 - prog(t, find, 0.4))}"/>`;
+  g += `<clipPath id="liste"><rect x="70" y="490" width="940" height="768"/></clipPath><g clip-path="url(#liste)">${list}</g>`;
+  if (t > c[1]) g += T(`Page ${1 + Math.floor((sc / end) * 11)} / 47`, 960, 302, { size: 26, anchor: "end", font: SANS, weight: 700, c: "#888" });
+  if (t > c[1] && t < find) g += Rect(996, 500 + (sc / end) * 680, 10, 70, { fill: "#999", sw: 0, c: "none", rx: 5 }); // l'ascenseur qui file
   return g;
 }, { only: true, cam: 0.04 });
 

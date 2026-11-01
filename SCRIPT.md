@@ -182,8 +182,8 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > Si t'es militaire, tu sais déjà qu'acheter du matos d'occasion, c'est la galère. *(dans sa chambrée, un militaire fait défiler son téléphone, blasé ; il repense à un carton vide avec une mouche ; sur « galère », un petit nuage lui pleut dessus, il ne bronche pas)*
 > T'as deux options. *(les portes 1 et 2 se dessinent ; un militaire arrive en courant, enfonce la porte 1 d'un coup de pied et s'y engouffre)*
 > *(à l'image : « OPTION 1 »)* Soit tu vas sur une marketplace grand public.
-> Sauf que là, c'est Bagdad : *(les résultats tombent en vrac, les uns sur les autres)*
-> ton porte-plaques, faut le trouver entre les plaques de cuisson et les plaques d'immatriculation. *(elles sont barrées quand on les nomme ; on écarte le tas, et tout au fond, le vrai porte-plaques, entouré en vert)*
+> Sauf que là, c'est Bagdad : *(on se met à faire défiler, page 1, 2, 3… jusqu'à 12)*
+> ton porte-plaques, faut le trouver entre les plaques de cuisson et les plaques d'immatriculation. *(les résultats en liste, façon petites annonces, toutes différentes : on fait défiler page après page, et le vrai porte-plaques finit par apparaître et clignoter en vert)*
 > Et ça, c'est si tu t'es pas déjà fait cuisiner par l'algorithme. *(la lampe d'interrogatoire se braque sur l'annonce)*
 > Pour une friperie, « porte-chargeur », c'est du grand banditisme. *(tampon « BANNI »)*
 > … C'est une poche.
