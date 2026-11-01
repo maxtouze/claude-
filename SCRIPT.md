@@ -171,7 +171,7 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 **1. Le gilet le plus cher du monde** *(plan de dos façon caméra à l'épaule : la salle dans le noir, seule la vitrine éclairée ; Nico avance, la caméra recule, la salle se dévoile ; « Je le prends. »)*
 > En 2023,
 > j'ai acheté le gilet d'occasion le plus cher du monde.
-> Il m'a coûté 50 400 €.
+> Il m'a coûté 50 400 €. *(l'étiquette du prix tombe une fois la phrase lue)*
 > Et non, à ce prix-là, il faisait pas pare-missile. *(le missile frappe la vitrine sur « pare-missile », BOUM, la fumée envahit tout l'écran)*
 > Il faisait rien, d'ailleurs. *(la fumée s'écarte : gros plan sur Nico, blasé, un peu de suie, et derrière lui la vitrine vide)*
 > Je l'ai jamais reçu.
@@ -188,17 +188,17 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > Pour une friperie, « porte-chargeur », c'est du grand banditisme. *(tampon « BANNI »)*
 > … C'est une poche.
 > *(à l'image : « OPTION 2 »)* Soit tu fais à l'ancienne : groupes Facebook, Telegram, le pote d'un pote.
-> Zéro garantie : tu croises les doigts, normalement ça passe. *(la conversation sans réponse)*
-> Mais tu passes des heures à chercher, et après, tu gères l'envoi tout seul.
+> Zéro garantie : tu paies un inconnu, et tu croises les doigts. *(la conversation sans réponse)*
 > C'est là que j'ai acheté mon gilet. *(« Thomas R. a quitté la conversation »)*
 
-**3. La mission**
-> Donc j'ai fait ce qui paraissait évident : Second Armor. Le Vinted militaire.
-> Et le vendeur n'est payé que quand t'as validé ton colis.
-> 100 % tactique, plus d'algorithme qui panique.
-> Bon, maintenant, c'est ma banquière qui panique : les 50 000, ils sont pas encore remboursés.
-> Mais je lui ai dit de pas être rabat-joie :
-> on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000, avec plus de 300 transactions notées cinq étoiles.
+**3. La solution : une réponse par problème, dans l'ordre**
+> Alors j'ai réagi de façon proportionnée : j'ai créé Second Armor. Le Vinted militaire. *(l'ampoule, puis le logo tombe)*
+> Que du matos tactique, modéré par des professionnels du milieu : plus d'algorithme qui panique. *(l'algorithme s'en va, un gars casqué prend sa place, tampon VALIDÉ)*
+> Et ton argent n'est envoyé qu'une fois que t'as ton colis entre les mains. *(le colis arrive, « colis reçu » se coche, puis le billet part chez le vendeur)*
+> Voilà mes 50 400 € : 400 de gilet, 50 000 de plateforme. *(retour au musée : l'appli dans la vitrine, l'autocollant « 400 » dans la poubelle, l'étiquette « 50 000 € » tombe une fois la phrase lue)*
+> Bon, maintenant, c'est ma banquière qui panique : ils sont pas encore remboursés.
+> Mais je lui ai dit de pas être rabat-joie : on a commencé tout petit, et aujourd'hui, on est déjà plus de 10 000, avec plus de 300 transactions notées cinq étoiles.
+> Et comme ma banquière paniquait pas encore assez : *(elle respire dans un sac en papier)*
 
 **4. Redonner à la communauté** *(une patinoire)*
 > *(sur l'écran géant)* MISSION : REDONNER À LA COMMUNAUTÉ
@@ -206,9 +206,9 @@ Mise en scène : le dessin ne répète pas le sous-titre, une seule chose nouvel
 > autour d'un match caritatif pour les blessés de guerre. *(la photo du match)*
 > Et on soutient Micka, un ex-para qui part 5 jours en Amazonie pour briser le silence sur les blessures psychiques. Allez le suivre. *(carte Instagram @mickainthewild_, 35,1 k abonnés)*
 
-**5. La fin** *(les deux vraies captures de l'appli, côte à côte)*
-> Donc voilà : Second Armor, c'est tout l'équipement tactique.
-> Tout au même endroit, classé, et sécurisé. *(catégories en surbrillance, filtre « Porte-plaques » entouré, cadenas vert)*
+**5. La fin** *(les deux captures de l'appli dans des téléphones dessinés)*
+> Second Armor : tout l'équipement tactique, au même endroit.
+> Et cette fois, ton gilet, tu le reçois. *(un colis tombe entre les téléphones, le gilet en sort, coche verte)*
 > *(sur le carton de fin)* Merci pour votre soutien, qui nous permet de rendre à ceux qui le méritent aussi.
 
 *(carton : SECOND ARMOR · La première marketplace tactique · Par les pros, pour les pros. · Lien en bio)*
